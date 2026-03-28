@@ -1,3 +1,22 @@
+/* ── Mobile block ────────────────────────────── */
+.mobile-only { display: none; }
+@media (max-width: 768px) {
+  body > *:not(.mobile-only) { display: none !important; }
+  .mobile-only {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100svh;
+    padding: 2rem;
+    text-align: center;
+    font-family: sans-serif;
+    gap: 1rem;
+  }
+  .mobile-only p:first-child { font-size: 2rem; }
+  .mobile-only p:last-child { font-size: 0.95rem; color: #888; line-height: 1.6; }
+}
+
 /* ── Reset ───────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
