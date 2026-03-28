@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rytmo – Сергей Ванаков</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="case-nav" aria-label="Навигация по кейсу">
+    <a class="back-btn" href="portfolio2.html" aria-label="Вернуться ко всем проектам">
+      <span class="back-arrow" aria-hidden="true">←</span>
+      На главную 
+    </a>
+    <span class="case-nav-num">01 / 02</span>
+  </nav>
+
+  <article>
+
+    <header class="case-hero">
+      <span class="case-eyebrow">Mobile · UX Research · Product Design · Prototyping</span>
+      <h1 class="case-title">Rytmo</h1>
+      <p class="case-subtitle">Почему пользователи бросают тренировки и что с этим делать. Кейс про удержание пользователей в фитнес-приложении</p>
+      <a class="case-figma-link" href="https://www.figma.com/proto/6ovxIWnzZ1GUIem9buAfAo/" target="_blank" rel="noopener">↗ Открыть файл в Figma</a>
+    </header>
+
+    <img class="case-cover" src="./rytmo_cover.png" alt="Rytmo – обложка" loading="lazy">
+    <span class="case-proto-note">↓ Интерактивный прототип — в конце страницы</span>
+
+    <div class="case-content">
+
+      <!-- 01 – Проблема -->
+      <section class="case-section" id="case-sec-0">
+        <p class="case-section-label" aria-hidden="true">01 – Проблема</p>
+        <h2>Пользователи уходят раньше, чем видят результат</h2>
+        <p>Пользователи фитнес-приложений массово бросают тренировки на старте – в среднем уже после 2–3 недель. Новизна уходит, результата в теле ещё нет, мотивация падает. Для бизнеса это означает что пользователь не доходит до стадии где начинает платить.</p>
+        <p><b>Цель:</b> увеличить долю пользователей, которые продолжают тренироваться более 3 недель. Конкретная метрика – доля тех, кто завершил ≥5 тренировок за первые 14 дней.</p>
+      </section>
+
+      <!-- 02 – Исследование -->
+      <section class="case-section" id="case-sec-1">
+        <p class="case-section-label" aria-hidden="true">02 – Исследование</p>
+        <h2>28 респондентов, JTBD и бенчмаркинг</h2>
+        <p>Провёл онлайн-опрос среди 28 респондентов чтобы выяснить реальные причины отказа от тренировок. Параллельно составил JTBD-сценарии на основе поведенческих паттернов и разобрал как удержание решают конкуренты.</p>
+        <p>Выборка небольшая – использовал её как инструмент приоритизации гипотез, а не как статистическое доказательство. Данные подтвердили: спад происходит на 2–3 неделе, когда новизна уходит, а результата ещё нет. 42% назвали нехватку времени главной причиной бросить. Большинство не возвращается после первого пропуска.</p>
+
+        <p class="case-section-label" style="margin-top:2.5rem">Результаты исследования</p>
+        <div class="research-findings">
+          <div class="research-block">
+            <div class="research-block-header">
+              <span class="research-num">01</span>
+              <span class="research-title">Сколько держатся в приложении</span>
+            </div>
+            <ul class="research-items">
+              <li>Большинство пользователей бросают после 2–3 недель тренировок.</li>
+              <li>Только малая часть доходит до месяца и более тренировок.</li>
+            </ul>
+          </div>
+          <div class="research-block">
+            <div class="research-block-header">
+              <span class="research-num">02</span>
+              <span class="research-title">Причины отказа</span>
+            </div>
+            <ul class="research-items">
+              <li>Нет времени – люди не находят окно для тренировок.</li>
+              <li>Трудно выбрать тренировку, не знают с чего начать.</li>
+              <li>Не видят прогресса – нет ощутимого результата или визуальной обратной связи.</li>
+              <li>Скучно / однообразно, быстрая потеря интереса.</li>
+            </ul>
+          </div>
+          <div class="research-block">
+            <div class="research-block-header">
+              <span class="research-num">03</span>
+              <span class="research-title">Что мотивирует продолжать</span>
+            </div>
+            <ul class="research-items">
+              <li>Короткие сессии (~20 минут): легко встроить в график.</li>
+              <li>Пошаговые программы: структурируют нагрузку и снижают растерянность.</li>
+              <li>Визуальный прогресс (бейджи, прогресс-бар).</li>
+              <li>Напоминания о тренировках.</li>
+              <li>Социальные элементы (челленджи, друзья).</li>
+            </ul>
+          </div>
+          <div class="research-block">
+            <div class="research-block-header">
+              <span class="research-num">04</span>
+              <span class="research-title">Форматы и предпочтения</span>
+            </div>
+            <ul class="research-items">
+              <li>Люди разделились между «пошаговыми курсами» и «гибридом курсы + отдельные тренировки».</li>
+              <li>Предпочтительная длительность – 15–40 минут. Форматы &gt;40 минут практически не востребованы.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="case-figures" style="margin-top:2rem">
+          <div class="case-figures-row case-figures-row-1">
+            <figure class="case-figure">
+              <img src="./research.png" alt="Результаты опроса" loading="lazy">
+              <figcaption>Результаты опроса</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <p class="case-section-label" style="margin-top:2.5rem">JTBD-сценарии с гипотезами</p>
+        <div class="jtbd-table">
+          <div class="jtbd-table-header">
+            <div class="jtbd-table-hcell">Сценарий (JTBD)</div>
+            <div class="jtbd-table-hcell">Гипотеза</div>
+          </div>
+          <div class="jtbd-table-row">
+            <div class="jtbd-table-cell">1. Когда я решаю заняться фитнесом с нуля, хочу быстро стартовать по плану, чтобы не перегореть и закрепить привычку.</div>
+            <div class="jtbd-table-cell">Если дать онбординг с 2–3 вопросами и сразу предложить мини-курс из 5 шагов с кнопкой «Начать сейчас», то больше новичков запустят первую тренировку в день установки.</div>
+          </div>
+          <div class="jtbd-table-row">
+            <div class="jtbd-table-cell">2. Когда у меня мало времени, хочу сессию 15–20 минут, чтобы не пропускать.</div>
+            <div class="jtbd-table-cell">Если добавить пресеты 15–20 минут и «Быстрый старт» (≤2 нажатия), то снизится число пропусков и вырастет недельная частота.</div>
+          </div>
+          <div class="jtbd-table-row">
+            <div class="jtbd-table-cell">3. Когда открываю приложение в первый день, хочу один рекомендуемый вариант, чтобы не путаться в каталоге.</div>
+            <div class="jtbd-table-cell">Если на видном месте разместить один рекомендуемый вариант, то снизится растерянность и вырастет старт тренировок при первом визите.</div>
+          </div>
+          <div class="jtbd-table-row">
+            <div class="jtbd-table-cell">4. Когда могу забыть, хочу напоминания с авто-переносом, чтобы вернуться к тренировкам.</div>
+            <div class="jtbd-table-cell">Если включить напоминания по выбранному окну (утро/день/вечер) и авто-перенос «на завтра» из пуша, то повысится возврат в течение 24–48 часов после пропуска.</div>
+          </div>
+          <div class="jtbd-table-row">
+            <div class="jtbd-table-cell">5. Когда пропустил 2–3 занятия, хочу лёгкую тренировку, чтобы было легче вернуться в ритм.</div>
+            <div class="jtbd-table-cell">Если после 2–3 пропусков предлагать короткую тренировку и кнопкой возвращать в текущий шаг курса, то вырастет вероятность возврата в рутину.</div>
+          </div>
+          <div class="jtbd-table-row">
+            <div class="jtbd-table-cell">6. Когда завершаю тренировку, хочу увидеть прогресс и маленькую награду, чтобы ощутить движение вперёд.</div>
+            <div class="jtbd-table-cell">Если отрисовать прогресс «эпизод Х из 5» + микро-награду за каждую сессию и усиленный бейдж при завершении, то больше пользователей пройдут курс полностью.</div>
+          </div>
+          <div class="jtbd-table-row">
+            <div class="jtbd-table-cell">7. Когда становится однообразно, хочу маленькие челленджи и вариативность, чтобы сохранить интерес.</div>
+            <div class="jtbd-table-cell">Если ввести мини-челленджи («3 тренировки за 5 дней») и 2–3 альтернативы упражнений в шаге, то снизится чувство скуки и вырастет вовлечённость.</div>
+          </div>
+          <div class="jtbd-table-row">
+            <div class="jtbd-table-cell">8. Когда снижается мотивация, хочу звать друга / делиться прогрессом, чтобы держаться вместе.</div>
+            <div class="jtbd-table-cell">Если позволить пригласить друга в 2 клика и автоматически предлагать шэр прогресса при получении бейджа, то вырастет завершение мини-курсов и удержание.</div>
+          </div>
+          <div class="jtbd-table-row">
+            <div class="jtbd-table-cell">9. Когда ощущаю усталость / дискомфорт, хочу замену упражнения, чтобы не травмироваться и не бросить.</div>
+            <div class="jtbd-table-cell">Если после каждой тренировки спрашивать оценку («слишком тяжело / нормально / легко») и при низкой оценке предлагать более лёгкую замену с сохранением стрика, то снизится бросание и вырастет завершённость тренировок.</div>
+          </div>
+        </div>
+
+        <p class="case-section-label" style="margin-top:2.5rem">Приоритизация гипотез — ICE-модель</p>
+        <div class="ice-table-wrap">
+          <div class="ice-table">
+            <div class="ice-table-row ice-table-row--header">
+              <div class="ice-table-cell">Гипотеза</div>
+              <div class="ice-table-cell">Impact</div>
+              <div class="ice-table-cell">Confidence</div>
+              <div class="ice-table-cell">Effort</div>
+              <div class="ice-table-cell">ICE</div>
+            </div>
+            <div class="ice-table-row">
+              <div class="ice-table-cell">JTBD 1. Онбординг с мини-курсом</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--score">3.0</div>
+            </div>
+            <div class="ice-table-row">
+              <div class="ice-table-cell">JTBD 2. Короткие сессии + быстрый старт</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--num">1</div>
+              <div class="ice-table-cell ice-table-cell--score ice-score-top">9.0</div>
+            </div>
+            <div class="ice-table-row">
+              <div class="ice-table-cell">JTBD 3. Один рекомендуемый вариант</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--score">3.0</div>
+            </div>
+            <div class="ice-table-row">
+              <div class="ice-table-cell">JTBD 4. Напоминания с авто-переносом</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--score">2.0</div>
+            </div>
+            <div class="ice-table-row">
+              <div class="ice-table-cell">JTBD 5. Рестарт после пропуска</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--score">1.3</div>
+            </div>
+            <div class="ice-table-row">
+              <div class="ice-table-cell">JTBD 6. Прогресс-бар + микро-награды</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--score">4.5</div>
+            </div>
+            <div class="ice-table-row">
+              <div class="ice-table-cell">JTBD 7. Мини-челленджи и вариативность</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--score">1.3</div>
+            </div>
+            <div class="ice-table-row">
+              <div class="ice-table-cell">JTBD 8. Социальная опора</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--score">2.0</div>
+            </div>
+            <div class="ice-table-row">
+              <div class="ice-table-cell">JTBD 9. Оценка тяжести + замена тренировки</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">2</div>
+              <div class="ice-table-cell ice-table-cell--num">3</div>
+              <div class="ice-table-cell ice-table-cell--score">1.3</div>
+            </div>
+          </div>
+        </div>
+        <div class="ice-note">
+          <p>Использовал ICE-модель в диапазоне 1–3.</p>
+          <p><b>Impact</b> (влияние): насколько гипотеза может повлиять на удержание (1 = низко, 3 = сильно).</p>
+          <p><b>Confidence</b> (уверенность): насколько есть подтверждения в исследовании (1 = мало данных, 3 = много сигналов).</p>
+          <p><b>Effort</b> (затраты): сколько ресурсов нужно (1 = легко сделать, 3 = сложно и дорого).</p>
+          <p>Формула: ICE = Impact × Confidence / Effort.</p>
+        </div>
+      </section>
+
+      <!-- 03 – Решение -->
+      <section class="case-section" id="case-sec-2">
+        <p class="case-section-label" aria-hidden="true">03 – Решение</p>
+        <h2>Как инсайты стали экранами</h2>
+        <div class="insights-table">
+          <div class="insights-table-header">
+            <div class="insights-table-hcell">Инсайт</div>
+            <div class="insights-table-hcell">Решение</div>
+          </div>
+          <div class="insights-table-row">
+            <div class="insights-table-cell">42% респондентов назвали нехватку времени главной причиной бросить тренировки.</div>
+            <div class="insights-table-cell">Быстрый старт вынесен первым блоком на главном экране – конкретная сессия на 20 минут, один тап, не нужно ничего выбирать.</div>
+          </div>
+          <div class="insights-table-row">
+            <div class="insights-table-cell">Пользователи не видят прогресса в первые недели и теряют ощущение движения вперёд.</div>
+            <div class="insights-table-cell">Прогресс-бар курса и микронаграда после каждой тренировки. Прогресс виден сразу, помогает сохранить мотивацию.</div>
+          </div>
+          <div class="insights-table-row">
+            <div class="insights-table-cell">В первый день большинство теряется в каталоге и не знает с чего начать.</div>
+            <div class="insights-table-cell">Онбординг предлагает один готовый стартовый план из 7 коротких сессий.</div>
+          </div>
+          <div class="insights-table-row">
+            <div class="insights-table-cell">Один пропуск запускает паттерн "всё или ничего" – человек воспринимает его как провал и не возвращается.</div>
+            <div class="insights-table-cell">Уведомление с авто-переносом тренировки меняет этот сценарий: пропуск не провал, цепочка просто сдвигается на день.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 – Результаты -->
+      <section class="case-section" id="case-sec-3">
+        <p class="case-section-label" aria-hidden="true">04 – Результаты</p>
+        <h2>Что получилось и что дальше</h2>
+        <p>Прототип построен под конкретные пользовательские сценарии из исследования. Логика навигации и визуальная иерархия проверены на нескольких людях – сценарии считываются без объяснений.</p>
+        <p>Хочу провести коридорные тесты – показать прототип 5–7 людям и посмотреть как они проходят ключевые сценарии: первый запуск, выбор тренировки, возврат после пропуска. Понаблюдать где застревают и что вызывает вопросы.</p>
+        <p>В реальном продукте следующий шаг – A/B тест с метрикой "доля пользователей завершивших ≥5 тренировок за 14 дней". При положительном результате – добавление механик возврата и социальных функций.</p>
+        <p><b>Что понял в процессе:</b> в следующий раз начну с вайрфреймов, в этом проекте я пропустил этот этап, и из-за этого сложнее было быстро итерировать структуру.</p>
+      </section>
+
+    </div><!-- /case-content -->
+
+    <!-- Prototype -->
+    <section class="case-prototype-section" id="case-proto" aria-label="Прототип">
+      <p class="case-section-label" style="max-width:1100px;margin:0 auto;padding:0 3rem 1.25rem;">Прототип</p>
+      <div class="case-prototype-wrap">
+        <iframe
+          style="border: none;"
+          width="800"
+          height="450"
+          src="https://embed.figma.com/proto/6ovxIWnzZ1GUIem9buAfAo/%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9-%D0%92%D0%B0%D0%BD%D0%B0%D0%BA%D0%BE%D0%B2-%7C-%D0%9A%D0%B5%D0%B9%D1%81-%D0%BF%D1%80%D0%BE-%D1%83%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-%D1%84%D0%B8%D1%82%D0%BD%D0%B5%D1%81-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B8?page-id=0%3A1&node-id=515-1835&p=f&viewport=-2503%2C82%2C0.24&scaling=scale-down&content-scaling=fixed&starting-point-node-id=515%3A1835&embed-host=share&hide-ui=1"
+          allowfullscreen
+          title="Прототип Rytmo">
+        </iframe>
+      </div>
+    </section>
+
+    <div class="case-next" aria-label="Следующий проект">
+      <span class="next-label">Следующий проект</span>
+      <a class="next-btn" href="dash.html">
+        Дэш <span class="next-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+  </article>
+
+  <nav id="case-toc" aria-label="Содержание кейса"></nav>
+
+  <script>
+    /* TOC for static page */
+    const caseToc = document.getElementById('case-toc');
+
+    function buildTOC() {
+      const sections = Array.from(document.querySelectorAll('.case-section'));
+      const proto    = document.getElementById('case-proto');
+      const labels   = ['01 – Проблема', '02 – Исследование', '03 – Решение', '04 – Результаты'];
+      const targets  = [...sections, ...(proto ? [proto] : [])];
+      const items    = [
+        ...sections.map((sec, i) => ({ label: labels[i] || `Раздел ${i+1}`, target: sec })),
+        ...(proto ? [{ label: 'Прототип', target: proto }] : []),
+      ];
+
+      const inner   = document.createElement('div'); inner.className = 'toc-inner';
+      const bg      = document.createElement('div'); bg.className    = 'toc-bg';
+      const itemsEl = document.createElement('div'); itemsEl.className = 'toc-items';
+      inner.append(bg, itemsEl);
+      caseToc.appendChild(inner);
+
+      items.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'toc-item';
+        btn.innerHTML = `<span class="toc-line"></span><span class="toc-label">${item.label}</span>`;
+        btn.setAttribute('aria-label', item.label);
+        btn.addEventListener('click', () => {
+          const top = window.scrollY + item.target.getBoundingClientRect().top - 64;
+          window.scrollTo({ top, behavior: 'smooth' });
+        });
+        btn.addEventListener('mouseenter', playTick);
+        itemsEl.appendChild(btn);
+      });
+
+      const targetToIdx = new Map(targets.map((t, i) => [t, i]));
+      const intersecting = new Set();
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => e.isIntersecting ? intersecting.add(e.target) : intersecting.delete(e.target));
+        let activeIdx = 0;
+        for (const t of targets) {
+          if (intersecting.has(t)) { activeIdx = targetToIdx.get(t); break; }
+        }
+        itemsEl.querySelectorAll('.toc-item').forEach((btn, i) => {
+          btn.classList.toggle('active', i === activeIdx);
+        });
+      }, { rootMargin: '0px 0px -50% 0px', threshold: 0 });
+
+      targets.forEach(el => observer.observe(el));
+
+      const firstBtn = itemsEl.querySelector('.toc-item');
+      if (firstBtn) firstBtn.classList.add('active');
+      caseToc.classList.add('visible');
+
+      if (window.matchMedia('(hover: hover)').matches) {
+        const dot  = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
+        if (dot && ring) {
+          itemsEl.querySelectorAll('.toc-item').forEach(btn => {
+            btn.addEventListener('mouseenter', () => { dot.classList.add('hover'); ring.classList.add('hover'); });
+            btn.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
+          });
+        }
+      }
+    }
+
+    /* Hover sound */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    document.addEventListener('pointerdown', () => audioCtx.resume(), { once: true });
+
+    function playTick() {
+      if (!audioCtx || audioCtx.state !== 'running') return;
+      const now = audioCtx.currentTime + 0.01;
+      const len = Math.floor(audioCtx.sampleRate * 0.014);
+      const buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+      const d   = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      const src = audioCtx.createBufferSource();
+      src.buffer = buf;
+      const lp = audioCtx.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 3800;
+      const g = audioCtx.createGain();
+      g.gain.setValueAtTime(0.28, now);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
+      src.connect(lp); lp.connect(g); g.connect(audioCtx.destination);
+      src.start(now); src.stop(now + 0.014);
+      const osc = audioCtx.createOscillator();
+      const og  = audioCtx.createGain();
+      osc.connect(og); og.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(310, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now + 0.022);
+      og.gain.setValueAtTime(0.052, now);
+      og.gain.exponentialRampToValueAtTime(0.0001, now + 0.022);
+      osc.start(now); osc.stop(now + 0.022);
+    }
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', playTick);
+    });
+
+    /* Custom cursor */
+    if (window.matchMedia('(hover: hover)').matches) {
+      const dot  = document.createElement('div');
+      const ring = document.createElement('div');
+      dot.className  = 'cursor-dot';
+      ring.className = 'cursor-ring';
+      document.body.append(dot, ring);
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+      (function animateRing() {
+        rx += (mx - rx) * 0.1;
+        ry += (my - ry) * 0.1;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(animateRing);
+      })();
+      document.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('mouseenter', () => { dot.classList.add('hover'); ring.classList.add('hover'); });
+        el.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
+      });
+    }
+
+    buildTOC();
+  </script>
+</body>
+</html>

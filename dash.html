@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дэш – Сергей Ванаков</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav class="case-nav" aria-label="Навигация по кейсу">
+    <a class="back-btn" href="portfolio2.html" aria-label="Вернуться ко всем проектам">
+      <span class="back-arrow" aria-hidden="true">←</span>
+      На главную
+    </a>
+    <span class="case-nav-num">02 / 02</span>
+  </nav>
+
+  <article>
+
+    <header class="case-hero">
+      <span class="case-eyebrow">Brand Identity · Product Design · EdTech</span>
+      <h1 class="case-title">Дэш</h1>
+      <p class="case-subtitle">Фирменный стиль и интерфейс для EdTech-сервиса автодиагностики знаний</p>
+    </header>
+
+    <img class="case-cover" src="./dash_cover.jpg" alt="Дэш – обложка" loading="lazy">
+
+    <div class="case-content">
+
+      <!-- 01 – Контекст и задача -->
+      <section class="case-section" id="case-sec-0">
+        <p class="case-section-label" aria-hidden="true">01 – Контекст и задача</p>
+        <h2>Брендинг и интерфейс для EdTech-сервиса</h2>
+        <p>Дэш– сервис для преподавателей и репетиторов, который генерирует тесты по загруженным материалам и проверяет ответы студентов.</p>
+        <p><b>Задача:</b> разработать фирменный стиль и спроектировать интерфейс под определенные сценарии.</p>
+        <p><b>Что я сделал:</b> брендбук (логотип, цвета, типографика, tone of voice), веб-интерфейс по конкретным сценариям с двумя пользовательскими путями, визуальные коммуникации для соцсетей и рекламы.</p>
+      </section>
+
+      <!-- 02 – Аудитория и сценарии -->
+      <section class="case-section" id="case-sec-1">
+        <p class="case-section-label" aria-hidden="true">02 – Аудитория и сценарии</p>
+        <h2>Два пользователя, две разные задачи</h2>
+        <p>Сервис обслуживает два типа пользователей, и их потребности почти не пересекаются, интерфейс должен быть разным для каждого.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.75rem">
+          <div>
+            <p style="font-weight:600;color:#B85C38;margin-bottom:0.5rem">Преподаватель</p>
+            <p>Хочет быстро создать тест по своим материалам и получить результаты без ручной проверки. Главный барьер: непонятно с чего начать, страх что ИИ сгенерирует плохие вопросы</p>
+          </div>
+          <div>
+            <p style="font-weight:600;color:#B85C38;margin-bottom:0.5rem">Студент</p>
+            <p>Студент получает ссылку, вводит имя и сразу проходит тест. После завершения – дашборд с ключевой информацией.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 – Пользовательский флоу -->
+      <section class="case-section" id="case-sec-2">
+        <p class="case-section-label" aria-hidden="true">03 – Пользовательский флоу</p>
+
+        <div class="flow-path">
+          <p class="flow-path-label">Преподаватель</p>
+          <div class="flow-steps">
+            <span class="flow-step">Регистрация и онбординг</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Загрузка материалов</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Настройка теста</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Просмотр и редактирование вопросов</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Публикация</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Ожидание результатов</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Дашборд</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Экспорт или архив</span>
+          </div>
+
+        </div>
+
+        <div class="flow-path" style="margin-top:2rem">
+          <p class="flow-path-label">Студент</p>
+          <div class="flow-steps">
+            <span class="flow-step">Получение ссылки</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Открытие теста</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Ввод ФИО</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Прохождение</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Отправка ответов</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">Просмотр результата</span>
+          </div>
+        </div>
+        <p></p>
+        <a class="case-figma-link" href="https://www.figma.com/design/XTZz6IHZiliHbRAG0go999/%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9-%D0%92%D0%B0%D0%BD%D0%B0%D0%BA%D0%BE%D0%B2-%7C-%D0%94%D1%8D%D1%88--%D1%84%D0%B8%D1%80%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D1%81%D1%82%D0%B8%D0%BB%D1%8C-%D0%B8-%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D1%84%D0%B5%D0%B9%D1%81-%D0%B4%D0%BB%D1%8F-EdTech-%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D0%B0?node-id=0-1&t=Ncl4Dr5I4KCYqcl1-1" target="_blank" rel="noopener" style="margin-top:3rem">↗ Полные пути в Figma</a>
+
+      </section>
+
+      <!-- 04 – Фирменный стиль -->
+      <section class="case-section" id="case-sec-3">
+        <p class="case-section-label" aria-hidden="true">04 – Фирменный стиль</p>
+        <h2>Система, которая работает везде</h2>
+        <div class="annotated-figures">
+          <figure class="annotated-figure">
+            <img src="./brandbook1.png" alt="Брендбук – логотип и цвета" loading="lazy">
+            <figcaption>Скрин из брендбука · Логотип, цветовая палитра и правила использования акцентного фиолетового.</figcaption>
+          </figure>
+          <figure class="annotated-figure">
+            <img src="./brandbook2.png" alt="Брендбук – типографика и tone of voice" loading="lazy">
+            <figcaption>Скрин из брендбука · Типографическая система: Druk Wide Cyr в заголовках, CoFo Sans для основного текста.</figcaption>
+          </figure>
+        </div>
+        <p style="margin-top:1.25rem;padding-left:1rem;border-left:2px solid #B85C38;font-size:.88rem;color:var(--ink-2);line-height:1.65">Заказчик дал цвета и шрифты – задача была выстроить из этого систему которая работает везде. Фиолетовый акцент хорошо считывается в EdTech-контексте и при этом даёт продукту характер. Druk Wide Cyr держит заголовки узнаваемыми, CoFo Sans обеспечивает читаемость в интерфейсе.
+        </p>
+      </section>
+
+      <!-- 05 – Ключевые решения -->
+      <section class="case-section" id="case-sec-4">
+        <p class="case-section-label" aria-hidden="true">05 – Ключевые решения в интерфейсе</p>
+        <h2>Сценарий: тест со стороны ученика</h2>
+        <p>Один из трёх задизайненных сценариев – путь студента от получения ссылки до сдачи теста. Никакой регистрации, минимум лишнего, фокус на самом тесте.</p>
+
+        <div class="case-section-breakout" style="margin-top:2rem">
+          <div class="case-prototype-wrap">
+            <iframe
+              style="border: none;"
+              width="800"
+              height="450"
+              src="https://embed.figma.com/proto/8SNUebejM39YyVKAMKK71c/Untitled?page-id=189%3A843&node-id=193-1455&p=f&viewport=-2048%2C-959%2C0.25&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=193%3A1455&embed-host=share&hide-ui=1"
+              allowfullscreen
+              title="Прототип Дэш – сценарий студента">
+            </iframe>
+          </div>
+        </div>
+
+        <div class="annotated-figures annotated-figures--notes" style="margin-top:2rem">
+          <figure class="annotated-figure">
+            <figcaption><strong>Экран входа.</strong> Только ФИО – никакой регистрации. Время на прохождение указано до старта, чтобы студент знал что его ждёт.</figcaption>
+          </figure>
+          <figure class="annotated-figure">
+            <figcaption><strong>Экран теста.</strong> Один вопрос на экране, прогресс сверху, навигация по номерам снизу – можно вернуться и исправить ответ. Таймер краснеет когда время заканчивается.</figcaption>
+          </figure>
+          <figure class="annotated-figure">
+            <figcaption><strong>Завершение.</strong> Студент видит что всё отправлено и результат придёт по той же ссылке после проверки – не нужно никуда заходить заново.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- 06 – Визуальные коммуникации -->
+      <section class="case-section" id="case-sec-5">
+        <p class="case-section-label" aria-hidden="true">06 – Визуальные коммуникации</p>
+        <h2>Посты и реклама</h2>
+        <div class="annotated-figures">
+          <figure class="annotated-figure">
+            <img src="./socials.png" alt="Посты для соцсетей" loading="lazy">
+            <figcaption>Контент для соцсетей в едином стиле – узнаваем как Дэш даже без логотипа.</figcaption>
+          </figure>
+        </div>
+        <p style="margin-top:1.25rem;padding-left:1rem;border-left:2px solid #B85C38;font-size:.88rem;color:var(--ink-2);line-height:1.65">Два формата для соцсетей – контентный и мемный. Оба узнаваемы как Дэш даже без логотипа. Критерий: чтобы любой новый материал можно было сделать в этом стиле без меня.</p>
+      </section>
+
+      <!-- 07 – Рефлексия -->
+      <section class="case-section" id="case-sec-6">
+        <p class="case-section-label" aria-hidden="true">07 – Рефлексия</p>
+        <h2>Что понял и что хочу прокачать</h2>
+        <p>В этом проекте я впервые работал над разными частями продукта – от брендбука до интерфейса и коммуникаций. Понял, что сложно держать систему цельной, когда она расползается в разные форматы.</p>
+        <p>Что хочу прокачать по итогу: графическую часть. Думаю, что визуальные коммуникации можно было сделать смелее – более креативно и нестандартно подойти к ним. Сейчас посты держатся в рамках системы, но не выбиваются из общего потока в ленте.</p>
+      </section>
+
+    </div><!-- /case-content -->
+
+    <div class="case-next" aria-label="Следующий проект">
+      <span class="next-label">Следующий проект</span>
+      <a class="next-btn" href="rytmo.html">
+        Rytmo <span class="next-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+
+  </article>
+
+  <nav id="case-toc" aria-label="Содержание кейса"></nav>
+
+  <script>
+    const caseToc = document.getElementById('case-toc');
+
+    function buildTOC() {
+      const sections = Array.from(document.querySelectorAll('.case-section'));
+      const labels   = [
+        '01 – Контекст и задача',
+        '02 – Аудитория',
+        '03 – Флоу',
+        '04 – Фирменный стиль',
+        '05 – Интерфейс',
+        '06 – Коммуникации',
+        '07 – Рефлексия',
+      ];
+      const items = sections.map((sec, i) => ({ label: labels[i] || `Раздел ${i+1}`, target: sec }));
+
+      const inner   = document.createElement('div'); inner.className = 'toc-inner';
+      const bg      = document.createElement('div'); bg.className    = 'toc-bg';
+      const itemsEl = document.createElement('div'); itemsEl.className = 'toc-items';
+      inner.append(bg, itemsEl);
+      caseToc.appendChild(inner);
+
+      items.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'toc-item';
+        btn.innerHTML = `<span class="toc-line"></span><span class="toc-label">${item.label}</span>`;
+        btn.setAttribute('aria-label', item.label);
+        btn.addEventListener('click', () => {
+          const top = window.scrollY + item.target.getBoundingClientRect().top - 64;
+          window.scrollTo({ top, behavior: 'smooth' });
+        });
+        btn.addEventListener('mouseenter', playTick);
+        itemsEl.appendChild(btn);
+      });
+
+      const targetToIdx = new Map(sections.map((t, i) => [t, i]));
+      const intersecting = new Set();
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => e.isIntersecting ? intersecting.add(e.target) : intersecting.delete(e.target));
+        let activeIdx = 0;
+        for (const t of sections) {
+          if (intersecting.has(t)) { activeIdx = targetToIdx.get(t); break; }
+        }
+        itemsEl.querySelectorAll('.toc-item').forEach((btn, i) => {
+          btn.classList.toggle('active', i === activeIdx);
+        });
+      }, { rootMargin: '0px 0px -50% 0px', threshold: 0 });
+
+      sections.forEach(el => observer.observe(el));
+
+      const firstBtn = itemsEl.querySelector('.toc-item');
+      if (firstBtn) firstBtn.classList.add('active');
+      caseToc.classList.add('visible');
+
+      if (window.matchMedia('(hover: hover)').matches) {
+        const dot  = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
+        if (dot && ring) {
+          itemsEl.querySelectorAll('.toc-item').forEach(btn => {
+            btn.addEventListener('mouseenter', () => { dot.classList.add('hover'); ring.classList.add('hover'); });
+            btn.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
+          });
+        }
+      }
+    }
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    document.addEventListener('pointerdown', () => audioCtx.resume(), { once: true });
+
+    function playTick() {
+      if (!audioCtx || audioCtx.state !== 'running') return;
+      const now = audioCtx.currentTime + 0.01;
+      const len = Math.floor(audioCtx.sampleRate * 0.014);
+      const buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+      const d   = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      const src = audioCtx.createBufferSource();
+      src.buffer = buf;
+      const lp = audioCtx.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 3800;
+      const g = audioCtx.createGain();
+      g.gain.setValueAtTime(0.28, now);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
+      src.connect(lp); lp.connect(g); g.connect(audioCtx.destination);
+      src.start(now); src.stop(now + 0.014);
+      const osc = audioCtx.createOscillator();
+      const og  = audioCtx.createGain();
+      osc.connect(og); og.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(310, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now + 0.022);
+      og.gain.setValueAtTime(0.052, now);
+      og.gain.exponentialRampToValueAtTime(0.0001, now + 0.022);
+      osc.start(now); osc.stop(now + 0.022);
+    }
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', playTick);
+    });
+
+    if (window.matchMedia('(hover: hover)').matches) {
+      const dot  = document.createElement('div');
+      const ring = document.createElement('div');
+      dot.className  = 'cursor-dot';
+      ring.className = 'cursor-ring';
+      document.body.append(dot, ring);
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+      (function animateRing() {
+        rx += (mx - rx) * 0.1;
+        ry += (my - ry) * 0.1;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(animateRing);
+      })();
+      document.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('mouseenter', () => { dot.classList.add('hover'); ring.classList.add('hover'); });
+        el.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
+      });
+    }
+
+    buildTOC();
+  </script>
+</body>
+</html>
