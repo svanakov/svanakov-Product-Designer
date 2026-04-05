@@ -496,8 +496,45 @@ footer {
 .case-section p + p { margin-top: 1rem; }
 
 .case-prototype-section { margin: 0 0 4rem; }
-.case-prototype-wrap { width: 100%; }
+.case-prototype-wrap { width: 100%; position: relative; }
 .case-prototype-wrap iframe { width: 100%; height: 800px; display: block; }
+
+.proto-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 1;
+  transition: opacity 0.35s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.case-prototype-wrap:hover .proto-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+.proto-overlay-icon {
+  animation: proto-tap 1.5s ease-in-out infinite;
+}
+.proto-overlay-text {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+@keyframes proto-tap {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(8px); }
+}
 
 .case-section-breakout {
   width: 100vw;

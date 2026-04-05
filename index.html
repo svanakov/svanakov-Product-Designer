@@ -125,7 +125,7 @@
     <span class="footer-status">Открыт к новым проектам →</span>
   </footer>
 
-  <script>
+  <script type="module">
     /* Nav scroll + nav-links visibility */
     const siteNav = document.getElementById('site-nav');
     window.addEventListener('scroll', () => {
@@ -158,38 +158,10 @@
     });
 
     /* Hover sound */
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    document.addEventListener('pointerdown', () => audioCtx.resume(), { once: true });
-
-    function playTick() {
-      if (!audioCtx || audioCtx.state !== 'running') return;
-      const now = audioCtx.currentTime + 0.01;
-      const len = Math.floor(audioCtx.sampleRate * 0.014);
-      const buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
-      const d   = buf.getChannelData(0);
-      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-      const src = audioCtx.createBufferSource();
-      src.buffer = buf;
-      const lp = audioCtx.createBiquadFilter();
-      lp.type = 'lowpass'; lp.frequency.value = 3800;
-      const g = audioCtx.createGain();
-      g.gain.setValueAtTime(0.28, now);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
-      src.connect(lp); lp.connect(g); g.connect(audioCtx.destination);
-      src.start(now); src.stop(now + 0.014);
-      const osc = audioCtx.createOscillator();
-      const og  = audioCtx.createGain();
-      osc.connect(og); og.connect(audioCtx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(310, now);
-      osc.frequency.exponentialRampToValueAtTime(80, now + 0.022);
-      og.gain.setValueAtTime(0.052, now);
-      og.gain.exponentialRampToValueAtTime(0.0001, now + 0.022);
-      osc.start(now); osc.stop(now + 0.022);
-    }
+    import { click } from 'https://esm.sh/plinq';
 
     document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', playTick);
+      el.addEventListener('mouseenter', click);
     });
 
     /* Custom cursor */
