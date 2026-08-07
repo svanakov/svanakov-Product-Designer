@@ -22,6 +22,7 @@
       main { gap: 56px !important; }
       .works-row { flex-direction: column !important; }
       .works-row img { width: 100% !important; height: auto !important; }
+      .tag-pill { background: var(--hover-bg) !important; border-color: transparent !important; color: var(--hover-color) !important; }
     }
 
 
@@ -142,21 +143,24 @@ class Component extends DCLogic {
 }
 </script>
 <script type="module">
-  const clickSound = new Audio('./sounds/liecio-menu_beep_short_snap-533778.mp3');
-  clickSound.volume = 0.15;
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('a');
-    if (!link) return;
-    clickSound.currentTime = 0;
-    clickSound.play().catch(() => {});
+  const isTouchDevice = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!isTouchDevice) {
+    const clickSound = new Audio('./sounds/liecio-menu_beep_short_snap-533778.mp3');
+    clickSound.volume = 0.15;
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      clickSound.currentTime = 0;
+      clickSound.play().catch(() => {});
 
-    const href = link.getAttribute('href');
-    const isSamePageJump = !href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http');
-    if (!isSamePageJump && link.target !== '_blank') {
-      e.preventDefault();
-      setTimeout(() => { window.location.href = href; }, 150);
-    }
-  });
+      const href = link.getAttribute('href');
+      const isSamePageJump = !href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http');
+      if (!isSamePageJump && link.target !== '_blank') {
+        e.preventDefault();
+        setTimeout(() => { window.location.href = href; }, 150);
+      }
+    });
+  }
 </script>
 </body>
 </html>
