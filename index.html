@@ -14,8 +14,8 @@
     html { scroll-behavior: smooth; }
     ::selection { background: oklch(0.58 0.19 264 / 0.25); }
     @media (max-width: 720px) {
-      .proj-title { font-size: 26px !important; }
-      .hero-name { font-size: 34px !important; }
+      .proj-title { font-size: 22px !important; }
+      .hero-name { font-size: 24px !important; }
       .header-wrap { padding-bottom: 56px !important; }
       .proj-meta { flex-direction: column !important; gap: 12px !important; }
       .proj-desc { max-width: none !important; }
@@ -56,7 +56,7 @@
   <div style="max-width: 800px; margin: 0 auto; padding: 56px 32px 120px;">
 
     <header class="header-wrap" style="display: flex; flex-direction: column; gap: 48px; padding-bottom: 96px;">
-      <h1 class="hero-name" style="font-size: 36px; line-height: 1.3; font-weight: 430; letter-spacing: -0.015em; margin: 0; max-width: 920px; text-wrap: pretty;"> Продуктовый дизайнер. <span style="color: oklch(0.5 0.008 80);">Два года проектирую понятные интерфейсы и довожу идеи от исследования до работающего прототипа.</span></h1>
+      <h1 class="hero-name" style="font-size: 30px; line-height: 1.35; font-weight: 430; letter-spacing: -0.015em; margin: 0; max-width: 920px; text-wrap: pretty;"> Продуктовый дизайнер. <span style="color: oklch(0.5 0.008 80);">Два года проектирую понятные интерфейсы и довожу идеи от исследования до работающего прототипа.</span></h1>
     </header>
 
     <main id="projects" style="display: flex; flex-direction: column; gap: 88px;">
@@ -64,7 +64,7 @@
         <a href="{{ p.href }}" class="project-link" style="text-decoration: none; color: inherit; display: block;">
           <article>
             <div class="cover-wrap" style="position: relative; width: 100%;">
-              <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 33px;">
+              <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 16px;">
                 <sc-if value="{{ p.comingSoon }}">
                   <div style="position: absolute; inset: 0; background: oklch(0.87 0.004 80); display: flex; align-items: center; justify-content: center;">
                     <span style="font-size: 18px; font-weight: 500; letter-spacing: 0.02em; color: oklch(0.55 0.006 80);">Coming soon</span>

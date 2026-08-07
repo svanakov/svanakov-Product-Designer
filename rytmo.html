@@ -17,10 +17,11 @@
     .jtbd-table-row { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding: 16px 0; border-top: 1px solid rgb(230, 230, 228); align-items: start; }
     .jtbd-table-head { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding-bottom: 12px; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); }
     @media (max-width: 720px) {
-      .case-title { font-size: 28px !important; }
+      .case-title { font-size: 24px !important; }
+      .sec h2 { font-size: 26px !important; }
       .jtbd-table-row, .jtbd-table-head { grid-template-columns: 1fr !important; gap: 6px !important; }
       .process-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-      article { padding: 48px 20px 0 !important; }
+      article { padding: 48px 20px 80px !important; }
     }
   </style>
 </helmet>
@@ -143,14 +144,6 @@
       </div>
     </section>
 
-    <section class="sec" id="sec-open">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Открытые вопросы</h2>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ openQuestion.text }}</p>
-        <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(127, 127, 127); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">Решено:</b> {{ openQuestion.answer }}</p>
-      </div>
-    </section>
-
     <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid rgb(230, 230, 228);">
       <a href="campus.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: rgb(12, 12, 12); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
         Смотреть Campus <span aria-hidden="true">→</span>
@@ -241,12 +234,7 @@ class Component extends DCLogic {
       learned: 'в следующий раз — вайрфреймы до финального UI, не после; ценность разговора с реальными пользователями оказалась выше, чем ожидал на старте, по сравнению с одним только опросом.',
     };
 
-    const openQuestion = {
-      text: 'Видео техники / 3D-модель — одна гипотеза или две в финальной подаче?',
-      answer: 'оставить просто видео техники.',
-    };
-
-    return { project, problemText, hypothesisText, summaryText, processSteps, competitorsText, interviewsMethod, interviewsFindings, jtbd, flows, screens, results, openQuestion };
+    return { project, problemText, hypothesisText, summaryText, processSteps, competitorsText, interviewsMethod, interviewsFindings, jtbd, flows, screens, results };
   }
 }
 </script>
