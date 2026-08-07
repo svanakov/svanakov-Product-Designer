@@ -19,8 +19,8 @@
     @media (max-width: 720px) {
       .case-title { font-size: 28px !important; }
       .jtbd-table-row, .jtbd-table-head { grid-template-columns: 1fr !important; gap: 6px !important; }
+      .process-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
       article { padding: 48px 20px 0 !important; }
-      nav { padding: 24px 20px 0 !important; }
     }
   </style>
 </helmet>
@@ -63,7 +63,7 @@
 
     <section class="sec" id="sec-process">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">Дизайн-процесс</h2>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px 40px;">
+      <div class="process-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px 40px;">
         <sc-for list="{{ processSteps }}" as="step" hint-placeholder-count="4">
           <div style="display: flex; align-items: flex-start; gap: 12px;">
             <span style="font-size: 17px; color: rgb(127, 127, 127); flex-shrink: 0;">{{ step.num }}</span>
