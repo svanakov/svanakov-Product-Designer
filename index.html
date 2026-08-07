@@ -29,9 +29,9 @@
     .cover-wrap:hover .cover-img { transform: scale(1.04); }
 
     .project-link:hover .tag-pill {
-      background: #EBF6FF !important;
-      border-color: rgba(43, 117, 241, 0.35) !important;
-      color: #2B75F1 !important;
+      background: var(--hover-bg) !important;
+      border-color: transparent !important;
+      color: var(--hover-color) !important;
     }
   </style>
 </helmet>
@@ -84,7 +84,10 @@
             </div>
             <div style="display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap;" class="tags-row">
               <sc-for list="{{ p.tags }}" as="tag" hint-placeholder-count="1">
-                <span key="{{ tag.id }}" class="tag-pill" style="display: inline-flex; box-sizing: border-box; padding: 6px 10px; flex-direction: column; justify-content: center; align-items: center; gap: 10px; border-radius: 8px; border: 1px solid rgb(230, 230, 228); background: rgb(247, 247, 246); font-size: 12px; font-weight: 500; color: rgb(66, 67, 61); transition: background 200ms ease, border-color 200ms ease, color 200ms ease;">{{ tag.label }}</span>
+                <span key="{{ tag.id }}" class="tag-pill" style="--hover-bg: {{ tag.hoverBg }}; --hover-color: {{ tag.hoverColor }}; display: inline-flex; box-sizing: border-box; padding: 6px 10px; flex-direction: row; justify-content: center; align-items: center; gap: 5px; border-radius: 8px; border: 1px solid rgb(230, 230, 228); background: rgb(247, 247, 246); font-size: 12px; font-weight: 500; color: rgb(66, 67, 61); transition: background 200ms ease, border-color 200ms ease, color 200ms ease;">
+                  <sc-if value="{{ tag.icon }}">
+                    <span style="display: inline-block; width: 11px; height: 11px; flex-shrink: 0; background-color: currentColor; -webkit-mask-image: url('{{ tag.icon }}'); mask-image: url('{{ tag.icon }}'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></span>
+                  </sc-if>{{ tag.label }}</span>
               </sc-for>
             </div>
           </article>
@@ -94,10 +97,9 @@
 
     <section id="works" style="margin-top: 88px;">
       <h2 class="proj-title" style="font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 28px;">Работы</h2>
-      <div class="works-row" style="display: flex; align-items: flex-start; gap: 16px;">
-        <sc-for list="{{ works }}" as="work" hint-placeholder-count="1">
-          <img src="{{ work.src }}" alt="{{ work.alt }}" style="width: 400px; max-width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
-        </sc-for>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <img src="{{ workRow2.src }}" alt="{{ workRow2.alt }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
+        <img src="{{ workRow1.src }}" alt="{{ workRow1.alt }}" style="width: 256px; max-width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
       </div>
     </section>
 
@@ -108,18 +110,53 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   renderVals() {
-    const mkTags = (prefix, labels) => labels.map((label, i) => ({ id: prefix + '-' + i, label }));
+    const tagIcons = {
+      'Mobile': './icons/mobile.svg',
+      'UX Research': './icons/ux.svg',
+      'Product Design': './icons/product.svg',
+      'Prototyping': './icons/prototyping.svg',
+      'PWA': './icons/PWA.svg',
+      'EdTech': './icons/Edtech.svg',
+      'UI Design': './icons/ui.svg',
+      'Анализ конкурентов': './icons/CompetitorsAnalysis.svg',
+    };
+    const tagHoverPalette = [
+      { bg: '#E8F3FD', color: '#0080CF' },
+      { bg: '#F5ECFA', color: '#A268BA' },
+      { bg: '#FFEAEA', color: '#E04541' },
+      { bg: '#EAF1ED', color: '#31976B' },
+    ];
+    const mkTags = (prefix, labels) => labels.map((label, i) => {
+      const hover = tagHoverPalette[i % tagHoverPalette.length];
+      return { id: prefix + '-' + i, label, icon: tagIcons[label] || '', hoverBg: hover.bg, hoverColor: hover.color };
+    });
     const projects = [
       { num: '01', title: 'Rytmo', href: 'rytmo.html', cover: './uploads/rytmo-cover.webp', comingSoon: false, description: 'Почему люди бросают фитнес-приложения на 2–3 неделе — и как удержать их до появления привычки', tags: mkTags('p1', ['Mobile', 'UX Research', 'Product Design', 'Prototyping']) },
       { num: '02', title: 'Campus', href: 'campus.html', cover: './uploads/campus-cover.webp', comingSoon: false, description: 'Разработка своего приложения с расписаниашем пар в виде PWA. Офлайн-доступ вместо вылетающего официального приложения.', tags: mkTags('p2', ['PWA', 'UI Design', 'EdTech']) },
-      { num: '03', title: 'Виток', href: '#', cover: '', comingSoon: true, description: 'Виток (Vtok) — образовательная платформа для российских школ, учебных центров и репетиторских организаций.', tags: mkTags('p3', ['Ресерч', 'Анализ конкурентов', 'Глубинки', 'Проектирование юзер флоу']) },
+      { num: '03', title: 'Виток', href: '#', cover: '', comingSoon: true, description: 'Виток — образовательная платформа для российских школ, учебных центров и репетиторских организаций.', tags: [] },
     ];
-    const works = [
-      { src: './uploads/work1.webp', alt: 'Midnight Screening' },
-    ];
-    return { projects, works };
+    const workRow2 = { src: './uploads/work2.webp', alt: 'Work 2' };
+    const workRow1 = { src: './uploads/work1.webp', alt: 'Midnight Screening' };
+    return { projects, workRow1, workRow2 };
   }
 }
+</script>
+<script type="module">
+  const clickSound = new Audio('./sounds/liecio-menu_beep_short_snap-533778.mp3');
+  clickSound.volume = 0.15;
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    clickSound.currentTime = 0;
+    clickSound.play().catch(() => {});
+
+    const href = link.getAttribute('href');
+    const isSamePageJump = !href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http');
+    if (!isSamePageJump && link.target !== '_blank') {
+      e.preventDefault();
+      setTimeout(() => { window.location.href = href; }, 150);
+    }
+  });
 </script>
 </body>
 </html>
