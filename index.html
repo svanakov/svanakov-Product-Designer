@@ -1,194 +1,125 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Сергей Ванаков – Продуктовый дизайнер</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
 </head>
 <body>
-  <div class="mobile-only">
-    <p>📵😔</p>
-    <p>Сайт пока не адаптирован для мобильных устройств.<br>Открой с компьютера.</p>
+<x-dc>
+
+<helmet>
+  <style>
+    body { margin: 0; }
+    html { scroll-behavior: smooth; }
+    ::selection { background: oklch(0.58 0.19 264 / 0.25); }
+    @media (max-width: 720px) {
+      .proj-title { font-size: 26px !important; }
+      .hero-name { font-size: 34px !important; }
+      .header-wrap { padding-bottom: 56px !important; }
+      .proj-meta { flex-direction: column !important; gap: 12px !important; }
+      .proj-desc { max-width: none !important; }
+      main { gap: 56px !important; }
+      .works-row { flex-direction: column !important; }
+      .works-row img { width: 100% !important; height: auto !important; }
+    }
+
+
+    .cover-img { transition: transform 400ms ease; }
+    .cover-wrap:hover .cover-img { transform: scale(1.04); }
+
+    .project-link:hover .tag-pill {
+      background: #EBF6FF !important;
+      border-color: rgba(43, 117, 241, 0.35) !important;
+      color: #2B75F1 !important;
+    }
+  </style>
+</helmet>
+
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Helvetica, Arial, sans-serif; background: #FFFFFF; color: oklch(0.19 0.006 80); min-height: 100vh;">
+
+  <div style="position: sticky; top: 0; z-index: 10; background: #FFFFFF;">
+    <div style="max-width: 1180px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; border-bottom: 1px solid oklch(0.9 0.004 80);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="./uploads/avatar.jpg" alt="Сергей Ванаков" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+        <span style="font-size: 17px; font-weight: 500; letter-spacing: -0.01em;">Сергей Ванаков</span>
+      </div>
+      <nav style="display: flex; gap: 28px;">
+        <a href="#projects" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Проекты</a>
+        <a href="#works" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Работы</a>
+        <a href="https://t.me/svanakov" target="_blank" rel="noopener" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Telegram</a>
+        <a href="mailto:vanakovsergey2004@yandex.ru" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Почта</a>
+      </nav>
+    </div>
   </div>
 
-  <div class="grain" aria-hidden="true"></div>
+  <div style="max-width: 800px; margin: 0 auto; padding: 56px 32px 120px;">
 
-  <nav id="site-nav" aria-label="Основная навигация">
-    <span class="nav-logo">СВ – 2026</span>
-    <ul class="nav-links">
-      <li><a href="#projects">Проекты</a></li>
-      <li><a href="https://t.me/svanakov" target="_blank" rel="noopener">Telegram</a></li>
-      <li><a href="mailto:vanakovsergey2004@yandex.ru">Почта</a></li>
-    </ul>
-  </nav>
+    <header class="header-wrap" style="display: flex; flex-direction: column; gap: 48px; padding-bottom: 96px;">
+      <h1 class="hero-name" style="font-size: 36px; line-height: 1.3; font-weight: 430; letter-spacing: -0.015em; margin: 0; max-width: 920px; text-wrap: pretty;"> Продуктовый дизайнер. <span style="color: oklch(0.5 0.008 80);">Два года проектирую понятные интерфейсы и довожу идеи от исследования до работающего прототипа.</span></h1>
+    </header>
 
-  <main>
-
-    <section id="hero" aria-labelledby="hero-name">
-      <div class="hero-glow" aria-hidden="true"></div>
-      <div class="hero-glow-2" aria-hidden="true"></div>
-
-      <div class="hero-name-row">
-        <div class="hero-photo-wrap">
-          <img class="hero-photo" src="./ава.jpg" alt="Сергей Ванаков">
-        </div>
-        <div class="hero-name-block" aria-hidden="true">
-          <div class="hero-name-and-ctas">
-            <div class="hero-names">
-              <span class="hero-name name-solid">Сергей</span>
-              <span class="hero-name name-outline">Ванаков</span>
+    <main id="projects" style="display: flex; flex-direction: column; gap: 88px;">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
+        <a href="{{ p.href }}" class="project-link" style="text-decoration: none; color: inherit; display: block;">
+          <article>
+            <div class="cover-wrap" style="position: relative; width: 100%;">
+              <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 33px;">
+                <sc-if value="{{ p.comingSoon }}">
+                  <div style="position: absolute; inset: 0; background: oklch(0.87 0.004 80); display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 18px; font-weight: 500; letter-spacing: 0.02em; color: oklch(0.55 0.006 80);">Coming soon</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ !p.comingSoon }}">
+                  <img class="cover-img" src="{{ p.cover }}" alt="{{ p.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+                </sc-if>
+              </div>
             </div>
-            <div class="hero-ctas" id="hero-ctas">
-              <a class="btn-primary" href="#projects">Смотреть проекты →</a>
-              <a class="btn-secondary" href="https://t.me/svanakov" target="_blank" rel="noopener">Написать ↗</a>
+            <div class="proj-meta" style="display: flex; flex-direction: column; gap: 14px; margin-top: 28px;">
+              <div style="display: flex; align-items: baseline; gap: 16px;">
+                <span style="font-size: 14px; color: oklch(0.6 0.01 80);">{{ p.num }}</span>
+                <h2 class="proj-title" style="font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0;">{{ p.title }}</h2>
+              </div>
+              <p class="proj-desc" style="font-size: 17px; line-height: 1.6; color: oklch(0.42 0.006 80); margin: 0; max-width: 620px;">{{ p.description }}</p>
             </div>
-          </div>
-          <div class="hero-badge">
-            <span class="badge-dot" aria-hidden="true"></span>
-            Ищу работу
-          </div>
-        </div>
-      </div>
-      <h1 class="sr-only" id="hero-name">Сергей Ванаков</h1>
+            <div style="display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap;" class="tags-row">
+              <sc-for list="{{ p.tags }}" as="tag" hint-placeholder-count="1">
+                <span key="{{ tag.id }}" class="tag-pill" style="display: inline-flex; box-sizing: border-box; padding: 6px 10px; flex-direction: column; justify-content: center; align-items: center; gap: 10px; border-radius: 8px; border: 1px solid rgb(230, 230, 228); background: rgb(247, 247, 246); font-size: 12px; font-weight: 500; color: rgb(66, 67, 61); transition: background 200ms ease, border-color 200ms ease, color 200ms ease;">{{ tag.label }}</span>
+              </sc-for>
+            </div>
+          </article>
+        </a>
+      </sc-for>
+    </main>
 
-      <div class="hero-bottom">
-        <p class="hero-bio">
-          Привет! 👋 Я Сергей, продуктовый дизайнер, проектирую понятные и осмысленные интерфейсы для веба и мобайла.
-        </p>
-        <div class="hero-divider">
-          <span class="hero-role">Продуктовый дизайнер · 2 года</span>
-          <div class="divider-line"></div>
-          <span class="hero-loc">Тула · Удалённо</span>
-        </div>
+    <section id="works" style="margin-top: 88px;">
+      <h2 class="proj-title" style="font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 28px;">Работы</h2>
+      <div class="works-row" style="display: flex; align-items: flex-start; gap: 16px;">
+        <sc-for list="{{ works }}" as="work" hint-placeholder-count="1">
+          <img src="{{ work.src }}" alt="{{ work.alt }}" style="width: 400px; max-width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
+        </sc-for>
       </div>
     </section>
 
-    <section id="projects" aria-labelledby="projects-heading">
-      <div class="projects-header">
-        <span class="projects-label" id="projects-heading">Проекты</span>
-        <span class="projects-count">02 проекта</span>
-      </div>
-      <div id="projects-list" role="list">
+  </div>
+</div>
 
-        <a class="project-strip" href="rytmo.html" role="listitem" aria-label="Rytmo — открыть кейс">
-          <div class="strip-image-wrap">
-            <img class="strip-image" src="./rytmo_cover.png" alt="Rytmo" loading="lazy">
-          </div>
-          <div class="strip-info">
-            <div class="strip-num">01 / 02</div>
-            <h2 class="strip-title">Rytmo</h2>
-            <div class="strip-bottom">
-              <p class="strip-desc-text">Большинство пользователей фитнес-приложений бросают тренировки уже на 2–3 неделе. Я исследовал причины оттока и спроектировал решение, которое удерживает на старте.</p>
-              <div class="strip-tags">
-                <span class="strip-tag">Mobile</span>
-                <span class="strip-tag">UX Research</span>
-                <span class="strip-tag">Product Design</span>
-                <span class="strip-tag">Prototyping</span>
-              </div>
-              <span class="strip-arrow">Открыть кейс →</span>
-            </div>
-          </div>
-        </a>
-
-        <a class="project-strip" href="dash.html" role="listitem" aria-label="Дэш — открыть кейс">
-          <div class="strip-image-wrap">
-            <img class="strip-image" src="./dash_cover.jpg" alt="Дэш" loading="lazy">
-          </div>
-          <div class="strip-info">
-            <div class="strip-num">02 / 02</div>
-            <h2 class="strip-title">Дэш</h2>
-            <div class="strip-bottom">
-              <p class="strip-desc-text">Преподаватели тратят часы на рутинную проверку работ. Я спроектировал сервис, который автоматизирует оценку успеваемости и возвращает время для живой работы со студентами.</p>
-              <div class="strip-tags">
-                <span class="strip-tag">Web</span>
-                <span class="strip-tag">Product Design</span>
-                <span class="strip-tag">UI Design</span>
-                <span class="strip-tag">Visual Design</span>
-                <span class="strip-tag">EdTech</span>
-              </div>
-              <span class="strip-arrow">Открыть кейс →</span>
-            </div>
-          </div>
-        </a>
-
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <span class="footer-copy">© 2026 Сергей Ванаков</span>
-    <span class="footer-status">Открыт к новым проектам →</span>
-  </footer>
-
-  <script type="module">
-    /* Nav scroll + nav-links visibility */
-    const siteNav = document.getElementById('site-nav');
-    window.addEventListener('scroll', () => {
-      siteNav.classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive: true });
-
-    const heroCtas = document.getElementById('hero-ctas');
-    const navLinks = siteNav.querySelector('.nav-links');
-    new IntersectionObserver(([entry]) => {
-      navLinks.classList.toggle('nav-links--visible', !entry.isIntersecting);
-    }, { threshold: 0 }).observe(heroCtas);
-
-    /* Parallax on strips */
-    document.querySelectorAll('.project-strip').forEach(strip => {
-      const img = strip.querySelector('.strip-image');
-      strip.addEventListener('mouseenter', () => {
-        img.style.transform = 'scale(1.045)';
-      });
-      strip.addEventListener('mousemove', e => {
-        const r = strip.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width  - 0.5;
-        const y = (e.clientY - r.top)  / r.height - 0.5;
-        img.style.transform = `scale(1.045) translate(${x * -11}px, ${y * -8}px)`;
-        img.style.transition = 'transform 80ms linear';
-      });
-      strip.addEventListener('mouseleave', () => {
-        img.style.transition = 'transform 600ms cubic-bezier(0.25,0.46,0.45,0.94)';
-        img.style.transform  = 'scale(1) translate(0,0)';
-      });
-    });
-
-    /* Hover sound */
-    import { click } from 'https://esm.sh/plinq';
-
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', click);
-    });
-
-    /* Custom cursor */
-    if (window.matchMedia('(hover: hover)').matches) {
-      const dot  = document.createElement('div');
-      const ring = document.createElement('div');
-      dot.className  = 'cursor-dot';
-      ring.className = 'cursor-ring';
-      document.body.append(dot, ring);
-      let mx = 0, my = 0, rx = 0, ry = 0;
-      document.addEventListener('mousemove', e => {
-        mx = e.clientX; my = e.clientY;
-        dot.style.left = mx + 'px';
-        dot.style.top  = my + 'px';
-      });
-      (function animateRing() {
-        rx += (mx - rx) * 0.1;
-        ry += (my - ry) * 0.1;
-        ring.style.left = rx + 'px';
-        ring.style.top  = ry + 'px';
-        requestAnimationFrame(animateRing);
-      })();
-      document.querySelectorAll('a, button, .project-strip').forEach(el => {
-        el.addEventListener('mouseenter', () => { dot.classList.add('hover'); ring.classList.add('hover'); });
-        el.addEventListener('mouseleave', () => { dot.classList.remove('hover'); ring.classList.remove('hover'); });
-      });
-    }
-  </script>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const mkTags = (prefix, labels) => labels.map((label, i) => ({ id: prefix + '-' + i, label }));
+    const projects = [
+      { num: '01', title: 'Rytmo', href: 'rytmo.html', cover: './uploads/rytmo-cover.webp', comingSoon: false, description: 'Почему люди бросают фитнес-приложения на 2–3 неделе — и как удержать их до появления привычки', tags: mkTags('p1', ['Mobile', 'UX Research', 'Product Design', 'Prototyping']) },
+      { num: '02', title: 'Campus', href: 'campus.html', cover: './uploads/campus-cover.webp', comingSoon: false, description: 'Разработка своего приложения с расписаниашем пар в виде PWA. Офлайн-доступ вместо вылетающего официального приложения.', tags: mkTags('p2', ['PWA', 'UI Design', 'EdTech']) },
+      { num: '03', title: 'Виток', href: '#', cover: '', comingSoon: true, description: 'Виток (Vtok) — образовательная платформа для российских школ, учебных центров и репетиторских организаций.', tags: mkTags('p3', ['Ресерч', 'Анализ конкурентов', 'Глубинки', 'Проектирование юзер флоу']) },
+    ];
+    const works = [
+      { src: './uploads/work1.webp', alt: 'Midnight Screening' },
+    ];
+    return { projects, works };
+  }
+}
+</script>
 </body>
 </html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <style>
+    body { margin: 0; }
+    ::selection { background: oklch(0.58 0.19 264 / 0.25); }
+    html { scroll-behavior: smooth; }
+    .sec { scroll-margin-top: 40px; }
+    @media (max-width: 720px) {
+      .case-title { font-size: 28px !important; }
+      article { padding: 48px 20px 0 !important; }
+      nav { padding: 24px 20px 0 !important; }
+    }
+  </style>
+</helmet>
+
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Helvetica, Arial, sans-serif; background: #FFFFFF; color: rgb(12, 12, 12); min-height: 100vh;">
+
+  <div style="position: sticky; top: 0; z-index: 10; background: #FFFFFF;">
+    <nav style="max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid rgb(230, 230, 228);">
+      <a href="index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: rgb(12, 12, 12); font-size: 17px; font-weight: 500; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
+        <span aria-hidden="true">←</span> На главную
+      </a>
+    </nav>
+  </div>
+
+  <article style="max-width: 800px; margin: 0 auto; padding: 64px 32px 120px; display: flex; flex-direction: column; gap: 96px;" class="art">
+
+    <div>
+      <header style="margin-bottom: 48px;">
+        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 12px;">{{ project.title }}</h1>
+        <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 6px;">{{ project.role }}</p>
+        <p style="font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); margin: 0 0 20px;">{{ project.duration }}</p>
+        <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ Открыть файл в Figma</a>
+      </header>
+
+      <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
+        <img src="./uploads/campus-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+      </div>
+    </div>
+
+    <section class="sec" id="sec-problem">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Проблема</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ problemText }}</p>
+    </section>
+
+    <section class="sec" id="sec-solution">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Решение</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ solutionText }}</p>
+    </section>
+
+    <section class="sec" id="sec-screens">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">Экраны</h2>
+      <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 48px;">
+        <sc-for list="{{ screenshots }}" as="shot" hint-placeholder-count="2">
+          <div>
+            <img src="{{ shot.src }}" alt="{{ shot.alt }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228); margin-bottom: 12px;">
+            <p style="font-size: 15px; font-weight: 400; line-height: 1.4; color: rgb(127, 127, 127); margin: 0;">{{ shot.caption }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <sc-for list="{{ screens }}" as="screen" hint-placeholder-count="4">
+          <div>
+            <h3 style="font-size: 20px; font-weight: 500; line-height: 1.3; letter-spacing: -0.2px; color: rgb(12, 12, 12); margin: 0 0 8px;">{{ screen.title }}</h3>
+            <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0;">{{ screen.text }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section class="sec" id="sec-monetization">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Монетизация (идея)</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ monetizationText }}</p>
+    </section>
+
+    <section class="sec" id="sec-limitation">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Ограничение формата</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ limitationText }}</p>
+    </section>
+
+    <section class="sec" id="sec-result">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Результат</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ resultText }}</p>
+    </section>
+
+    <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid rgb(230, 230, 228);">
+      <a href="rytmo.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: rgb(12, 12, 12); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
+        Смотреть Rytmo <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+  </article>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const project = {
+      title: 'Campus',
+      role: 'Расписание вуза как PWA, продуктовый дизайн (соло)',
+      duration: 'Личный проект',
+      figmaLink: 'https://www.figma.com/design/9XC5UJSMw1Oy3m776TuwTw/%D0%9A%D0%B0%D0%BC%D0%BF%D1%83%D1%81?node-id=0-1&t=GeVDLvna4psUg7Cf-1',
+    };
+
+    const problemText = 'У нас есть официальное приложение вуза для просмотра расписания («Мой МГТУ»), но оно регулярно вылетает и не работает без интернета. Когда срочно нужно было посмотреть расписание, оно подводило. Кто-то пользовался скриншотом расписания в галерее, кто-то переносил его в отдельную таблицу. Проблема была локальной — не у всего вуза, а у нашего круга друзей.';
+
+    const solutionText = 'Раз аудитория — мы и ближний круг одногруппников, смысла делать нативное приложение с публикацией в сторах не было. Выбрал PWA: работает офлайн через service worker, устанавливается в один клик и не требует параллельной поддержки iOS и Android.';
+
+    const screenshots = [
+      { src: './uploads/campus2.webp', alt: 'Экраны Campus', caption: 'Страница в браузере, главный экран с расписанием на сегодня, реакциями и заметками, расписание на неделю. Настройки и оформление подписки' },
+      { src: './uploads/campus-ui.webp', alt: 'UI Campus', caption: 'Компоненты и статусы' },
+    ];
+
+    const screens = [
+      {
+        title: 'Главный экран — расписание на сегодня',
+        text: 'Показывает текущую пару, сколько времени до её конца, кабинет, тип пары (лекция/семинар/лаба), преподавателя; следующую пару — что и где; и время, когда можно уходить домой. Учитывает несовпадение подгрупп — когда у одной подгруппы пара есть, а у другой в это время окно.',
+      },
+      {
+        title: 'Расписание на неделю',
+        text: 'Полная сетка занятий на неделю вперёд.',
+      },
+      {
+        title: 'Карточка пары',
+        text: 'Можно оставить заметку, комментарий, реакцию.',
+      },
+      {
+        title: 'Настройки',
+        text: 'Привязка к своей группе, уведомления, язык интерфейса.',
+      },
+    ];
+
+    const monetizationText = 'Продумали модель подписки Campus Pro с расширенным функционалом. Осталась на уровне концепции.';
+
+    const limitationText = 'Изначально хотели, чтобы приложение выводило текущую пару и таймер до конца в Live Activities на айфоне, чтобы был виден постоянный статус на экране блокировки, без необходимости открывать приложение. PWA не даёт доступа к этому API, так что от идеи пришлось отказаться.';
+
+    const resultText = 'Пользовались сами и пошерили с частью одногруппников, все были довольны — расписание всегда было под рукой.';
+
+    return { project, problemText, solutionText, screenshots, screens, monetizationText, limitationText, resultText };
+  }
+}
+</script>
+</body>
+</html>
