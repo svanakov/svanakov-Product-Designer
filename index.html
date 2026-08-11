@@ -20,14 +20,31 @@
       .proj-meta { flex-direction: column !important; gap: 12px !important; }
       .proj-desc { max-width: none !important; }
       main { gap: 56px !important; }
-      .works-row { flex-direction: column !important; }
-      .works-row img { width: 100% !important; height: auto !important; }
+      .works-tile-row img { width: auto !important; flex: 1 1 0 !important; min-width: 0 !important; height: auto !important; }
+      .work-img { border-radius: 16px !important; }
       .tag-pill { background: var(--hover-bg) !important; border-color: transparent !important; color: var(--hover-color) !important; }
+      nav { display: none !important; }
+      #mobile-menu-btn { display: flex !important; }
     }
 
 
     .cover-img { transition: transform 400ms ease; }
     .cover-wrap:hover .cover-img { transform: scale(1.04); }
+
+    .contacts-dropdown {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-4px);
+      transition: opacity 150ms ease, transform 150ms ease, visibility 150ms;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .contacts-wrap:hover .contacts-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
 
     .project-link:hover .tag-pill {
       background: var(--hover-bg) !important;
@@ -48,9 +65,30 @@
       <nav style="display: flex; gap: 28px;">
         <a href="#projects" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Проекты</a>
         <a href="#works" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Работы</a>
-        <a href="https://t.me/svanakov" target="_blank" rel="noopener" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Telegram</a>
-        <a href="mailto:vanakovsergey2004@yandex.ru" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Почта</a>
+        <a href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">CV</a>
+        <div class="contacts-wrap" style="position: relative; padding-bottom: 14px; margin-bottom: -14px;">
+          <span style="color: oklch(0.19 0.006 80); font-size: 16px; cursor: default;">Контакты</span>
+          <div class="contacts-dropdown" style="position: absolute; top: 100%; right: 0; background: #ffffff; border: 1px solid rgb(230, 230, 228); border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 2px; min-width: 140px; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);">
+            <a href="https://t.me/svanakov" target="_blank" rel="noopener" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 15px; padding: 8px 10px; border-radius: 8px; transition: background 150ms ease;" style-hover="background: oklch(0.96 0.004 80);">Telegram</a>
+            <a href="mailto:vanakovsergey2004@yandex.ru" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 15px; padding: 8px 10px; border-radius: 8px; transition: background 150ms ease;" style-hover="background: oklch(0.96 0.004 80);">Почта</a>
+          </div>
+        </div>
       </nav>
+      <button id="mobile-menu-btn" aria-label="Меню" style="display: none; background: none; border: none; padding: 4px; cursor: pointer; align-items: center; justify-content: center;">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6H19M3 11H19M3 16H19" stroke="rgb(12,12,12)" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu-popup" style="display: none; position: fixed; inset: 0; z-index: 30; background: rgba(0, 0, 0, 0.4);">
+    <div style="position: absolute; inset: 16px; background: #ffffff; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;">
+      <button id="mobile-menu-close" aria-label="Закрыть" style="position: absolute; top: 16px; right: 16px; background: none; border: none; padding: 6px; cursor: pointer;">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L18 18M18 4L4 18" stroke="rgb(12,12,12)" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a href="#projects" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">Проекты</a>
+      <a href="#works" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">Работы</a>
+      <a href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">CV</a>
+      <a href="https://t.me/svanakov" target="_blank" rel="noopener" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">Telegram</a>
+      <a href="mailto:vanakovsergey2004@yandex.ru" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">Почта</a>
     </div>
   </div>
 
@@ -99,8 +137,12 @@
     <section id="works" style="margin-top: 88px;">
       <h2 class="proj-title" style="font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 28px;">Работы</h2>
       <div style="display: flex; flex-direction: column; gap: 16px;">
-        <img src="{{ workRow2.src }}" alt="{{ workRow2.alt }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
-        <img src="{{ workRow1.src }}" alt="{{ workRow1.alt }}" style="width: 256px; max-width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
+        <img class="work-img" src="{{ workRow2.src }}" alt="{{ workRow2.alt }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
+        <div class="works-tile-row" style="display: flex; gap: 16px;">
+          <sc-for list="{{ workTiles }}" as="work" hint-placeholder-count="3">
+            <img class="work-img" src="{{ work.src }}" alt="{{ work.alt }}" style="width: 256px; max-width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
+          </sc-for>
+        </div>
       </div>
     </section>
 
@@ -137,8 +179,12 @@ class Component extends DCLogic {
       { num: '03', title: 'Виток', href: '#', cover: '', comingSoon: true, description: 'Виток — образовательная платформа для российских школ, учебных центров и репетиторских организаций.', tags: [] },
     ];
     const workRow2 = { src: './uploads/work2.webp', alt: 'Work 2' };
-    const workRow1 = { src: './uploads/work1.webp', alt: 'Midnight Screening' };
-    return { projects, workRow1, workRow2 };
+    const workTiles = [
+      { src: './uploads/work1.webp', alt: 'Midnight Screening' },
+      { src: './uploads/work3.webp', alt: 'Work 3' },
+      { src: './uploads/work4.webp', alt: 'Work 4' },
+    ];
+    return { projects, workTiles, workRow2 };
   }
 }
 </script>
@@ -161,6 +207,23 @@ class Component extends DCLogic {
       }
     });
   }
+
+  document.addEventListener('click', (e) => {
+    const popup = document.getElementById('mobile-menu-popup');
+    if (!popup) return;
+    const btn = document.getElementById('mobile-menu-btn');
+    const closeBtn = document.getElementById('mobile-menu-close');
+    const isOpen = popup.style.display !== 'none';
+
+    if (btn && btn.contains(e.target)) {
+      popup.style.display = isOpen ? 'none' : 'flex';
+      return;
+    }
+    if (!isOpen) return;
+    if (e.target === popup || (closeBtn && closeBtn.contains(e.target)) || e.target.closest('a')) {
+      popup.style.display = 'none';
+    }
+  });
 </script>
 </body>
 </html>

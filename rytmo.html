@@ -29,7 +29,7 @@
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Helvetica, Arial, sans-serif; background: #FFFFFF; color: rgb(12, 12, 12); min-height: 100vh;">
 
   <div style="position: sticky; top: 0; z-index: 10; background: #FFFFFF;">
-    <nav style="max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid rgb(230, 230, 228);">
+    <nav style="max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 18.5px 20px; border-bottom: 1px solid rgb(230, 230, 228);">
       <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: rgb(12, 12, 12); font-size: 17px; font-weight: 500; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
         <span aria-hidden="true">←</span> На главную
       </a>
@@ -138,8 +138,7 @@
         <h3 style="font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">Результаты</h3>
         <div style="display: flex; flex-direction: column; gap: 16px;">
           <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">Что спроектировано:</b> {{ results.designed }}</p>
-          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">Что проверить дальше:</b> {{ results.next }}</p>
-          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">Что понял в процессе:</b> {{ results.learned }}</p>
+          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">Метрики:</b> {{ results.next }}</p>
         </div>
       </div>
     </section>
@@ -229,9 +228,8 @@ class Component extends DCLogic {
     ];
 
     const results = {
-      designed: 'три сценария, закрывающие разные моменты разрыва мотивации; бизнес-модель, монетизирующая рост, а не вход.',
-      next: 'A/B-тест ключевых гипотез после запуска (в первую очередь — механику восстановления серии, у неё самый высокий ICE); юзабилити-тест текущего прототипа.',
-      learned: 'в следующий раз — вайрфреймы до финального UI, не после; ценность разговора с реальными пользователями оказалась выше, чем ожидал на старте, по сравнению с одним только опросом.',
+      designed: 'три сценария, каждый нацелен на конкретный момент разрыва между потерей мотивации и формированием привычки. 15 гипотез приоритизированы через ICE с прозрачным обоснованием confidence по каждой',
+      next: 'по результатам юзабилити-тестирования на 12 участниках 11 из 12 первым кликом попали на рекомендуемую тренировку — прямое подтверждение гипотезы с самым высоким ICE. Средний SEQ по трём сценариям — 6.2 из 7',
     };
 
     return { project, problemText, hypothesisText, summaryText, processSteps, competitorsText, interviewsMethod, interviewsFindings, jtbd, flows, screens, results };
