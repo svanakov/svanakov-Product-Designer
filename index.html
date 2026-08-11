@@ -216,12 +216,15 @@ class Component extends DCLogic {
     const isOpen = popup.style.display !== 'none';
 
     if (btn && btn.contains(e.target)) {
-      popup.style.display = isOpen ? 'none' : 'flex';
+      const willOpen = !isOpen;
+      popup.style.display = willOpen ? 'flex' : 'none';
+      document.body.style.overflow = willOpen ? 'hidden' : '';
       return;
     }
     if (!isOpen) return;
     if (e.target === popup || (closeBtn && closeBtn.contains(e.target)) || e.target.closest('a')) {
       popup.style.display = 'none';
+      document.body.style.overflow = '';
     }
   });
 </script>
