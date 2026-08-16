@@ -17,6 +17,9 @@
     .sec { scroll-margin-top: 40px; }
     .jtbd-table-row { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding: 16px 0; border-top: 1px solid rgb(230, 230, 228); align-items: start; }
     .jtbd-table-head { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding-bottom: 12px; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); }
+    .zoom-wrap { display: block; overflow: hidden; cursor: zoom-in; }
+    .zoom-img { transition: transform 400ms ease; display: block; }
+    .zoom-wrap:hover .zoom-img { transform: scale(1.04); }
     @media (max-width: 720px) {
       .case-title { font-size: 24px !important; }
       .sec h2 { font-size: 26px !important; }
@@ -47,8 +50,8 @@
         <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ Открыть файл в Figma</a>
       </header>
 
-      <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
-        <img src="./uploads/rytmo-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+      <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
+        <img class="zoom-img" src="./uploads/rytmo-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
       </div>
     </div>
 
@@ -118,13 +121,17 @@
           </div>
         </sc-for>
       </div>
-      <img src="./uploads/user-flow.webp" alt="User flow — три сценария" style="width: 100%; height: auto; display: block; border-radius: 16px; border: 1px solid rgb(230, 230, 228);">
+      <div class="zoom-wrap" style="border-radius: 16px; border: 1px solid rgb(230, 230, 228);">
+        <img class="zoom-img" src="./uploads/user-flow.webp" alt="User flow — три сценария" style="width: 100%; height: auto; display: block;">
+      </div>
     </section>
 
     <section class="sec" id="sec-screens">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">Прототипы, экраны и результаты</h2>
 
-      <img src="./uploads/prototypes.webp" alt="Прототипы — {{ project.title }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228); margin-bottom: 48px;">
+      <div class="zoom-wrap" style="border-radius: 20px; border: 1px solid rgb(230, 230, 228); margin-bottom: 48px;">
+        <img class="zoom-img" src="./uploads/prototypes.webp" alt="Прототипы — {{ project.title }}" style="width: 100%; height: auto; display: block;">
+      </div>
 
       <div style="display: flex; flex-direction: column; gap: 40px;">
         <sc-for list="{{ screens }}" as="screen" hint-placeholder-count="3">
@@ -151,6 +158,13 @@
     </div>
 
   </article>
+</div>
+
+<div id="lightbox" style="display: none; position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, 0.75); align-items: center; justify-content: center; padding: 48px;">
+  <button id="lightbox-close" aria-label="Закрыть" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; border-radius: 50%; width: 40px; height: 40px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L18 18M18 4L4 18" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <img id="lightbox-img" src="" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;">
 </div>
 
 </x-dc>
@@ -256,6 +270,36 @@ class Component extends DCLogic {
       }
     });
   }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'none';
+    document.getElementById('lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', (e) => {
+    const zoomImg = e.target.closest('.zoom-img');
+    if (zoomImg) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = zoomImg.src;
+      lightboxImg.alt = zoomImg.alt;
+      lightbox.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox.style.display !== 'none') {
+      const closeBtn = document.getElementById('lightbox-close');
+      if (e.target === lightbox || (closeBtn && closeBtn.contains(e.target))) {
+        closeLightbox();
+      }
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
 </script>
 </body>
 </html>

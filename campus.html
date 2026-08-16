@@ -15,6 +15,9 @@
     ::selection { background: oklch(0.58 0.19 264 / 0.25); }
     html { scroll-behavior: smooth; }
     .sec { scroll-margin-top: 40px; }
+    .zoom-wrap { display: block; overflow: hidden; cursor: zoom-in; }
+    .zoom-img { transition: transform 400ms ease; display: block; }
+    .zoom-wrap:hover .zoom-img { transform: scale(1.04); }
     @media (max-width: 720px) {
       .case-title { font-size: 24px !important; }
       .sec h2 { font-size: 26px !important; }
@@ -43,8 +46,8 @@
         <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ Открыть файл в Figma</a>
       </header>
 
-      <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
-        <img src="./uploads/campus-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+      <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
+        <img class="zoom-img" src="./uploads/campus-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
       </div>
     </div>
 
@@ -63,7 +66,9 @@
       <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 48px;">
         <sc-for list="{{ screenshots }}" as="shot" hint-placeholder-count="2">
           <div>
-            <img src="{{ shot.src }}" alt="{{ shot.alt }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228); margin-bottom: 12px;">
+            <div class="zoom-wrap" style="border-radius: 20px; border: 1px solid rgb(230, 230, 228); margin-bottom: 12px;">
+              <img class="zoom-img" src="{{ shot.src }}" alt="{{ shot.alt }}" style="width: 100%; height: auto; display: block;">
+            </div>
             <p style="font-size: 15px; font-weight: 400; line-height: 1.4; color: rgb(127, 127, 127); margin: 0;">{{ shot.caption }}</p>
           </div>
         </sc-for>
@@ -100,6 +105,13 @@
     </div>
 
   </article>
+</div>
+
+<div id="lightbox" style="display: none; position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, 0.75); align-items: center; justify-content: center; padding: 48px;">
+  <button id="lightbox-close" aria-label="Закрыть" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; border-radius: 50%; width: 40px; height: 40px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L18 18M18 4L4 18" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <img id="lightbox-img" src="" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;">
 </div>
 
 </x-dc>
@@ -170,6 +182,36 @@ class Component extends DCLogic {
       }
     });
   }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'none';
+    document.getElementById('lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', (e) => {
+    const zoomImg = e.target.closest('.zoom-img');
+    if (zoomImg) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = zoomImg.src;
+      lightboxImg.alt = zoomImg.alt;
+      lightbox.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox.style.display !== 'none') {
+      const closeBtn = document.getElementById('lightbox-close');
+      if (e.target === lightbox || (closeBtn && closeBtn.contains(e.target))) {
+        closeLightbox();
+      }
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
 </script>
 </body>
 </html>
