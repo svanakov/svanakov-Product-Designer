@@ -60,43 +60,53 @@
   <div style="position: sticky; top: 0; z-index: 10; background: #FFFFFF;">
     <div style="max-width: 1180px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; border-bottom: 1px solid oklch(0.9 0.004 80);">
       <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="./uploads/avatar.jpg" alt="Сергей Ванаков" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-        <span style="font-size: 17px; font-weight: 500; letter-spacing: -0.01em;">Сергей Ванаков</span>
+        <img src="./uploads/avatar.jpg" alt="{{ t.name }}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+        <span style="font-size: 17px; font-weight: 500; letter-spacing: -0.01em;">{{ t.name }}</span>
       </div>
-      <nav style="display: flex; gap: 28px;">
-        <a href="#projects" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Проекты</a>
-        <a href="#works" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">Работы</a>
+      <nav style="display: flex; align-items: center; gap: 28px;">
+        <a href="#projects" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">{{ t.navProjects }}</a>
+        <a href="#works" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">{{ t.navWorks }}</a>
         <a href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">CV</a>
         <div class="contacts-wrap" style="position: relative; padding-bottom: 14px; margin-bottom: -14px;">
-          <span style="color: oklch(0.19 0.006 80); font-size: 16px; cursor: default;">Контакты</span>
+          <span style="color: oklch(0.19 0.006 80); font-size: 16px; cursor: default;">{{ t.navContacts }}</span>
           <div class="contacts-dropdown" style="position: absolute; top: 100%; right: 0; background: #ffffff; border: 1px solid rgb(230, 230, 228); border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 2px; min-width: 140px; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);">
             <a href="https://t.me/svanakov" target="_blank" rel="noopener" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 15px; padding: 8px 10px; border-radius: 8px; transition: background 150ms ease;" style-hover="background: oklch(0.96 0.004 80);">Telegram</a>
-            <a href="mailto:vanakovsergey2004@yandex.ru" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 15px; padding: 8px 10px; border-radius: 8px; transition: background 150ms ease;" style-hover="background: oklch(0.96 0.004 80);">Почта</a>
+            <a href="mailto:vanakovsergey2004@yandex.ru" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 15px; padding: 8px 10px; border-radius: 8px; transition: background 150ms ease;" style-hover="background: oklch(0.96 0.004 80);">{{ t.navEmail }}</a>
           </div>
         </div>
+        <div style="display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600;">
+          <button data-lang="ru" style="background: none; border: none; padding: 2px 4px; cursor: pointer; color: {{ t.ruColor }};">RU</button>
+          <span style="color: oklch(0.8 0.004 80);">/</span>
+          <button data-lang="en" style="background: none; border: none; padding: 2px 4px; cursor: pointer; color: {{ t.enColor }};">EN</button>
+        </div>
       </nav>
-      <button id="mobile-menu-btn" aria-label="Меню" style="display: none; background: none; border: none; padding: 4px; cursor: pointer; align-items: center; justify-content: center;">
+      <button id="mobile-menu-btn" aria-label="Menu" style="display: none; background: none; border: none; padding: 4px; cursor: pointer; align-items: center; justify-content: center;">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6H19M3 11H19M3 16H19" stroke="rgb(12,12,12)" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
   <div id="mobile-menu-popup" style="display: none; position: fixed; inset: 0; z-index: 30; background: rgba(0, 0, 0, 0.4);">
     <div style="position: absolute; inset: 16px; background: #ffffff; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;">
-      <button id="mobile-menu-close" aria-label="Закрыть" style="position: absolute; top: 16px; right: 16px; background: none; border: none; padding: 6px; cursor: pointer;">
+      <button id="mobile-menu-close" aria-label="Close" style="position: absolute; top: 16px; right: 16px; background: none; border: none; padding: 6px; cursor: pointer;">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L18 18M18 4L4 18" stroke="rgb(12,12,12)" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
-      <a href="#projects" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">Проекты</a>
-      <a href="#works" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">Работы</a>
+      <div style="position: absolute; top: 16px; left: 16px; display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600;">
+        <button data-lang="ru" style="background: none; border: none; padding: 4px 6px; cursor: pointer; color: {{ t.ruColor }};">RU</button>
+        <span style="color: oklch(0.8 0.004 80);">/</span>
+        <button data-lang="en" style="background: none; border: none; padding: 4px 6px; cursor: pointer; color: {{ t.enColor }};">EN</button>
+      </div>
+      <a href="#projects" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">{{ t.navProjects }}</a>
+      <a href="#works" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">{{ t.navWorks }}</a>
       <a href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">CV</a>
       <a href="https://t.me/svanakov" target="_blank" rel="noopener" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">Telegram</a>
-      <a href="mailto:vanakovsergey2004@yandex.ru" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">Почта</a>
+      <a href="mailto:vanakovsergey2004@yandex.ru" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">{{ t.navEmail }}</a>
     </div>
   </div>
 
   <div style="max-width: 800px; margin: 0 auto; padding: 56px 32px 120px;">
 
     <header class="header-wrap" style="display: flex; flex-direction: column; gap: 48px; padding-bottom: 96px;">
-      <h1 class="hero-name" style="font-size: 30px; line-height: 1.35; font-weight: 430; letter-spacing: -0.015em; margin: 0; max-width: 920px; text-wrap: pretty;"> Продуктовый дизайнер. <span style="color: oklch(0.5 0.008 80);">2+ года проектирую понятные интерфейсы и довожу идеи от исследования до выпуска в продукт.</span></h1>
+      <h1 class="hero-name" style="font-size: 30px; line-height: 1.35; font-weight: 430; letter-spacing: -0.015em; margin: 0; max-width: 920px; text-wrap: pretty;"> {{ t.heroPrefix }} <span style="color: oklch(0.5 0.008 80);">{{ t.heroRest }}</span></h1>
     </header>
 
     <main id="projects" style="display: flex; flex-direction: column; gap: 88px;">
@@ -136,7 +146,7 @@
     </main>
 
     <section id="works" style="margin-top: 88px;">
-      <h2 class="proj-title" style="font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 28px;">Работы</h2>
+      <h2 class="proj-title" style="font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 28px;">{{ t.worksHeading }}</h2>
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <img class="work-img" src="{{ workRow2.src }}" alt="{{ workRow2.alt }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
         <div class="works-tile-row" style="display: flex; gap: 16px;">
@@ -154,6 +164,23 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   renderVals() {
+    const lang = localStorage.getItem('lang') || 'ru';
+    const isEn = lang === 'en';
+    const t = isEn ? {
+      name: 'Sergey Vanakov',
+      navProjects: 'Projects', navWorks: 'Works', navContacts: 'Contacts', navEmail: 'Email',
+      heroPrefix: 'Product designer.',
+      heroRest: '2+ years designing clear interfaces and taking ideas from research to shipped product.',
+      worksHeading: 'Works',
+      ruColor: 'oklch(0.7 0.004 80)', enColor: 'rgb(12,12,12)',
+    } : {
+      name: 'Сергей Ванаков',
+      navProjects: 'Проекты', navWorks: 'Работы', navContacts: 'Контакты', navEmail: 'Почта',
+      heroPrefix: 'Продуктовый дизайнер.',
+      heroRest: '2+ года проектирую понятные интерфейсы и довожу идеи от исследования до выпуска в продукт.',
+      worksHeading: 'Работы',
+      ruColor: 'rgb(12,12,12)', enColor: 'oklch(0.7 0.004 80)',
+    };
     const tagIcons = {
       'Mobile': './icons/mobile.svg',
       'UX Research': './icons/ux.svg',
@@ -175,8 +202,8 @@ class Component extends DCLogic {
       return { id: prefix + '-' + i, label, icon: tagIcons[label] || '', hoverBg: hover.bg, hoverColor: hover.color };
     });
     const projects = [
-      { num: '01', title: 'Rytmo', href: 'rytmo.html', cover: './uploads/rytmo-cover.webp', comingSoon: false, description: 'Почему люди бросают фитнес-приложения на 2–3 неделе — и как удержать их до появления привычки', tags: mkTags('p1', ['Mobile', 'UX Research', 'Product Design', 'Prototyping']) },
-      { num: '02', title: 'Campus', href: 'campus.html', cover: './uploads/campus-cover.webp', comingSoon: false, description: 'Разработка своего приложения с расписаниашем пар в виде PWA. Офлайн-доступ вместо вылетающего официального приложения.', tags: mkTags('p2', ['PWA', 'UI Design', 'EdTech']) },
+      { num: '01', title: 'Rytmo', href: 'rytmo.html', cover: './uploads/rytmo-cover.webp', comingSoon: false, description: isEn ? 'Why people abandon fitness apps in week 2–3 — and how to keep them until the habit sticks' : 'Почему люди бросают фитнес-приложения на 2–3 неделе — и как удержать их до появления привычки', tags: mkTags('p1', ['Mobile', 'UX Research', 'Product Design', 'Prototyping']) },
+      { num: '02', title: 'Campus', href: 'campus.html', cover: './uploads/campus-cover.webp', comingSoon: false, description: isEn ? 'Built my own class-schedule app as a PWA. Offline access instead of a crashing official app.' : 'Разработка своего приложения с расписаниашем пар в виде PWA. Офлайн-доступ вместо вылетающего официального приложения.', tags: mkTags('p2', ['PWA', 'UI Design', 'EdTech']) },
     ];
     const workRow2 = { src: './uploads/work2.webp', alt: 'Work 2' };
     const workTiles = [
@@ -184,7 +211,7 @@ class Component extends DCLogic {
       { src: './uploads/work3.webp', alt: 'Work 3' },
       { src: './uploads/work4.webp', alt: 'Work 4' },
     ];
-    return { projects, workTiles, workRow2 };
+    return { t, projects, workTiles, workRow2 };
   }
 }
 </script>
@@ -226,6 +253,13 @@ class Component extends DCLogic {
       popup.style.display = 'none';
       document.body.style.overflow = '';
     }
+  });
+
+  document.addEventListener('click', (e) => {
+    const langBtn = e.target.closest('[data-lang]');
+    if (!langBtn) return;
+    localStorage.setItem('lang', langBtn.dataset.lang);
+    location.reload();
   });
 </script>
 </body>

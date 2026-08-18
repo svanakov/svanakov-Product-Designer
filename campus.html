@@ -31,8 +31,13 @@
   <div style="position: sticky; top: 0; z-index: 10; background: #FFFFFF;">
     <nav style="max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 18.5px 20px; border-bottom: 1px solid rgb(230, 230, 228);">
       <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: rgb(12, 12, 12); font-size: 17px; font-weight: 500; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
-        <span aria-hidden="true">←</span> На главную
+        <span aria-hidden="true">←</span> {{ t.home }}
       </a>
+      <div style="display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600;">
+        <button data-lang="ru" style="background: none; border: none; padding: 2px 4px; cursor: pointer; color: {{ t.ruColor }};">RU</button>
+        <span style="color: rgb(200,200,200);">/</span>
+        <button data-lang="en" style="background: none; border: none; padding: 2px 4px; cursor: pointer; color: {{ t.enColor }};">EN</button>
+      </div>
     </nav>
   </div>
 
@@ -43,7 +48,7 @@
         <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 12px;">{{ project.title }}</h1>
         <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 6px;">{{ project.role }}</p>
         <p style="font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); margin: 0 0 20px;">{{ project.duration }}</p>
-        <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ Открыть файл в Figma</a>
+        <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ {{ t.openFigma }}</a>
       </header>
 
       <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
@@ -52,17 +57,17 @@
     </div>
 
     <section class="sec" id="sec-problem">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Проблема</h2>
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.problemHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ problemText }}</p>
     </section>
 
     <section class="sec" id="sec-solution">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Решение</h2>
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.solutionHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ solutionText }}</p>
     </section>
 
     <section class="sec" id="sec-screens">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">Экраны</h2>
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">{{ t.screensHeading }}</h2>
       <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 48px;">
         <sc-for list="{{ screenshots }}" as="shot" hint-placeholder-count="2">
           <div>
@@ -84,23 +89,23 @@
     </section>
 
     <section class="sec" id="sec-monetization">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Монетизация (идея)</h2>
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.monetizationHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ monetizationText }}</p>
     </section>
 
     <section class="sec" id="sec-limitation">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Ограничение формата</h2>
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.limitationHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ limitationText }}</p>
     </section>
 
     <section class="sec" id="sec-result">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">Результат</h2>
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.resultHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ resultText }}</p>
     </section>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid rgb(230, 230, 228);">
       <a href="rytmo.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: rgb(12, 12, 12); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
-        Смотреть Rytmo <span aria-hidden="true">→</span>
+        {{ t.viewRytmo }} <span aria-hidden="true">→</span>
       </a>
     </div>
 
@@ -118,23 +123,68 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   renderVals() {
-    const project = {
+    const lang = localStorage.getItem('lang') || 'ru';
+    const isEn = lang === 'en';
+    const t = isEn ? {
+      home: 'Home', openFigma: 'Open file in Figma',
+      problemHeading: 'Problem', solutionHeading: 'Solution', screensHeading: 'Screens',
+      monetizationHeading: 'Monetization (idea)', limitationHeading: 'Format limitation', resultHeading: 'Result',
+      viewRytmo: 'View Rytmo',
+      ruColor: 'oklch(0.7 0.004 80)', enColor: 'rgb(12,12,12)',
+    } : {
+      home: 'На главную', openFigma: 'Открыть файл в Figma',
+      problemHeading: 'Проблема', solutionHeading: 'Решение', screensHeading: 'Экраны',
+      monetizationHeading: 'Монетизация (идея)', limitationHeading: 'Ограничение формата', resultHeading: 'Результат',
+      viewRytmo: 'Смотреть Rytmo',
+      ruColor: 'rgb(12,12,12)', enColor: 'oklch(0.7 0.004 80)',
+    };
+
+    const project = isEn ? {
+      title: 'Campus',
+      role: 'University schedule as a PWA, solo product design',
+      duration: 'Personal project',
+      figmaLink: 'https://www.figma.com/design/9XC5UJSMw1Oy3m776TuwTw/%D0%9A%D0%B0%D0%BC%D0%BF%D1%83%D1%81?node-id=0-1&t=GeVDLvna4psUg7Cf-1',
+    } : {
       title: 'Campus',
       role: 'Расписание вуза как PWA, продуктовый дизайн (соло)',
       duration: 'Личный проект',
       figmaLink: 'https://www.figma.com/design/9XC5UJSMw1Oy3m776TuwTw/%D0%9A%D0%B0%D0%BC%D0%BF%D1%83%D1%81?node-id=0-1&t=GeVDLvna4psUg7Cf-1',
     };
 
-    const problemText = 'У нас есть официальное приложение вуза для просмотра расписания («Мой МГТУ»), но оно регулярно вылетает и не работает без интернета. Когда срочно нужно было посмотреть расписание, оно подводило. Кто-то пользовался скриншотом расписания в галерее, кто-то переносил его в отдельную таблицу. Проблема была локальной — не у всего вуза, а у нашего круга друзей.';
+    const problemText = isEn
+      ? 'There\'s an official university app for viewing the schedule ("My Bauman"), but it crashes regularly and doesn\'t work offline. When you urgently needed to check the schedule, it let us down. Some people used a screenshot of the schedule from their gallery, others copied it into a separate spreadsheet. The problem was local — not university-wide, just within our friend circle.'
+      : 'У нас есть официальное приложение вуза для просмотра расписания («Мой МГТУ»), но оно регулярно вылетает и не работает без интернета. Когда срочно нужно было посмотреть расписание, оно подводило. Кто-то пользовался скриншотом расписания в галерее, кто-то переносил его в отдельную таблицу. Проблема была локальной — не у всего вуза, а у нашего круга друзей.';
 
-    const solutionText = 'Раз аудитория — мы и ближний круг одногруппников, смысла делать нативное приложение с публикацией в сторах не было. Выбрал PWA: работает офлайн через service worker, устанавливается в один клик и не требует параллельной поддержки iOS и Android.';
+    const solutionText = isEn
+      ? "Since the audience is just us and a close circle of classmates, there was no point building a native app with a store listing. I went with a PWA: works offline via a service worker, installs in one tap, and doesn't require maintaining iOS and Android in parallel."
+      : 'Раз аудитория — мы и ближний круг одногруппников, смысла делать нативное приложение с публикацией в сторах не было. Выбрал PWA: работает офлайн через service worker, устанавливается в один клик и не требует параллельной поддержки iOS и Android.';
 
-    const screenshots = [
+    const screenshots = isEn ? [
+      { src: './uploads/campus2.webp', alt: 'Campus screens', caption: "Browser page, home screen with today's schedule, reactions and notes, weekly schedule. Settings and subscription setup" },
+      { src: './uploads/campus-ui.webp', alt: 'Campus UI', caption: 'Components and statuses' },
+    ] : [
       { src: './uploads/campus2.webp', alt: 'Экраны Campus', caption: 'Страница в браузере, главный экран с расписанием на сегодня, реакциями и заметками, расписание на неделю. Настройки и оформление подписки' },
       { src: './uploads/campus-ui.webp', alt: 'UI Campus', caption: 'Компоненты и статусы' },
     ];
 
-    const screens = [
+    const screens = isEn ? [
+      {
+        title: "Home screen — today's schedule",
+        text: "Shows the current class, how much time is left, the room, class type (lecture/seminar/lab), the instructor; the next class — what and where; and when you can head home. Accounts for subgroup mismatches — when one subgroup has a class and the other has a gap at that time.",
+      },
+      {
+        title: 'Weekly schedule',
+        text: 'A full grid of classes for the week ahead.',
+      },
+      {
+        title: 'Class card',
+        text: 'You can leave a note, comment, or reaction.',
+      },
+      {
+        title: 'Settings',
+        text: 'Group binding, notifications, interface language.',
+      },
+    ] : [
       {
         title: 'Главный экран — расписание на сегодня',
         text: 'Показывает текущую пару, сколько времени до её конца, кабинет, тип пары (лекция/семинар/лаба), преподавателя; следующую пару — что и где; и время, когда можно уходить домой. Учитывает несовпадение подгрупп — когда у одной подгруппы пара есть, а у другой в это время окно.',
@@ -153,13 +203,19 @@ class Component extends DCLogic {
       },
     ];
 
-    const monetizationText = 'Продумали модель подписки Campus Pro с расширенным функционалом. Осталась на уровне концепции.';
+    const monetizationText = isEn
+      ? 'Thought through a Campus Pro subscription model with extended features. Stayed at the concept stage.'
+      : 'Продумали модель подписки Campus Pro с расширенным функционалом. Осталась на уровне концепции.';
 
-    const limitationText = 'Изначально хотели, чтобы приложение выводило текущую пару и таймер до конца в Live Activities на айфоне, чтобы был виден постоянный статус на экране блокировки, без необходимости открывать приложение. PWA не даёт доступа к этому API, так что от идеи пришлось отказаться.';
+    const limitationText = isEn
+      ? "Originally wanted the app to show the current class and countdown in Live Activities on iPhone, so the status would stay visible on the lock screen without opening the app. PWAs don't have access to that API, so the idea had to be dropped."
+      : 'Изначально хотели, чтобы приложение выводило текущую пару и таймер до конца в Live Activities на айфоне, чтобы был виден постоянный статус на экране блокировки, без необходимости открывать приложение. PWA не даёт доступа к этому API, так что от идеи пришлось отказаться.';
 
-    const resultText = 'Пользовались сами и пошерили с частью одногруппников, все были довольны — расписание всегда было под рукой.';
+    const resultText = isEn
+      ? 'Used it ourselves and shared it with some classmates — everyone was happy, the schedule was always at hand.'
+      : 'Пользовались сами и пошерили с частью одногруппников, все были довольны — расписание всегда было под рукой.';
 
-    return { project, problemText, solutionText, screenshots, screens, monetizationText, limitationText, resultText };
+    return { t, project, problemText, solutionText, screenshots, screens, monetizationText, limitationText, resultText };
   }
 }
 </script>
@@ -211,6 +267,13 @@ class Component extends DCLogic {
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeLightbox();
+  });
+
+  document.addEventListener('click', (e) => {
+    const langBtn = e.target.closest('[data-lang]');
+    if (!langBtn) return;
+    localStorage.setItem('lang', langBtn.dataset.lang);
+    location.reload();
   });
 </script>
 </body>
