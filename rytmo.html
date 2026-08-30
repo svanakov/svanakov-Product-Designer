@@ -151,7 +151,7 @@
         <h3 style="font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.resultsHeading }}</h3>
         <div style="display: flex; flex-direction: column; gap: 16px;">
           <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.designedLabel }}</b> {{ results.designed }}</p>
-          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.metricsLabel }}</b> {{ results.next }}</p>
+          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0; white-space: pre-line;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.metricsLabel }}</b> {{ results.next }}</p>
         </div>
       </div>
     </section>
@@ -340,10 +340,10 @@ class Component extends DCLogic {
 
     const results = isEn ? {
       designed: 'three scenarios, each targeting a specific moment of the motivation-to-habit gap. 15 hypotheses prioritized via ICE with transparent confidence reasoning for each',
-      next: "usability testing with 12 participants showed 11 of 12 landed on the recommended workout with their first click — direct validation of the highest-ICE hypothesis. Average SEQ across the three scenarios — 6.2 out of 7",
+      next: "Methodology: a usability test of a clickable prototype with 12 participants. Task — without hints, find and start today's workout from the home screen, which simultaneously shows the recommended workout, a filterable catalog, and programs.\n\nFirst-Click Rate: 11 of 12 participants (92%) landed on the recommended workout block with their first click, rather than going into the catalog or programs. This is a direct test of the highest-ICE-priority hypothesis — that one clear recommended option reduces choice paralysis better than a catalog. The result confirms: participants don't browse options looking for a fit, they read the recommendation as the primary path to action right away.\n\nSEQ (Single Ease Question): after each of the three scenarios, participants rated task ease on a 1–7 scale. Average score — 6.2 out of 7, indicating high subjective ease of use across all three flows — first launch, return visit, and return after a miss.",
     } : {
       designed: 'три сценария, каждый нацелен на конкретный момент разрыва между потерей мотивации и формированием привычки. 15 гипотез приоритизированы через ICE с прозрачным обоснованием confidence по каждой',
-      next: 'по результатам юзабилити-тестирования на 12 участниках 11 из 12 первым кликом попали на рекомендуемую тренировку — прямое подтверждение гипотезы с самым высоким ICE. Средний SEQ по трём сценариям — 6.2 из 7',
+      next: 'Методология: юзабилити-тест кликабельного прототипа на 12 участниках. Задача — без подсказок найти и начать сегодняшнюю тренировку с главного экрана, где одновременно показаны рекомендуемая тренировка, каталог с фильтрами и программы.\n\nFirst-Click Rate: 11 из 12 участников (92%) первым кликом попали на блок рекомендуемой тренировки, а не ушли в каталог или программы. Это прямая проверка гипотезы с наивысшим приоритетом по ICE — предположения, что один явный рекомендуемый вариант снижает паралич выбора лучше, чем каталог. Результат подтверждает: участники не листают варианты в поисках подходящего, а сразу считывают рекомендацию как основной путь действия.\n\nSEQ (Single Ease Question): после каждого из трёх сценариев участников просили оценить лёгкость выполнения задачи по шкале 1-7. Средний балл — 6.2 из 7, что соответствует высокой субъективной простоте использования по всем трём флоу — первый запуск, повторный визит и возврат после пропуска.',
     };
 
     return { t, project, problemText, hypothesisText, summaryText, processSteps, competitorsText, interviewsMethod, interviewsFindings, jtbd, flows, screens, results };
