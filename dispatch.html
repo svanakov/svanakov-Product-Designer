@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <style>
+    body { margin: 0; -webkit-tap-highlight-color: transparent; }
+    * { -webkit-tap-highlight-color: transparent; }
+    ::selection { background: oklch(0.58 0.19 264 / 0.25); }
+    html { scroll-behavior: smooth; }
+    .sec { scroll-margin-top: 40px; }
+    .jtbd-card { padding: 24px 0; border-top: 1px solid rgb(230, 230, 228); }
+    .jtbd-stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 16px; }
+    .ia-row { display: grid; grid-template-columns: 1fr 3fr; gap: 24px; padding: 16px 0; border-top: 1px solid rgb(230, 230, 228); align-items: start; }
+    .placeholder-box { border: 1px dashed rgb(210, 210, 208); border-radius: 16px; padding: 28px; }
+    .zoom-wrap { display: block; overflow: hidden; cursor: zoom-in; }
+    .zoom-img { transition: transform 400ms ease; display: block; }
+    .zoom-wrap:hover .zoom-img { transform: scale(1.04); }
+    @media (max-width: 720px) {
+      .case-title { font-size: 24px !important; }
+      .sec h2 { font-size: 26px !important; }
+      .jtbd-stat-row { grid-template-columns: 1fr !important; gap: 8px !important; }
+      .ia-row { grid-template-columns: 1fr !important; gap: 4px !important; }
+      article { padding: 48px 20px 80px !important; }
+    }
+  </style>
+</helmet>
+
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Helvetica, Arial, sans-serif; background: #FFFFFF; color: rgb(12, 12, 12); min-height: 100vh;">
+
+  <div style="position: sticky; top: 0; z-index: 10; background: #FFFFFF;">
+    <nav style="max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 18.5px 20px; border-bottom: 1px solid rgb(230, 230, 228);">
+      <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: rgb(12, 12, 12); font-size: 17px; font-weight: 500; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
+        <span aria-hidden="true">←</span> {{ t.home }}
+      </a>
+      <div style="display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600;">
+        <button data-lang="ru" style="background: none; border: none; padding: 2px 4px; cursor: pointer; color: {{ t.ruColor }};">RU</button>
+        <span style="color: rgb(200,200,200);">/</span>
+        <button data-lang="en" style="background: none; border: none; padding: 2px 4px; cursor: pointer; color: {{ t.enColor }};">EN</button>
+      </div>
+    </nav>
+  </div>
+
+  <article style="max-width: 800px; margin: 0 auto; padding: 64px 32px 120px; display: flex; flex-direction: column; gap: 96px;" class="art">
+
+    <div>
+      <header style="margin-bottom: 48px;">
+        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 12px;">{{ project.title }}</h1>
+        <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 20px;">{{ project.role }}</p>
+        <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ {{ t.openFigma }}</a>
+      </header>
+
+      <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
+        <img class="zoom-img" src="./uploads/dispatch-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+      </div>
+    </div>
+
+    <section class="sec" id="sec-hook">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.hookHeading }}</h2>
+      <p style="font-size: 20px; font-weight: 500; line-height: 1.4; color: rgb(12, 12, 12); margin: 0;">{{ hookText }}</p>
+    </section>
+
+    <section class="sec" id="sec-context">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.contextHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ contextText }}</p>
+    </section>
+
+    <section class="sec" id="sec-problem">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.problemHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0; white-space: pre-line;">{{ problemText }}</p>
+    </section>
+
+    <section class="sec" id="sec-process">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 40px;">{{ t.processHeading }}</h2>
+
+      <div style="margin-bottom: 48px;">
+        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.asIsHeading }}</h3>
+        <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0; white-space: pre-line;">{{ asIsText }}</p>
+      </div>
+
+      <div style="margin-bottom: 48px;">
+        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.deskResearchHeading }}</h3>
+        <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px;">
+          <sc-for list="{{ deskFindings }}" as="find" hint-placeholder-count="4">
+            <p style="font-size: 17px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 0;">{{ find.text }}</p>
+          </sc-for>
+        </div>
+        <p style="font-size: 17px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.conclusionLabel }}</b> {{ deskConclusionText }}</p>
+      </div>
+
+      <div style="margin-bottom: 48px;">
+        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 12px;">{{ t.jtbdHeading }}</h3>
+        <p style="font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); margin: 0 0 24px;">{{ t.jtbdIntro }}</p>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 32px;">
+          <sc-for list="{{ dispatcherTasks }}" as="task" hint-placeholder-count="7">
+            <div style="display: flex; align-items: baseline; gap: 12px;">
+              <span style="font-size: 15px; color: rgb(127, 127, 127); flex-shrink: 0;">{{ task.num }}</span>
+              <span style="font-size: 16px; color: rgb(66, 67, 61);"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ task.name }}.</b> {{ task.desc }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div>
+          <sc-for list="{{ jtbd }}" as="j" hint-placeholder-count="7">
+            <div class="jtbd-card">
+              <p style="font-size: 17px; font-weight: 500; line-height: 1.45; color: rgb(12, 12, 12); margin: 0;">{{ j.need }}</p>
+              <div class="jtbd-stat-row">
+                <div>
+                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.importanceLabel }} — {{ j.importanceLevel }}</span>
+                  <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.importanceNote }}</span>
+                </div>
+                <div>
+                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.confidenceLabel }} — {{ j.confidenceLevel }}</span>
+                  <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.confidenceNote }}</span>
+                </div>
+                <div>
+                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.complexityLabel }} — {{ j.complexityLevel }}</span>
+                  <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.complexityNote }}</span>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 48px;">
+        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.iaHeading }}</h3>
+        <div>
+          <sc-for list="{{ entities }}" as="ent" hint-placeholder-count="5">
+            <div class="ia-row">
+              <span style="font-size: 16px; font-weight: 600; color: rgb(12, 12, 12);">{{ ent.name }}</span>
+              <span style="font-size: 15px; line-height: 1.5; color: rgb(66, 67, 61);">{{ ent.fields }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 20px 0 0;">{{ priorityCalcText }}</p>
+      </div>
+
+      <div style="margin-bottom: 48px;">
+        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.designSystemHeading }}</h3>
+        <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 0;">{{ designSystemText }}</p>
+      </div>
+
+      <div>
+        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.architectureHeading }}</h3>
+        <div class="zoom-wrap" style="border-radius: 16px; border: 1px solid rgb(230, 230, 228);">
+          <img class="zoom-img" src="./uploads/dispatch-architecture.webp" alt="{{ t.architectureHeading }}" style="width: 100%; height: auto; display: block;">
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="sec-solution">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">{{ t.solutionHeading }}</h2>
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <sc-for list="{{ solutionBlocks }}" as="block" hint-placeholder-count="2">
+          <div>
+            <h3 style="font-size: 22px; font-weight: 500; line-height: 1.3; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 12px;">{{ block.title }}</h3>
+            <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0;">{{ block.text }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section class="sec" id="sec-result">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.resultHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0;">{{ resultText }}</p>
+    </section>
+
+    <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid rgb(230, 230, 228);">
+      <a href="rytmo.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: rgb(12, 12, 12); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
+        {{ t.viewRytmo }} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+  </article>
+</div>
+
+<div id="lightbox" style="display: none; position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, 0.75); align-items: center; justify-content: center; padding: 48px;">
+  <button id="lightbox-close" aria-label="Закрыть" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; border-radius: 50%; width: 40px; height: 40px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L18 18M18 4L4 18" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <img id="lightbox-img" src="" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;">
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const lang = localStorage.getItem('lang') || 'ru';
+    const isEn = lang === 'en';
+    const t = isEn ? {
+      home: 'Home', openFigma: 'Open file in Figma',
+      hookHeading: 'Hook',
+      contextHeading: 'Context', problemHeading: 'Problem',
+      processHeading: 'Process',
+      asIsHeading: 'How it works today, without a tool',
+      deskResearchHeading: 'Desk research', conclusionLabel: 'Conclusion:',
+      jtbdHeading: 'JTBD & priorities', jtbdIntro: 'Seven jobs the dispatcher needs done, distilled from the process above:',
+      importanceLabel: 'Importance', confidenceLabel: 'Confidence', complexityLabel: 'Complexity',
+      iaHeading: 'IA & data model',
+      designSystemHeading: 'Design system',
+      architectureHeading: 'Architecture decisions',
+      solutionHeading: 'Solution',
+      resultHeading: 'Result',
+      viewRytmo: 'View Rytmo',
+      ruColor: 'oklch(0.7 0.004 80)', enColor: 'rgb(12,12,12)',
+    } : {
+      home: 'На главную', openFigma: 'Открыть файл в Figma',
+      hookHeading: 'Хук',
+      contextHeading: 'Контекст', problemHeading: 'Проблема',
+      processHeading: 'Процесс',
+      asIsHeading: 'Как это устроено сейчас, без инструмента',
+      deskResearchHeading: 'Деск-ресерч', conclusionLabel: 'Вывод:',
+      jtbdHeading: 'JTBD и приоритеты', jtbdIntro: 'Семь задач диспетчера, выделенные из разбора процесса выше:',
+      importanceLabel: 'Важность', confidenceLabel: 'Уверенность', complexityLabel: 'Сложность',
+      iaHeading: 'IA и модель данных',
+      designSystemHeading: 'Дизайн-система',
+      architectureHeading: 'Архитектурные решения',
+      solutionHeading: 'Решение',
+      resultHeading: 'Результат',
+      viewRytmo: 'Смотреть Rytmo',
+      ruColor: 'rgb(12,12,12)', enColor: 'oklch(0.7 0.004 80)',
+    };
+
+    const project = isEn ? {
+      title: 'Dispatcher Console for a Courier Company',
+      role: 'Personal project',
+      figmaLink: 'https://www.figma.com/design/oFljSQK8Nwayyfj0TnkMIj/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B6?node-id=0-1&t=DRU2yTAn8oQ7HMc6-1',
+    } : {
+      title: 'Диспетчерская консоль курьерской компании',
+      role: 'Личный проект',
+      figmaLink: 'https://www.figma.com/design/oFljSQK8Nwayyfj0TnkMIj/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B6?node-id=0-1&t=DRU2yTAn8oQ7HMc6-1',
+    };
+
+    const contextText = isEn
+      ? 'A B2B courier delivery service. The service grew from a few dozen to 100+ orders a day — typical for a growing logistics platform. At the old volume, the dispatcher held the whole order list in their head and handled it manually. At 100+, that way of working stops being physically possible.'
+      : 'B2B-сервис курьерской доставки. Сервис вырос с нескольких десятков до 100+ заказов в день, что типично для растущих логистических платформ. При прежнем объёме диспетчер удерживал весь список заказов в голове и справлялся вручную. При росте до 100+ такой способ работы перестаёт справляться физически.';
+
+    const problemText = isEn
+      ? "Manual tracking doesn't work at 100+ orders a day. Without automatic SLA risk scoring, a missed delivery only becomes visible after the fact, when it's already too late to fix.\n\nOne failure cascades into dozens of missed deliveries. A vehicle breakdown on a route with 35 stops can wreck 15–22 deliveries at once — these numbers illustrate the scale of the problem, not a measured figure from a specific service.\n\nWhen several problems happen at once, the dispatcher has no way to compare them — so the order gets decided by personal judgment alone, without a structured way to prioritize."
+      : 'Ручное отслеживание при 100+ заказах в день не работает. Без автоматической оценки риска по SLA срыв становится заметен только постфактум, когда исправлять уже поздно.\n\nОдин сбой каскадом превращается в десятки сорванных доставок. Поломка машины на маршруте с 35 точками способна обрушить 15-22 доставки разом — эти цифры иллюстрируют масштаб проблемы, а не измеренный показатель конкретного сервиса.\n\nКогда проблем несколько одновременно, диспетчеру нечем сравнить их между собой, поэтому очерёдность решает только личный опыт, без структурированного способа расставить приоритеты.';
+
+    const asIsText = isEn
+      ? "Right now, without a dedicated tool, the whole order list usually lives in a Google Sheet or Excel file, with nothing in it that flags a problem in advance.\n\nThe dispatcher scrolls through this sheet top to bottom from time to time, just to get a sense of what's going on.\n\nTo find one courier's orders or orders from one zone, they have to manually sort the sheet or search with Ctrl+F.\n\nTo assign an order, the dispatcher calls or messages the courier, reads out the address, then manually types their name into the right cell.\n\nIf a courier's vehicle breaks down on a 15-order route, the dispatcher calls available couriers one by one, asks who can take on more orders, and manually edits a cell after every call. That's fifteen calls and fifteen edits in a row.\n\nA new order usually arrives by email or messenger from the client, and the dispatcher manually copies the address, cargo, and delivery window into a new row.\n\nThe dispatcher usually finds out about a problem on a route only when the courier calls to say they broke down, are running late, or can't reach the address — sometimes after the delivery window has already passed.\n\nWhen there are several problems at once, the dispatcher usually deals with whoever called first or is pushing hardest. What actually matters most for the business isn't counted at that moment.\n\nThe real payoff of a tool is visible right here, no theory needed: fifteen calls and fifteen sheet edits turn into one bulk action, and route risk shows up in the list before the courier even calls."
+      : 'Сейчас, без отдельного инструмента, весь список заказов обычно живёт в гугл-таблице или экселе, нет ничего, что подскажет проблему заранее.\n\nДиспетчер время от времени пролистывает эту таблицу сверху вниз, просто чтобы понять, что происходит.\n\nЧтобы найти заказы одного курьера или из одной зоны, приходится вручную сортировать таблицу или искать через Ctrl+F.\n\nКогда нужно назначить заказ, диспетчер звонит курьеру или пишет в личку, называет адрес, потом вручную вписывает его имя в нужную ячейку.\n\nЕсли на маршруте с 15 заказами у курьера сломалась машина, диспетчер обзванивает доступных курьеров одного за другим, спрашивает, кто может взять ещё заказы, и после каждого звонка вручную меняет ячейку в таблице. Это пятнадцать звонков и пятнадцать правок подряд.\n\nНовый заказ обычно приходит по почте или в мессенджере от клиента, и диспетчер сам переносит адрес, груз и окно доставки в новую строку таблицы.\n\nПро проблему на маршруте диспетчер чаще всего узнаёт только тогда, когда курьер сам позвонит и скажет, что сломался, опаздывает или не может проехать. Иногда это уже после того, как окно доставки прошло.\n\nЕсли проблем сразу несколько, диспетчер обычно берётся за того, кто позвонил раньше или настаивает громче. Что реально важнее для бизнеса, в этот момент никто не считает.\n\nНастоящий выигрыш инструмента виден отсюда без всякой теории: пятнадцать звонков и пятнадцать правок таблицы превращаются в одно массовое действие, а риск на маршруте виден в списке ещё до того, как курьер сам позвонит.';
+
+    const deskFindings = isEn ? [
+      { text: 'The dispatcher can already see delay risk at the big players. Yandex Routing shows, for every order, whether it might not make it, and for every courier, whether they\'re keeping up with their queue or not. There\'s no point building that forecast from scratch.' },
+      { text: 'Bulk actions on orders have long existed everywhere too. In Alvys you select several orders at once and assign, reassign, or change priority in one action instead of an hour of manual work. Dispatch Science has the same thing built right into the dispatcher screen, with filters by status, order type, and region.' },
+      { text: "Nobody has really solved the priority problem, though. Bringg itself admits teams don't know what to fix first, and decide by tickets or by gut feel. Yandex Routing shows risk per order, but says nothing about what to do when several risky orders happen at once. The same gap, at two different companies." },
+      { text: "OptimoRoute separately sells bulk order upload via Excel, specifically so dispatchers don't waste time on manual entry." },
+    ] : [
+      { text: 'Диспетчер уже видит риск опоздания у крупных игроков. В Яндекс Маршрутизации по каждому заказу показано, есть ли шанс не успеть, а по каждому курьеру видно, тянет он свою очередь заказов вовремя или нет. Специально делать такой прогноз незачем.' },
+      { text: 'Массовые действия с заказами тоже давно есть у всех. У Alvys выбираешь несколько заказов сразу и одним действием назначаешь курьера, переназначаешь или меняешь приоритет, вместо часа ручной возни. У Dispatch Science то же самое встроено прямо в экран диспетчера, с фильтрами по статусу, типу заказа и региону.' },
+      { text: 'А вот с приоритетом среди проблем никто толком не разобрался. Bringg сам признаёт: команды не понимают, что чинить первым, и решают по тикетам или на глаз. У Яндекс Маршрутизации риск виден по каждому заказу отдельно, но что делать, когда рискованных заказов сразу несколько, никак не показано. Одна и та же дыра у двух разных компаний.' },
+      { text: 'OptimoRoute отдельно продаёт массовую загрузку заказов через Excel, чтобы диспетчеры не тратили время на ручной ввод.' },
+    ];
+
+    const deskConclusionText = isEn
+      ? 'SLA risk scoring and bulk actions can be taken ready-made, like everyone else does. Prioritizing among several problems, though, has to be figured out from scratch — existing tools don\'t solve that either.'
+      : 'Риск по SLA и массовые действия можно взять готовыми, как у всех. А приоритет среди нескольких проблем придётся продумывать самому, потому что в существующих инструментах этого тоже нет.';
+
+    const dispatcherTasks = isEn ? [
+      { num: '01', name: 'Monitoring', desc: 'See all active orders and SLA risk' },
+      { num: '02', name: 'Filtering', desc: 'Narrow down by zone, status, courier' },
+      { num: '03', name: 'Assignment', desc: 'Assign an order to a courier, one at a time or in bulk' },
+      { num: '04', name: 'Reassignment on failure', desc: 'Quickly shift a group of orders' },
+      { num: '05', name: 'Order creation', desc: 'Enter a new delivery' },
+      { num: '06', name: 'Exception handling', desc: 'See the problem, understand the cause, pick an action' },
+      { num: '07', name: 'Prioritization', desc: 'Decide what to fix first when there are several problems' },
+    ] : [
+      { num: '01', name: 'Мониторинг', desc: 'Видеть все активные заказы и риск по SLA' },
+      { num: '02', name: 'Фильтрация', desc: 'Сузить по зоне, статусу, курьеру' },
+      { num: '03', name: 'Назначение', desc: 'Присвоить заказ курьеру, одиночно и массово' },
+      { num: '04', name: 'Переназначение при сбое', desc: 'Быстро перекинуть группу заказов' },
+      { num: '05', name: 'Создание заявки', desc: 'Ввести новую доставку' },
+      { num: '06', name: 'Обработка исключения', desc: 'Увидеть проблему, понять причину, выбрать действие' },
+      { num: '07', name: 'Приоритизация', desc: 'При нескольких проблемах решить, что чинить первым' },
+    ];
+
+    const jtbd = isEn ? [
+      { need: "When there are more than a hundred orders in a shift, the dispatcher needs to see right away which ones might not make it — not wait for the client to call and complain.", importanceLevel: 'High', importanceNote: "Without this, the problem is only noticed after it has already happened.", confidenceLevel: 'Medium', confidenceNote: 'Yandex Routing already does this, so it\'s not just a guess — it\'s a working pattern.', complexityLevel: 'Low', complexityNote: 'Just a badge over the existing table.' },
+      { need: 'When only part of the orders need attention, the dispatcher wants to filter the list by zone, status, or courier instead of scrolling through all hundred rows.', importanceLevel: 'Medium', importanceNote: "Without filters the dispatcher still manages, just slower.", confidenceLevel: 'Medium', confidenceNote: 'Same thing seen in Dispatch Science.', complexityLevel: 'Low', complexityNote: 'Standard filters above the table.' },
+      { need: 'When a new order arrives or a courier frees up, the dispatcher needs to assign the order in one action, not call and type it into the sheet by hand.', importanceLevel: 'High', importanceNote: "This is the core process — without it, everything stalls.", confidenceLevel: 'Medium', confidenceNote: 'The exact same pattern at Alvys and Dispatch Science.', complexityLevel: 'Low', complexityNote: 'Checkboxes plus a button in the panel.' },
+      { need: "When a courier's route breaks down, the dispatcher needs to redistribute their whole group of orders to other couriers in one action, not call each one individually.", importanceLevel: 'High', importanceNote: 'This is exactly what saves 15–22 deliveries from being dragged down by one failure.', confidenceLevel: 'Medium', confidenceNote: "Same mechanic as bulk assignment at Alvys and Dispatch Science — they just don't describe the route-failure scenario specifically.", complexityLevel: 'Low', complexityNote: 'The same multi-select as regular assignment.' },
+      { need: "When a client sends an order, the dispatcher needs to quickly enter the address, cargo, and delivery time, instead of manually copying it all into the sheet.", importanceLevel: 'Medium', importanceNote: "This is about speed, not about risking already-running deliveries.", confidenceLevel: 'Medium', confidenceNote: 'OptimoRoute sells a separate paid bulk import specifically because of this friction point.', complexityLevel: 'Medium', complexityNote: 'Needs a separate screen with live field validation.' },
+      { need: "When something's wrong with an order, the dispatcher needs to see the cause right away, not find out over the phone.", importanceLevel: 'High', importanceNote: 'Directly saves time spent sorting things out.', confidenceLevel: 'Medium', confidenceNote: 'Bringg itself admits teams usually don\'t have a way to do this.', complexityLevel: 'Medium', complexityNote: 'Needs a tooltip with the cause, linked to order data.' },
+      { need: 'When several orders are in trouble at once, the dispatcher needs to know what to fix first, not decide by gut feel or by who called loudest.', importanceLevel: 'High', importanceNote: 'This is the exact gap found in the desk research.', confidenceLevel: 'Medium', confidenceNote: 'Both Bringg and Yandex Routing equally fail to solve this — two independent sources pointing at the same hole.', complexityLevel: 'High', complexityNote: "No ready-made pattern exists — the priority formula has to be invented from scratch." },
+    ] : [
+      { need: 'Когда заказов больше сотни за смену, диспетчеру нужно сразу видеть, какие могут не успеть, а не ждать пока клиент сам позвонит и пожалуется.', importanceLevel: 'Высокая', importanceNote: 'Без этого проблему замечают только когда она уже случилась.', confidenceLevel: 'Средняя', confidenceNote: 'То же самое умеет Яндекс Маршрутизация, значит это не моя догадка, а рабочий паттерн.', complexityLevel: 'Низкая', complexityNote: 'Просто бейдж поверх уже существующей таблицы.' },
+      { need: 'Когда нужно разобраться только с частью заказов, диспетчеру хочется отфильтровать список по зоне, статусу или курьеру, а не листать все сто строк подряд.', importanceLevel: 'Средняя', importanceNote: 'Без фильтров диспетчер справится, просто медленнее.', confidenceLevel: 'Средняя', confidenceNote: 'То же самое видно у Dispatch Science.', complexityLevel: 'Низкая', complexityNote: 'Обычные фильтры над таблицей.' },
+      { need: 'Когда приходит новый заказ или курьер освобождается, диспетчеру нужно назначить заказ одним действием, а не звонить и вписывать вручную в таблицу.', importanceLevel: 'Высокая', importanceNote: 'Это основной процесс, без него всё стоит.', confidenceLevel: 'Средняя', confidenceNote: 'У Alvys и Dispatch Science ровно такой же паттерн.', complexityLevel: 'Низкая', complexityNote: 'Чекбоксы плюс кнопка в панели.' },
+      { need: 'Когда у курьера ломается маршрут, диспетчеру нужно одним действием раскидать всю его группу заказов на других курьеров, а не обзванивать каждого по отдельности.', importanceLevel: 'Высокая', importanceNote: 'Именно это спасает от того, что один сбой утащит за собой 15-22 доставки.', confidenceLevel: 'Средняя', confidenceNote: 'Механика та же, что в массовом назначении у Alvys и Dispatch Science, просто конкретно сценарий со сбоем маршрута они отдельно не описывают.', complexityLevel: 'Низкая', complexityNote: 'Тот же мультивыбор, что и в обычном назначении.' },
+      { need: 'Когда клиент присылает заказ, диспетчеру нужно быстро занести адрес, груз и время доставки, чтобы не переносить всё руками в таблицу.', importanceLevel: 'Средняя', importanceNote: 'Это про скорость, а не про риск сорвать уже идущие доставки.', confidenceLevel: 'Средняя', confidenceNote: 'У OptimoRoute есть отдельный платный массовый импорт именно из-за этой точки трения.', complexityLevel: 'Средняя', complexityNote: 'Нужен отдельный экран с проверкой полей на ходу.' },
+      { need: 'Когда с заказом что-то не так, диспетчеру нужно сразу увидеть причину, а не выяснять её по телефону.', importanceLevel: 'Высокая', importanceNote: 'Напрямую экономит время на разборе.', confidenceLevel: 'Средняя', confidenceNote: 'Bringg сам признаёт, что такого способа у команд обычно нет.', complexityLevel: 'Средняя', complexityNote: 'Нужен тултип с причиной и связка с данными заказа.' },
+      { need: 'Когда сразу несколько заказов в беде, диспетчеру нужно понять, что чинить первым, а не решать на глаз или по тому, кто позвонил громче.', importanceLevel: 'Высокая', importanceNote: 'Это тот самый разрыв, который нашёлся в дескрисёрче.', confidenceLevel: 'Средняя', confidenceNote: 'И Bringg, и Яндекс Маршрутизация одинаково не решили эту задачу, два независимых источника на одну и ту же дыру.', complexityLevel: 'Высокая', complexityNote: 'Готового паттерна нет, формулу приоритета придётся выдумывать самому.' },
+    ];
+
+    const entities = isEn ? [
+      { name: 'Order', fields: 'id, client, recipient name, recipient phone, address, zone, cargo, delivery window, status, assigned courier, route' },
+      { name: 'Courier', fields: 'id, name, status (en route, free, unavailable), capacity, current route' },
+      { name: 'Route', fields: 'id, courier, ordered list of orders, failure point' },
+      { name: 'Client', fields: 'id, name, priority level (VIP, regular, one-off)' },
+      { name: 'Exception', fields: 'id, order, cause type (breakdown, delay, address unreachable), time detected, resolution status' },
+    ] : [
+      { name: 'Заказ', fields: 'id, клиент, имя получателя, телефон получателя, адрес, зона, груз, окно доставки, статус, назначенный курьер, маршрут' },
+      { name: 'Курьер', fields: 'id, имя, статус (в пути, свободен, недоступен), вместимость, текущий маршрут' },
+      { name: 'Маршрут', fields: 'id, курьер, список заказов по порядку, точка сбоя' },
+      { name: 'Клиент', fields: 'id, имя, уровень приоритета (VIP, обычный, разовый)' },
+      { name: 'Исключение', fields: 'id, заказ, тип причины (поломка, задержка, недоступность адреса), время обнаружения, статус решения' },
+    ];
+
+    const priorityCalcText = isEn
+      ? "Exception priority isn't stored as a separate field — it's calculated on the fly: time left until the delivery window ends, plus one step up if the client is VIP. On the badge tooltip it reads like this: \"38 minutes to delivery window, VIP client, bumped up one level.\""
+      : 'Приоритет исключения не хранится отдельным полем, а считается на лету: время до конца окна доставки, плюс одна ступень вверх, если у заказа клиент уровня VIP. В тултипе на бейдже это будет выглядеть так: «38 минут до окна доставки, клиент VIP, поднято на ступень выше».';
+
+    const designSystemText = isEn
+      ? 'Component set is defined: color palette, three text sizes, base components.'
+      : 'Состав дизайн-системы определён: палитра, три размера текста, компоненты.';
+
+    const hookText = isEn
+      ? 'Reassigning a group of orders after a failure sped up from 45 actions to 6.'
+      : 'Переназначение группы заказов при сбое ускорилось с 45 действий до 6.';
+
+    const solutionBlocks = isEn ? [
+      { title: 'Reassigning 15 orders in 6 actions instead of 45', text: "Previously, if a courier's vehicle broke down mid-route, the dispatcher manually opened each of the 15 order cards, picked a new courier, and confirmed — 15 times in a row, 45 actions total. Now the dispatcher selects all 15 orders with checkboxes, clicks \"reassign\" in the pinned panel, picks a courier, and confirms once. 6 actions instead of 45. This exact scenario is what protects against the core risk from the Problem section: a failure on a 35-stop route no longer turns into 15–22 missed deliveries one by one while the dispatcher calls couriers by hand." },
+      { title: 'Prioritizing among problems without a second source of truth', text: "Previously, when several orders ran into trouble at once, the dispatcher decided by gut feel or by whoever called loudest, because none of the services reviewed in the desk research had a ready way to compare problems against each other. Now one click on the \"Exceptions\" filter shows only the problem orders, already sorted by what to fix first: primarily by time left until the delivery window closes, bumped up one level if the client is VIP. It's the same order list, not a separate screen, so the data never diverges." },
+    ] : [
+      { title: 'Переназначение 15 заказов вместо 45 действий, теперь 6', text: 'Раньше, если у курьера на маршруте ломалась машина, диспетчер вручную открывал карточку каждого из 15 заказов, выбирал нового курьера и подтверждал, и так 15 раз подряд, итого 45 действий. Теперь диспетчер выделяет все 15 заказов галочками, нажимает «переназначить» в закреплённой панели, выбирает курьера и подтверждает один раз. Итого 6 действий вместо 45. Именно этот сценарий защищает от главного риска из проблемы: один сбой на маршруте с 35 точками больше не превращается в 15-22 сорванные доставки одну за другой, пока диспетчер обзванивает курьеров вручную.' },
+      { title: 'Приоритет среди проблем без второго источника правды', text: 'Раньше, если несколько заказов оказывались в беде одновременно, диспетчер решал на глаз или по тому, кто позвонил громче, потому что готового способа сравнить проблемы между собой не было ни у одного из разобранных сервисов. Теперь один клик по фильтру «Исключения» показывает только проблемные заказы, уже отсортированные по тому, что чинить первым: сначала по тому, сколько времени осталось до конца окна доставки, и на ступень выше, если клиент уровня VIP. Это тот же список заказов, а не отдельный экран, поэтому данные никогда не расходятся между собой.' },
+    ];
+
+    const resultText = isEn
+      ? 'Reassignment on failure was confirmed on the finished mockup: 6 clicks instead of 45. All seven of the dispatcher\'s jobs, from risk monitoring to prioritizing several problems at once.'
+      : 'Переназначение при сбое подтверждено на готовом макете: 6 кликов вместо 45. Все семь задач диспетчера, от мониторинга риска до приоритизации нескольких проблем сразу.';
+
+    return { t, project, contextText, problemText, asIsText, deskFindings, deskConclusionText, dispatcherTasks, jtbd, entities, priorityCalcText, designSystemText, hookText, solutionBlocks, resultText };
+  }
+}
+</script>
+<script type="module">
+  const isTouchDevice = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!isTouchDevice) {
+    const clickSound = new Audio('./sounds/liecio-menu_beep_short_snap-533778.mp3');
+    clickSound.volume = 0.15;
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      clickSound.currentTime = 0;
+      clickSound.play().catch(() => {});
+
+      const href = link.getAttribute('href');
+      const isSamePageJump = !href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http');
+      if (!isSamePageJump && link.target !== '_blank') {
+        e.preventDefault();
+        setTimeout(() => { window.location.href = href; }, 150);
+      }
+    });
+  }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'none';
+    document.getElementById('lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', (e) => {
+    const zoomImg = e.target.closest('.zoom-img');
+    if (zoomImg) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = zoomImg.src;
+      lightboxImg.alt = zoomImg.alt;
+      lightbox.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox.style.display !== 'none') {
+      const closeBtn = document.getElementById('lightbox-close');
+      if (e.target === lightbox || (closeBtn && closeBtn.contains(e.target))) {
+        closeLightbox();
+      }
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  document.addEventListener('click', (e) => {
+    const langBtn = e.target.closest('[data-lang]');
+    if (!langBtn) return;
+    localStorage.setItem('lang', langBtn.dataset.lang);
+    location.reload();
+  });
+</script>
+</body>
+</html>
