@@ -61,11 +61,6 @@
       </div>
     </div>
 
-    <section class="sec" id="sec-hook">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.hookHeading }}</h2>
-      <p style="font-size: 20px; font-weight: 500; line-height: 1.4; color: rgb(12, 12, 12); margin: 0;">{{ hookText }}</p>
-    </section>
-
     <section class="sec" id="sec-context">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.contextHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ contextText }}</p>
@@ -111,15 +106,15 @@
               <p style="font-size: 17px; font-weight: 500; line-height: 1.45; color: rgb(12, 12, 12); margin: 0;">{{ j.need }}</p>
               <div class="jtbd-stat-row">
                 <div>
-                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.importanceLabel }} — {{ j.importanceLevel }}</span>
+                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.importanceLabel }}: {{ j.importanceLevel }}</span>
                   <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.importanceNote }}</span>
                 </div>
                 <div>
-                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.confidenceLabel }} — {{ j.confidenceLevel }}</span>
+                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.confidenceLabel }}: {{ j.confidenceLevel }}</span>
                   <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.confidenceNote }}</span>
                 </div>
                 <div>
-                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.complexityLabel }} — {{ j.complexityLevel }}</span>
+                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.complexityLabel }}: {{ j.complexityLevel }}</span>
                   <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.complexityNote }}</span>
                 </div>
               </div>
@@ -172,8 +167,8 @@
     </section>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid rgb(230, 230, 228);">
-      <a href="vpnmini.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: rgb(12, 12, 12); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
-        {{ t.viewVpnmini }} <span aria-hidden="true">→</span>
+      <a href="rytmo.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: rgb(12, 12, 12); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
+        {{ t.viewRytmo }} <span aria-hidden="true">→</span>
       </a>
     </div>
 
@@ -195,7 +190,6 @@ class Component extends DCLogic {
     const isEn = lang === 'en';
     const t = isEn ? {
       home: 'Home', openFigma: 'Open file in Figma',
-      hookHeading: 'Hook',
       contextHeading: 'Context', problemHeading: 'Problem',
       processHeading: 'Process',
       asIsHeading: 'How it works today, without a tool',
@@ -207,11 +201,10 @@ class Component extends DCLogic {
       architectureHeading: 'Architecture decisions',
       solutionHeading: 'Solution',
       resultHeading: 'Result',
-      viewVpnmini: 'View VPN Mini App',
+      viewRytmo: 'View Rytmo',
       ruColor: 'oklch(0.7 0.004 80)', enColor: 'rgb(12,12,12)',
     } : {
       home: 'На главную', openFigma: 'Открыть файл в Figma',
-      hookHeading: 'Хук',
       contextHeading: 'Контекст', problemHeading: 'Проблема',
       processHeading: 'Процесс',
       asIsHeading: 'Как это устроено сейчас, без инструмента',
@@ -223,7 +216,7 @@ class Component extends DCLogic {
       architectureHeading: 'Архитектурные решения',
       solutionHeading: 'Решение',
       resultHeading: 'Результат',
-      viewVpnmini: 'Смотреть VPN Mini App',
+      viewRytmo: 'Смотреть Rytmo',
       ruColor: 'rgb(12,12,12)', enColor: 'oklch(0.7 0.004 80)',
     };
 
@@ -238,16 +231,16 @@ class Component extends DCLogic {
     };
 
     const contextText = isEn
-      ? 'A B2B courier delivery service. The service grew from a few dozen to 100+ orders a day — typical for a growing logistics platform. At the old volume, the dispatcher held the whole order list in their head and handled it manually. At 100+, that way of working stops being physically possible.'
-      : 'B2B-сервис курьерской доставки. Сервис вырос с нескольких десятков до 100+ заказов в день, что типично для растущих логистических платформ. При прежнем объёме диспетчер удерживал весь список заказов в голове и справлялся вручную. При росте до 100+ такой способ работы перестаёт справляться физически.';
+      ? 'A B2B courier delivery service. It grew from a few dozen to 100+ orders a day. Before, the dispatcher kept the whole order list in their head and handled it manually. At 100+ orders that is physically impossible.'
+      : 'B2B-сервис курьерской доставки. Он вырос с нескольких десятков до 100+ заказов в день. Раньше диспетчер держал весь список заказов в голове и справлялся вручную. При 100+ заказах так физически не справиться.';
 
     const problemText = isEn
-      ? "Manual tracking doesn't work at 100+ orders a day. Without automatic SLA risk scoring, a missed delivery only becomes visible after the fact, when it's already too late to fix.\n\nOne failure cascades into dozens of missed deliveries. A vehicle breakdown on a route with 35 stops can wreck 15–22 deliveries at once — these numbers illustrate the scale of the problem, not a measured figure from a specific service.\n\nWhen several problems happen at once, the dispatcher has no way to compare them — so the order gets decided by personal judgment alone, without a structured way to prioritize."
-      : 'Ручное отслеживание при 100+ заказах в день не работает. Без автоматической оценки риска по SLA срыв становится заметен только постфактум, когда исправлять уже поздно.\n\nОдин сбой каскадом превращается в десятки сорванных доставок. Поломка машины на маршруте с 35 точками способна обрушить 15-22 доставки разом — эти цифры иллюстрируют масштаб проблемы, а не измеренный показатель конкретного сервиса.\n\nКогда проблем несколько одновременно, диспетчеру нечем сравнить их между собой, поэтому очерёдность решает только личный опыт, без структурированного способа расставить приоритеты.';
+      ? "Manual tracking doesn't work at 100+ orders a day. Without automatic SLA risk scoring, a missed delivery is only noticed after the fact, when it's too late to fix.\n\nOne failure cascades into dozens of missed deliveries. A vehicle breakdown on a route with 35 stops can take down 15-22 deliveries at once. These numbers show the scale of the problem, but they were not measured on a specific service.\n\nWhen several problems happen at once, the dispatcher has nothing to compare them with, so personal experience alone decides the order. There is no structured way to set priorities."
+      : 'Ручное отслеживание при 100+ заказах в день не работает. Без автоматической оценки риска по SLA срыв замечают только постфактум, когда исправлять уже поздно.\n\nОдин сбой каскадом превращается в десятки сорванных доставок. Поломка машины на маршруте с 35 точками может сорвать сразу 15-22 доставки. Эти цифры показывают масштаб проблемы, но не измерены на конкретном сервисе.\n\nКогда проблем сразу несколько, диспетчеру нечем сравнить их между собой, и очерёдность решает только личный опыт. Структурированного способа расставить приоритеты нет.';
 
     const asIsText = isEn
-      ? "Right now, without a dedicated tool, the whole order list usually lives in a Google Sheet or Excel file, with nothing in it that flags a problem in advance.\n\nThe dispatcher scrolls through this sheet top to bottom from time to time, just to get a sense of what's going on.\n\nTo find one courier's orders or orders from one zone, they have to manually sort the sheet or search with Ctrl+F.\n\nTo assign an order, the dispatcher calls or messages the courier, reads out the address, then manually types their name into the right cell.\n\nIf a courier's vehicle breaks down on a 15-order route, the dispatcher calls available couriers one by one, asks who can take on more orders, and manually edits a cell after every call. That's fifteen calls and fifteen edits in a row.\n\nA new order usually arrives by email or messenger from the client, and the dispatcher manually copies the address, cargo, and delivery window into a new row.\n\nThe dispatcher usually finds out about a problem on a route only when the courier calls to say they broke down, are running late, or can't reach the address — sometimes after the delivery window has already passed.\n\nWhen there are several problems at once, the dispatcher usually deals with whoever called first or is pushing hardest. What actually matters most for the business isn't counted at that moment.\n\nThe real payoff of a tool is visible right here, no theory needed: fifteen calls and fifteen sheet edits turn into one bulk action, and route risk shows up in the list before the courier even calls."
-      : 'Сейчас, без отдельного инструмента, весь список заказов обычно живёт в гугл-таблице или экселе, нет ничего, что подскажет проблему заранее.\n\nДиспетчер время от времени пролистывает эту таблицу сверху вниз, просто чтобы понять, что происходит.\n\nЧтобы найти заказы одного курьера или из одной зоны, приходится вручную сортировать таблицу или искать через Ctrl+F.\n\nКогда нужно назначить заказ, диспетчер звонит курьеру или пишет в личку, называет адрес, потом вручную вписывает его имя в нужную ячейку.\n\nЕсли на маршруте с 15 заказами у курьера сломалась машина, диспетчер обзванивает доступных курьеров одного за другим, спрашивает, кто может взять ещё заказы, и после каждого звонка вручную меняет ячейку в таблице. Это пятнадцать звонков и пятнадцать правок подряд.\n\nНовый заказ обычно приходит по почте или в мессенджере от клиента, и диспетчер сам переносит адрес, груз и окно доставки в новую строку таблицы.\n\nПро проблему на маршруте диспетчер чаще всего узнаёт только тогда, когда курьер сам позвонит и скажет, что сломался, опаздывает или не может проехать. Иногда это уже после того, как окно доставки прошло.\n\nЕсли проблем сразу несколько, диспетчер обычно берётся за того, кто позвонил раньше или настаивает громче. Что реально важнее для бизнеса, в этот момент никто не считает.\n\nНастоящий выигрыш инструмента виден отсюда без всякой теории: пятнадцать звонков и пятнадцать правок таблицы превращаются в одно массовое действие, а риск на маршруте виден в списке ещё до того, как курьер сам позвонит.';
+      ? "Without a dedicated tool, the whole order list usually lives in a Google Sheet or Excel file, and nothing in it flags a problem in advance.\n\nThe dispatcher scrolls through this sheet top to bottom from time to time, just to get a sense of what's going on.\n\nTo find one courier's orders or orders from one zone, they have to manually sort the sheet or search with Ctrl+F.\n\nTo assign an order, the dispatcher calls or messages the courier, reads out the address, then manually types their name into the right cell.\n\nIf a courier's vehicle breaks down on a 15-order route, the dispatcher calls available couriers one by one, asks who can take on more orders, and manually edits a cell after every call. That's fifteen calls and fifteen edits in a row.\n\nA new order usually arrives by email or messenger from the client, and the dispatcher manually copies the address, cargo, and delivery window into a new row.\n\nThe dispatcher usually finds out about a problem on a route only when the courier calls to say they broke down, are running late, or can't reach the address. Sometimes that is after the delivery window has already passed.\n\nWhen there are several problems at once, the dispatcher usually deals with whoever called first or is pushing hardest. What actually matters most for the business isn't counted at that moment.\n\nThe payoff of a tool is already clear from this: fifteen calls and fifteen sheet edits turn into one bulk action, and route risk shows up in the list before the courier calls."
+      : 'Без отдельного инструмента весь список заказов обычно живёт в гугл-таблице или экселе, и ничто в нём не подскажет о проблеме заранее.\n\nДиспетчер время от времени пролистывает эту таблицу сверху вниз, просто чтобы понять, что происходит.\n\nЧтобы найти заказы одного курьера или из одной зоны, приходится вручную сортировать таблицу или искать через Ctrl+F.\n\nКогда нужно назначить заказ, диспетчер звонит курьеру или пишет в личку, называет адрес, потом вручную вписывает его имя в нужную ячейку.\n\nЕсли на маршруте с 15 заказами у курьера сломалась машина, диспетчер обзванивает доступных курьеров одного за другим, спрашивает, кто может взять ещё заказы, и после каждого звонка вручную меняет ячейку в таблице. Это пятнадцать звонков и пятнадцать правок подряд.\n\nНовый заказ обычно приходит по почте или в мессенджере от клиента, и диспетчер сам переносит адрес, груз и окно доставки в новую строку таблицы.\n\nПро проблему на маршруте диспетчер чаще всего узнаёт только тогда, когда курьер сам позвонит и скажет, что сломался, опаздывает или не может проехать. Иногда это уже после того, как окно доставки прошло.\n\nЕсли проблем сразу несколько, диспетчер обычно берётся за того, кто позвонил раньше или настаивает громче. Что реально важнее для бизнеса, в этот момент никто не считает.\n\nВыигрыш от инструмента понятен уже отсюда: пятнадцать звонков и пятнадцать правок таблицы превращаются в одно массовое действие, а риск на маршруте виден в списке до того, как курьер сам позвонит.';
 
     const deskFindings = isEn ? [
       { text: 'The dispatcher can already see delay risk at the big players. Yandex Routing shows, for every order, whether it might not make it, and for every courier, whether they\'re keeping up with their queue or not. There\'s no point building that forecast from scratch.' },
@@ -255,14 +248,14 @@ class Component extends DCLogic {
       { text: "Nobody has really solved the priority problem, though. Bringg itself admits teams don't know what to fix first, and decide by tickets or by gut feel. Yandex Routing shows risk per order, but says nothing about what to do when several risky orders happen at once. The same gap, at two different companies." },
       { text: "OptimoRoute separately sells bulk order upload via Excel, specifically so dispatchers don't waste time on manual entry." },
     ] : [
-      { text: 'Диспетчер уже видит риск опоздания у крупных игроков. В Яндекс Маршрутизации по каждому заказу показано, есть ли шанс не успеть, а по каждому курьеру видно, тянет он свою очередь заказов вовремя или нет. Специально делать такой прогноз незачем.' },
+      { text: 'У крупных игроков диспетчер уже видит риск опоздания. В Яндекс Маршрутизации по каждому заказу показано, есть ли шанс не успеть, а по каждому курьеру видно, тянет ли он свою очередь заказов вовремя. Придумывать такой прогноз самому незачем.' },
       { text: 'Массовые действия с заказами тоже давно есть у всех. У Alvys выбираешь несколько заказов сразу и одним действием назначаешь курьера, переназначаешь или меняешь приоритет, вместо часа ручной возни. У Dispatch Science то же самое встроено прямо в экран диспетчера, с фильтрами по статусу, типу заказа и региону.' },
       { text: 'А вот с приоритетом среди проблем никто толком не разобрался. Bringg сам признаёт: команды не понимают, что чинить первым, и решают по тикетам или на глаз. У Яндекс Маршрутизации риск виден по каждому заказу отдельно, но что делать, когда рискованных заказов сразу несколько, никак не показано. Одна и та же дыра у двух разных компаний.' },
       { text: 'OptimoRoute отдельно продаёт массовую загрузку заказов через Excel, чтобы диспетчеры не тратили время на ручной ввод.' },
     ];
 
     const deskConclusionText = isEn
-      ? 'SLA risk scoring and bulk actions can be taken ready-made, like everyone else does. Prioritizing among several problems, though, has to be figured out from scratch — existing tools don\'t solve that either.'
+      ? 'SLA risk scoring and bulk actions can be taken ready-made, like everyone else does. Prioritizing among several problems, though, has to be figured out from scratch, because existing tools don\'t solve that either.'
       : 'Риск по SLA и массовые действия можно взять готовыми, как у всех. А приоритет среди нескольких проблем придётся продумывать самому, потому что в существующих инструментах этого тоже нет.';
 
     const dispatcherTasks = isEn ? [
@@ -284,13 +277,13 @@ class Component extends DCLogic {
     ];
 
     const jtbd = isEn ? [
-      { need: "When there are more than a hundred orders in a shift, the dispatcher needs to see right away which ones might not make it — not wait for the client to call and complain.", importanceLevel: 'High', importanceNote: "Without this, the problem is only noticed after it has already happened.", confidenceLevel: 'Medium', confidenceNote: 'Yandex Routing already does this, so it\'s not just a guess — it\'s a working pattern.', complexityLevel: 'Low', complexityNote: 'Just a badge over the existing table.' },
+      { need: "When there are more than a hundred orders in a shift, the dispatcher needs to see right away which ones might not make it, not wait for the client to call and complain.", importanceLevel: 'High', importanceNote: "Without this, the problem is only noticed after it has already happened.", confidenceLevel: 'Medium', confidenceNote: 'Yandex Routing already does this, so it\'s not just a guess, it\'s a working pattern.', complexityLevel: 'Low', complexityNote: 'Just a badge over the existing table.' },
       { need: 'When only part of the orders need attention, the dispatcher wants to filter the list by zone, status, or courier instead of scrolling through all hundred rows.', importanceLevel: 'Medium', importanceNote: "Without filters the dispatcher still manages, just slower.", confidenceLevel: 'Medium', confidenceNote: 'Same thing seen in Dispatch Science.', complexityLevel: 'Low', complexityNote: 'Standard filters above the table.' },
-      { need: 'When a new order arrives or a courier frees up, the dispatcher needs to assign the order in one action, not call and type it into the sheet by hand.', importanceLevel: 'High', importanceNote: "This is the core process — without it, everything stalls.", confidenceLevel: 'Medium', confidenceNote: 'The exact same pattern at Alvys and Dispatch Science.', complexityLevel: 'Low', complexityNote: 'Checkboxes plus a button in the panel.' },
-      { need: "When a courier's route breaks down, the dispatcher needs to redistribute their whole group of orders to other couriers in one action, not call each one individually.", importanceLevel: 'High', importanceNote: 'This is exactly what saves 15–22 deliveries from being dragged down by one failure.', confidenceLevel: 'Medium', confidenceNote: "Same mechanic as bulk assignment at Alvys and Dispatch Science — they just don't describe the route-failure scenario specifically.", complexityLevel: 'Low', complexityNote: 'The same multi-select as regular assignment.' },
+      { need: 'When a new order arrives or a courier frees up, the dispatcher needs to assign the order in one action, not call and type it into the sheet by hand.', importanceLevel: 'High', importanceNote: "This is the core process, and without it everything stalls.", confidenceLevel: 'Medium', confidenceNote: 'The exact same pattern at Alvys and Dispatch Science.', complexityLevel: 'Low', complexityNote: 'Checkboxes plus a button in the panel.' },
+      { need: "When a courier's route breaks down, the dispatcher needs to redistribute their whole group of orders to other couriers in one action, not call each one individually.", importanceLevel: 'High', importanceNote: 'This is exactly what saves 15-22 deliveries from being dragged down by one failure.', confidenceLevel: 'Medium', confidenceNote: "Same mechanic as bulk assignment at Alvys and Dispatch Science. They just don't describe the route-failure scenario specifically.", complexityLevel: 'Low', complexityNote: 'The same multi-select as regular assignment.' },
       { need: "When a client sends an order, the dispatcher needs to quickly enter the address, cargo, and delivery time, instead of manually copying it all into the sheet.", importanceLevel: 'Medium', importanceNote: "This is about speed, not about risking already-running deliveries.", confidenceLevel: 'Medium', confidenceNote: 'OptimoRoute sells a separate paid bulk import specifically because of this friction point.', complexityLevel: 'Medium', complexityNote: 'Needs a separate screen with live field validation.' },
       { need: "When something's wrong with an order, the dispatcher needs to see the cause right away, not find out over the phone.", importanceLevel: 'High', importanceNote: 'Directly saves time spent sorting things out.', confidenceLevel: 'Medium', confidenceNote: 'Bringg itself admits teams usually don\'t have a way to do this.', complexityLevel: 'Medium', complexityNote: 'Needs a tooltip with the cause, linked to order data.' },
-      { need: 'When several orders are in trouble at once, the dispatcher needs to know what to fix first, not decide by gut feel or by who called loudest.', importanceLevel: 'High', importanceNote: 'This is the exact gap found in the desk research.', confidenceLevel: 'Medium', confidenceNote: 'Both Bringg and Yandex Routing equally fail to solve this — two independent sources pointing at the same hole.', complexityLevel: 'High', complexityNote: "No ready-made pattern exists — the priority formula has to be invented from scratch." },
+      { need: 'When several orders are in trouble at once, the dispatcher needs to know what to fix first, not decide by gut feel or by who called loudest.', importanceLevel: 'High', importanceNote: 'This is the exact gap found in the desk research.', confidenceLevel: 'Medium', confidenceNote: 'Both Bringg and Yandex Routing equally fail to solve this, two independent sources pointing at the same hole.', complexityLevel: 'High', complexityNote: "No ready-made pattern exists. The priority formula has to be invented from scratch." },
     ] : [
       { need: 'Когда заказов больше сотни за смену, диспетчеру нужно сразу видеть, какие могут не успеть, а не ждать пока клиент сам позвонит и пожалуется.', importanceLevel: 'Высокая', importanceNote: 'Без этого проблему замечают только когда она уже случилась.', confidenceLevel: 'Средняя', confidenceNote: 'То же самое умеет Яндекс Маршрутизация, значит это не моя догадка, а рабочий паттерн.', complexityLevel: 'Низкая', complexityNote: 'Просто бейдж поверх уже существующей таблицы.' },
       { need: 'Когда нужно разобраться только с частью заказов, диспетчеру хочется отфильтровать список по зоне, статусу или курьеру, а не листать все сто строк подряд.', importanceLevel: 'Средняя', importanceNote: 'Без фильтров диспетчер справится, просто медленнее.', confidenceLevel: 'Средняя', confidenceNote: 'То же самое видно у Dispatch Science.', complexityLevel: 'Низкая', complexityNote: 'Обычные фильтры над таблицей.' },
@@ -316,30 +309,26 @@ class Component extends DCLogic {
     ];
 
     const priorityCalcText = isEn
-      ? "Exception priority isn't stored as a separate field — it's calculated on the fly: time left until the delivery window ends, plus one step up if the client is VIP. On the badge tooltip it reads like this: \"38 minutes to delivery window, VIP client, bumped up one level.\""
+      ? "Exception priority isn't stored as a separate field. It's calculated on the fly: time left until the delivery window ends, plus one step up if the client is VIP. On the badge tooltip it reads like this: \"38 minutes to delivery window, VIP client, bumped up one level.\""
       : 'Приоритет исключения не хранится отдельным полем, а считается на лету: время до конца окна доставки, плюс одна ступень вверх, если у заказа клиент уровня VIP. В тултипе на бейдже это будет выглядеть так: «38 минут до окна доставки, клиент VIP, поднято на ступень выше».';
 
     const designSystemText = isEn
       ? 'Component set is defined: color palette, three text sizes, base components.'
       : 'Состав дизайн-системы определён: палитра, три размера текста, компоненты.';
 
-    const hookText = isEn
-      ? 'Reassigning a group of orders after a failure sped up from 45 actions to 6.'
-      : 'Переназначение группы заказов при сбое ускорилось с 45 действий до 6.';
-
     const solutionBlocks = isEn ? [
-      { title: 'Reassigning 15 orders in 6 actions instead of 45', text: "Previously, if a courier's vehicle broke down mid-route, the dispatcher manually opened each of the 15 order cards, picked a new courier, and confirmed — 15 times in a row, 45 actions total. Now the dispatcher selects all 15 orders with checkboxes, clicks \"reassign\" in the pinned panel, picks a courier, and confirms once. 6 actions instead of 45. This exact scenario is what protects against the core risk from the Problem section: a failure on a 35-stop route no longer turns into 15–22 missed deliveries one by one while the dispatcher calls couriers by hand." },
-      { title: 'Prioritizing among problems without a second source of truth', text: "Previously, when several orders ran into trouble at once, the dispatcher decided by gut feel or by whoever called loudest, because none of the services reviewed in the desk research had a ready way to compare problems against each other. Now one click on the \"Exceptions\" filter shows only the problem orders, already sorted by what to fix first: primarily by time left until the delivery window closes, bumped up one level if the client is VIP. It's the same order list, not a separate screen, so the data never diverges." },
+      { title: 'Bulk reassignment when a route breaks down', text: "Before, when a courier's vehicle broke down mid-route, the dispatcher opened each of the 15 order cards by hand, picked a new courier, and confirmed. That was 15 times in a row. Now the dispatcher ticks all 15 orders, clicks \"Reassign\" in the pinned panel, picks a courier, and confirms once. This closes the main risk from the Problem section: a failure on a 35-stop route no longer turns into 15-22 missed deliveries one by one while the dispatcher calls couriers by hand." },
+      { title: 'Prioritizing among problems without a second source of truth', text: "Before, when several orders ran into trouble at once, the dispatcher decided by gut feel or by whoever called loudest: none of the services reviewed in the desk research had a ready way to compare problems against each other. Now one click on the \"Exceptions\" filter shows only the problem orders, already sorted by priority: first by time left until the delivery window closes, with VIP clients bumped up one level. It's the same order list, not a separate screen, so the data does not diverge." },
     ] : [
-      { title: 'Переназначение 15 заказов вместо 45 действий, теперь 6', text: 'Раньше, если у курьера на маршруте ломалась машина, диспетчер вручную открывал карточку каждого из 15 заказов, выбирал нового курьера и подтверждал, и так 15 раз подряд, итого 45 действий. Теперь диспетчер выделяет все 15 заказов галочками, нажимает «переназначить» в закреплённой панели, выбирает курьера и подтверждает один раз. Итого 6 действий вместо 45. Именно этот сценарий защищает от главного риска из проблемы: один сбой на маршруте с 35 точками больше не превращается в 15-22 сорванные доставки одну за другой, пока диспетчер обзванивает курьеров вручную.' },
-      { title: 'Приоритет среди проблем без второго источника правды', text: 'Раньше, если несколько заказов оказывались в беде одновременно, диспетчер решал на глаз или по тому, кто позвонил громче, потому что готового способа сравнить проблемы между собой не было ни у одного из разобранных сервисов. Теперь один клик по фильтру «Исключения» показывает только проблемные заказы, уже отсортированные по тому, что чинить первым: сначала по тому, сколько времени осталось до конца окна доставки, и на ступень выше, если клиент уровня VIP. Это тот же список заказов, а не отдельный экран, поэтому данные никогда не расходятся между собой.' },
+      { title: 'Массовое переназначение при сбое маршрута', text: 'Раньше, если у курьера на маршруте ломалась машина, диспетчер вручную открывал карточку каждого из 15 заказов, выбирал нового курьера и подтверждал. Так 15 раз подряд. Теперь он отмечает все 15 заказов галочками, нажимает «Переназначить» в закреплённой панели, выбирает курьера и подтверждает один раз. Так главный риск из раздела «Проблема» закрыт: сбой на маршруте с 35 точками больше не превращается в 15-22 сорванные доставки одну за другой, пока диспетчер обзванивает курьеров вручную.' },
+      { title: 'Приоритет среди проблем без второго источника правды', text: 'Раньше, когда несколько заказов оказывались в беде одновременно, диспетчер решал на глаз или по тому, кто позвонил громче: готового способа сравнить проблемы не было ни у одного из разобранных сервисов. Теперь один клик по фильтру «Исключения» показывает только проблемные заказы, уже отсортированные по приоритету: сначала по времени, оставшемуся до конца окна доставки, а у VIP-клиентов приоритет на ступень выше. Это тот же список заказов, а не отдельный экран, поэтому данные не расходятся.' },
     ];
 
     const resultText = isEn
-      ? 'Reassignment on failure was confirmed on the finished mockup: 6 clicks instead of 45. All seven of the dispatcher\'s jobs, from risk monitoring to prioritizing several problems at once.'
-      : 'Переназначение при сбое подтверждено на готовом макете: 6 кликов вместо 45. Все семь задач диспетчера, от мониторинга риска до приоритизации нескольких проблем сразу.';
+      ? 'The mockup covers all seven of the dispatcher\'s jobs, from risk monitoring to prioritizing several problems at once.'
+      : 'Макет закрывает все семь задач диспетчера, от мониторинга риска до приоритизации нескольких проблем сразу.';
 
-    return { t, project, contextText, problemText, asIsText, deskFindings, deskConclusionText, dispatcherTasks, jtbd, entities, priorityCalcText, designSystemText, hookText, solutionBlocks, resultText };
+    return { t, project, contextText, problemText, asIsText, deskFindings, deskConclusionText, dispatcherTasks, jtbd, entities, priorityCalcText, designSystemText, solutionBlocks, resultText };
   }
 }
 </script>

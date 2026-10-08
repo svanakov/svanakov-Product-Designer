@@ -154,6 +154,7 @@
             <img class="work-img" src="{{ work.src }}" alt="{{ work.alt }}" style="width: 256px; max-width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
           </sc-for>
         </div>
+        <img class="work-img" src="{{ workRow3.src }}" alt="{{ workRow3.alt }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
       </div>
     </section>
 
@@ -205,15 +206,15 @@ class Component extends DCLogic {
       { num: '01', title: 'Rytmo', href: 'rytmo.html', cover: './uploads/rytmo-cover.webp', comingSoon: false, description: isEn ? 'Why people abandon fitness apps in week 2–3 — and how to keep them until the habit sticks' : 'Почему люди бросают фитнес-приложения на 2–3 неделе — и как удержать их до появления привычки', tags: mkTags('p1', ['Mobile', 'UX Research', 'Product Design', 'Prototyping']) },
       { num: '02', title: 'Campus', href: 'campus.html', cover: './uploads/campus-cover.webp', comingSoon: false, description: isEn ? 'Built my own class-schedule app as a PWA. Offline access instead of a crashing official app.' : 'Разработка своего приложения с расписаниашем пар в виде PWA. Офлайн-доступ вместо вылетающего официального приложения.', tags: mkTags('p2', ['PWA', 'UI Design', 'EdTech']) },
       { num: '03', title: isEn ? 'Dispatcher Console for a Courier Company' : 'Диспетчерская консоль курьерской компании', href: 'dispatch.html', cover: './uploads/dispatch-cover.webp', comingSoon: false, description: isEn ? 'A B2B courier service grew past 100+ orders a day — manual tracking in a spreadsheet stopped working. Designing SLA risk visibility and exception prioritization.' : 'B2B-сервис курьерской доставки вырос до 100+ заказов в день — ручное отслеживание в таблице перестало справляться. Проектирую видимость риска по SLA и приоритизацию исключений.', tags: mkTags('p3', ['UX Research', 'Product Design']) },
-      { num: '04', title: isEn ? 'Telegram Mini App for a VPN Service' : 'Telegram Mini App для VPN-сервиса', href: 'vpnmini.html', cover: './uploads/vpnmini-cover.webp', comingSoon: false, description: isEn ? 'Managing a personal VPN and its subscription entirely inside Telegram.' : 'Управление личным VPN и подпиской прямо внутри Telegram.', tags: mkTags('p4', ['Mobile', 'UX Research', 'Product Design']) },
     ];
     const workRow2 = { src: './uploads/work2.webp', alt: 'Work 2' };
+    const workRow3 = { src: './uploads/vpnmini-cover.webp', alt: 'Telegram Mini App for VPN' };
     const workTiles = [
       { src: './uploads/work1.webp', alt: 'Midnight Screening' },
       { src: './uploads/work3.webp', alt: 'Work 3' },
       { src: './uploads/work4.webp', alt: 'Work 4' },
     ];
-    return { t, projects, workTiles, workRow2 };
+    return { t, projects, workTiles, workRow2, workRow3 };
   }
 }
 </script>
