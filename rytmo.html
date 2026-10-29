@@ -15,8 +15,22 @@
     ::selection { background: oklch(0.58 0.19 264 / 0.25); }
     html { scroll-behavior: smooth; }
     .sec { scroll-margin-top: 40px; }
+    .stage { position: relative; display: flex; flex-direction: column; gap: 96px; }
+    .stage-rail { position: absolute; left: -112px; top: 0; bottom: 0; width: 88px; }
+    .stage-label { position: sticky; top: 96px; }
+    .stage-num { font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(127, 127, 127); }
+    .stage-name { font-size: 14px; font-weight: 500; color: rgb(127, 127, 127); margin-top: 2px; }
+    @media (max-width: 1000px) {
+      .stage-rail { position: static; width: auto; margin-bottom: -56px; }
+      .stage-label { position: static; display: flex; align-items: baseline; gap: 12px; }
+      .stage-name { font-size: 15px; margin-top: 0; }
+    }
     .jtbd-table-row { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding: 16px 0; border-top: 1px solid rgb(230, 230, 228); align-items: start; }
     .jtbd-table-head { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding-bottom: 12px; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); }
+    .about-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 24px 0; border-top: 1px solid rgb(230, 230, 228); align-items: start; }
+    .about-row:first-child { border-top: none; padding-top: 40px; }
+    .about-label { font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); }
+    .about-text { font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); }
     .zoom-wrap { display: block; overflow: hidden; cursor: zoom-in; }
     .zoom-img { transition: transform 400ms ease; display: block; }
     .zoom-wrap:hover .zoom-img { transform: scale(1.04); }
@@ -24,6 +38,7 @@
       .case-title { font-size: 24px !important; }
       .sec h2 { font-size: 26px !important; }
       .jtbd-table-row, .jtbd-table-head { grid-template-columns: 1fr !important; gap: 6px !important; }
+      .about-row { grid-template-columns: 1fr !important; gap: 10px !important; }
       .process-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
       article { padding: 48px 20px 80px !important; }
     }
@@ -49,26 +64,70 @@
 
     <div>
       <header style="margin-bottom: 48px;">
-        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 12px;">{{ project.title }}</h1>
-        <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 6px;">{{ project.role }}</p>
-        <p style="font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); margin: 0 0 20px;">{{ project.duration }}</p>
-        <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ {{ t.openFigma }}</a>
+        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0;">{{ project.title }}</h1>
       </header>
 
       <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
         <img class="zoom-img" src="./uploads/rytmo-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
       </div>
+
+      <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="display: inline-block; margin-top: 20px; font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ {{ t.openFigma }}</a>
     </div>
 
-    <section class="sec" id="sec-problem">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.problemHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 20px;">{{ problemText }}</p>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.hypothesisLabel }}</b> {{ hypothesisText }}</p>
-    </section>
-
-    <section class="sec" id="sec-summary">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.summaryHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ summaryText }}</p>
+    <section class="sec" id="sec-about">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.aboutHeading }}</h2>
+      <p style="font-size: 20px; font-weight: 400; line-height: 1.45; color: rgb(12, 12, 12); margin: 0;">{{ about.lead }}</p>
+      <div style="height: 32px;"></div>
+      <div>
+        <div class="about-row">
+          <span class="about-label">{{ t.roleLabel }}</span>
+          <span class="about-text">{{ about.role }}</span>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.problemsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.problems }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.goalsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.goals }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.actionsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.actions }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.resultsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.results }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="sec" id="sec-process">
@@ -86,6 +145,8 @@
       </div>
     </section>
 
+    <div class="stage" id="stage-01">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">01</div><div class="stage-name">Discover</div></div></div>
     <section class="sec" id="sec-competitors">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.competitorsHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 20px;">{{ competitorsText }}</p>
@@ -96,6 +157,15 @@
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.interviewsHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 20px;">{{ interviewsMethod }}</p>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.keyFindingsLabel }}</b> {{ interviewsFindings }}</p>
+    </section>
+    </div>
+
+    <div class="stage" id="stage-02">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">02</div><div class="stage-name">Define</div></div></div>
+    <section class="sec" id="sec-problem">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.problemHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 20px;">{{ problemText }}</p>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.hypothesisLabel }}</b> {{ hypothesisText }}</p>
     </section>
 
     <section class="sec" id="sec-jtbd">
@@ -114,7 +184,22 @@
         </sc-for>
       </div>
     </section>
+    </div>
 
+    <div class="stage" id="stage-03">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">03</div><div class="stage-name">Test</div></div></div>
+    <section class="sec" id="sec-test">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.testHeading }}</h2>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <sc-for list="{{ testBlocks }}" as="blk" hint-placeholder-count="3">
+          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ blk.label }}</b> {{ blk.text }}</p>
+        </sc-for>
+      </div>
+    </section>
+    </div>
+
+    <div class="stage" id="stage-04">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">04</div><div class="stage-name">Develop</div></div></div>
     <section class="sec" id="sec-flow">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">{{ t.flowHeading }}</h2>
       <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 40px;">
@@ -147,14 +232,8 @@
         </sc-for>
       </div>
 
-      <div style="margin-top: 48px;">
-        <h3 style="font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.resultsHeading }}</h3>
-        <div style="display: flex; flex-direction: column; gap: 16px;">
-          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.designedLabel }}</b> {{ results.designed }}</p>
-          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0; white-space: pre-line;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.metricsLabel }}</b> {{ results.next }}</p>
-        </div>
-      </div>
     </section>
+    </div>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid rgb(230, 230, 228);">
       <a href="campus.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: rgb(12, 12, 12); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
@@ -181,7 +260,7 @@ class Component extends DCLogic {
     const t = isEn ? {
       home: 'Home', openFigma: 'Open file in Figma',
       problemHeading: 'Problem & Key Hypothesis', hypothesisLabel: 'Hypothesis:',
-      summaryHeading: 'Key Results',
+      aboutHeading: 'About the project', roleLabel: 'My role', problemsLabel: 'Problems', goalsLabel: 'Product goals', actionsLabel: 'What I did', resultsLabel: 'Results',
       processHeading: 'Design Process',
       competitorsHeading: 'Diving into the problem',
       interviewsHeading: 'In-depth interviews', keyFindingsLabel: 'Key findings:',
@@ -189,15 +268,15 @@ class Component extends DCLogic {
       jtbdIntro: 'From research and interviews, 14 JTBDs were identified and prioritized via ICE (1–5). Key ones:',
       hypothesisCol: 'Hypothesis',
       flowHeading: 'User Flow — Three Scenarios',
-      screensHeading: 'Prototypes, Screens & Results',
+      screensHeading: 'Prototypes & Screens',
       prototypesAlt: 'Prototypes — Rytmo',
-      resultsHeading: 'Results', designedLabel: 'What was designed:', metricsLabel: 'Metrics:',
+      testHeading: 'Usability test results',
       viewCampus: 'View Campus',
       ruColor: 'oklch(0.7 0.004 80)', enColor: 'rgb(12,12,12)',
     } : {
       home: 'На главную', openFigma: 'Открыть файл в Figma',
       problemHeading: 'Проблема и ключевая гипотеза', hypothesisLabel: 'Гипотеза:',
-      summaryHeading: 'Краткие результаты',
+      aboutHeading: 'О проекте', roleLabel: 'Моя роль', problemsLabel: 'Проблемы', goalsLabel: 'Цели продукта', actionsLabel: 'Что я сделал', resultsLabel: 'Результаты',
       processHeading: 'Дизайн-процесс',
       competitorsHeading: 'Погружение в задачу',
       interviewsHeading: 'Глубинные интервью', keyFindingsLabel: 'Ключевые результаты:',
@@ -205,22 +284,18 @@ class Component extends DCLogic {
       jtbdIntro: 'Из исследования и интервью выделено 14 JTBD, приоритизированных через ICE(1-5). Ключевые:',
       hypothesisCol: 'Гипотеза',
       flowHeading: 'User Flow — три сценария',
-      screensHeading: 'Прототипы, экраны и результаты',
+      screensHeading: 'Прототипы и экраны',
       prototypesAlt: 'Прототипы — Rytmo',
-      resultsHeading: 'Результаты', designedLabel: 'Что спроектировано:', metricsLabel: 'Метрики:',
+      testHeading: 'Результаты юзабилити-теста',
       viewCampus: 'Смотреть Campus',
       ruColor: 'rgb(12,12,12)', enColor: 'oklch(0.7 0.004 80)',
     };
 
     const project = isEn ? {
       title: 'Rytmo',
-      role: 'Concept project, solo product design',
-      duration: '1 month',
       figmaLink: 'https://www.figma.com/design/jQ2wZFv1KXbSK1UjnqYj3Y/%D0%A4%D0%B8%D1%82%D0%BD%D0%B5%D1%81-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BE%D0%B5-%D1%83%D0%B4%D0%B5%D1%80%D0%B6%D0%B8%D0%B2%D0%B0%D0%B5%D1%82-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%BF%D0%BE%D1%82%D0%B5%D1%80%D0%B8-%D0%BC%D0%BE%D1%82%D0%B8%D0%B2%D0%B0%D1%86%D0%B8%D0%B8?node-id=2224-1186&t=wYgXzAwsuNlmF4SL-1',
     } : {
       title: 'Rytmo',
-      role: 'Концепт-проект, продуктовый дизайн (соло)',
-      duration: '1 месяц',
       figmaLink: 'https://www.figma.com/design/jQ2wZFv1KXbSK1UjnqYj3Y/%D0%A4%D0%B8%D1%82%D0%BD%D0%B5%D1%81-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BE%D0%B5-%D1%83%D0%B4%D0%B5%D1%80%D0%B6%D0%B8%D0%B2%D0%B0%D0%B5%D1%82-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%BF%D0%BE%D1%82%D0%B5%D1%80%D0%B8-%D0%BC%D0%BE%D1%82%D0%B8%D0%B2%D0%B0%D1%86%D0%B8%D0%B8?node-id=2224-1186&t=wYgXzAwsuNlmF4SL-1',
     };
 
@@ -231,10 +306,6 @@ class Component extends DCLogic {
     const hypothesisText = isEn
       ? 'if the product takes on the role of external support during exactly this period, the share of users still active by day 60–90 after install — when the habit usually sets in — will grow.'
       : 'если продукт возьмёт на себя функцию внешней опоры именно в этот период, то вырастет доля пользователей, остающихся активными к 60–90 дню после установки, когда привычка обычно закрепляется.';
-
-    const summaryText = isEn
-      ? 'Three scenarios for different moments of motivation drop-off (first launch / return after a miss / repeat visit). 15 hypotheses prioritized via ICE. A subscription model tied to the habit-formed signal.'
-      : 'Три сценария под разные моменты разрыва мотивации (первый запуск / возврат после пропуска / повторный визит). 15 гипотез, приоритизированных через ICE. Модель подписки, привязанная к сигналу сформированной привычки.';
 
     const processSteps = isEn ? [
       { num: '01', label: 'Discover', desc: 'Context and data' },
@@ -339,14 +410,73 @@ class Component extends DCLogic {
     ];
 
     const results = isEn ? {
-      designed: 'three scenarios, each targeting a specific moment of the motivation-to-habit gap. 15 hypotheses prioritized via ICE with transparent confidence reasoning for each',
       next: "Methodology: a usability test of a clickable prototype with 12 participants. Task — without hints, find and start today's workout from the home screen, which simultaneously shows the recommended workout, a filterable catalog, and programs.\n\nFirst-Click Rate: 11 of 12 participants (92%) landed on the recommended workout block with their first click, rather than going into the catalog or programs. This is a direct test of the highest-ICE-priority hypothesis — that one clear recommended option reduces choice paralysis better than a catalog. The result confirms: participants don't browse options looking for a fit, they read the recommendation as the primary path to action right away.\n\nSEQ (Single Ease Question): after each of the three scenarios, participants rated task ease on a 1–7 scale. Average score — 6.2 out of 7, indicating high subjective ease of use across all three flows — first launch, return visit, and return after a miss.",
     } : {
-      designed: 'три сценария, каждый нацелен на конкретный момент разрыва между потерей мотивации и формированием привычки. 15 гипотез приоритизированы через ICE с прозрачным обоснованием confidence по каждой',
       next: 'Методология: юзабилити-тест кликабельного прототипа на 12 участниках. Задача — без подсказок найти и начать сегодняшнюю тренировку с главного экрана, где одновременно показаны рекомендуемая тренировка, каталог с фильтрами и программы.\n\nFirst-Click Rate: 11 из 12 участников (92%) первым кликом попали на блок рекомендуемой тренировки, а не ушли в каталог или программы. Это прямая проверка гипотезы с наивысшим приоритетом по ICE — предположения, что один явный рекомендуемый вариант снижает паралич выбора лучше, чем каталог. Результат подтверждает: участники не листают варианты в поисках подходящего, а сразу считывают рекомендацию как основной путь действия.\n\nSEQ (Single Ease Question): после каждого из трёх сценариев участников просили оценить лёгкость выполнения задачи по шкале 1-7. Средний балл — 6.2 из 7, что соответствует высокой субъективной простоте использования по всем трём флоу — первый запуск, повторный визит и возврат после пропуска.',
     };
 
-    return { t, project, problemText, hypothesisText, summaryText, processSteps, competitorsText, interviewsMethod, interviewsFindings, jtbd, flows, screens, results };
+    const about = isEn ? {
+      lead: "Rytmo is a mobile fitness app for people who quit working out in week 2-3. It takes the role of external support while the habit is still forming: one recommended workout instead of a catalog, a return after a miss without judgment, and a subscription offered only once engagement is real.",
+      role: "Personal project. Research, design, prototype: I ran the research, identified the JTBD and hypotheses, designed three scenarios, built a clickable prototype, and tested it with users.",
+      problems: [
+        { text: "Natural motivation drops after 2-3 weeks, while a habit that holds without effort only forms after 2-3 months." },
+        { text: "In this gap a person is left alone with the decision to keep training, and this is when most people give up." },
+        { text: "External accountability holds regularity better than personal discipline: when it is lost, misses become more frequent." },
+        { text: "Any missed workout triggers guilt over \"choosing to do nothing\"." },
+      ],
+      goals: [
+        { text: "Grow the share of users still active by day 60-90 after install, when the habit usually sets in." },
+        { text: "Remove the first-time uncertainty on first launch." },
+        { text: "Keep a miss from turning into a habit of missing." },
+        { text: "Reinforce what already works, and offer a subscription without pressure and with a transparent billing date." },
+      ],
+      actions: [
+        { text: "Ran desk research: reviewed popular fitness apps on onboarding and personalization, how achievements are presented, progress display, repeat-visit behavior, and social features." },
+        { text: "Ran 4 in-depth interviews with people who tried to start training regularly." },
+        { text: "Identified the JTBD and prioritized 15 hypotheses via ICE." },
+        { text: "Designed three scenarios for different moments of motivation drop-off and built a clickable prototype." },
+        { text: "Tested the prototype with 12 participants." },
+      ],
+      results: [
+        { text: "11 of 12 participants (92%) landed on the recommended workout with their first click, rather than the catalog or programs." },
+        { text: "Average SEQ across the three scenarios: 6.2 out of 7." },
+        { text: "Expected effect (hypothesis, not measured): a larger share of users still active by day 60-90 after install. After launch, this is the metric I would check." },
+      ],
+    } : {
+      lead: 'Rytmo — мобильное фитнес-приложение для тех, кто бросает тренировки на 2-3 неделе. Оно берёт на себя роль внешней опоры, пока привычка ещё не сформировалась: один рекомендуемый вариант вместо каталога, возврат после пропуска без осуждения и подписка только когда вовлечённость уже реальна.',
+      role: 'Личный проект. Исследование, дизайн, прототип: сам провёл исследование, выделил JTBD и гипотезы, спроектировал три сценария, собрал кликабельный прототип и проверил его на пользователях.',
+      problems: [
+        { text: 'Естественная мотивация падает уже через 2-3 недели, а привычка формируется только через 2-3 месяца' },
+        { text: 'В этот промежуток человек остаётся один на один с решением тренироваться, и именно тогда чаще всего бросает' },
+        { text: 'Внешняя подотчётность держит регулярность сильнее самодисциплины: при её потере пропуски учащаются' },
+        { text: 'Любой пропуск тренировки вызывает чувство вины за выбор ничего не делать' },
+      ],
+      goals: [
+        { text: 'Увеличить долю пользователей, остающихся активными к 60-90 дню после установки, когда привычка обычно закрепляется.' },
+        { text: 'Снять растерянность новичка на первом запуске.' },
+        { text: 'Не дать пропуску стать привычкой пропускать.' },
+        { text: 'Подкрепить то, что уже работает, и предлагать подписку без давления, с прозрачной датой списания.' },
+      ],
+      actions: [
+        { text: 'Провёл деск-ресерч: разобрал популярные фитнес-приложения по онбордингу и персонализации, подаче достижений, отображению прогресса, поведению при повторном визите и социальным функциям.' },
+        { text: 'Провёл 4 глубинных интервью с людьми, которые пытались начать регулярно тренироваться.' },
+        { text: 'Выделил JTBD и приоритизировал 15 гипотез через ICE.' },
+        { text: 'Спроектировал три сценария под разные моменты разрыва мотивации и собрал кликабельный прототип.' },
+        { text: 'Проверил прототип юзабилити-тестом на 12 участниках.' },
+      ],
+      results: [
+        { text: '11 из 12 участников (92%) первым кликом попали на рекомендуемую тренировку, а не в каталог или программы.' },
+        { text: 'Средний SEQ по трём сценариям: 6.2 из 7.' },
+        { text: 'Ожидаемый эффект: вырастет доля пользователей, остающихся активными к 60-90 дню после установки. После запуска проверял бы именно по этой метрике.' },
+      ],
+    };
+
+    const testBlocks = results.next.split('\n\n').map(par => {
+      const i = par.indexOf(': ');
+      return { label: par.slice(0, i + 1), text: par.slice(i + 2) };
+    });
+
+    return { t, project, problemText, hypothesisText, about, testBlocks, processSteps, competitorsText, interviewsMethod, interviewsFindings, jtbd, flows, screens, results };
   }
 }
 </script>
