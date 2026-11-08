@@ -15,6 +15,20 @@
     ::selection { background: oklch(0.58 0.19 264 / 0.25); }
     html { scroll-behavior: smooth; }
     .sec { scroll-margin-top: 40px; }
+    .stage { position: relative; display: flex; flex-direction: column; gap: 96px; }
+    .stage-rail { position: absolute; left: -112px; top: 0; bottom: 0; width: 88px; }
+    .stage-label { position: sticky; top: 96px; }
+    .stage-num { font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(127, 127, 127); }
+    .stage-name { font-size: 14px; font-weight: 500; color: rgb(127, 127, 127); margin-top: 2px; }
+    .about-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 24px 0; border-top: 1px solid rgb(230, 230, 228); align-items: start; }
+    .about-row:first-child { border-top: none; padding-top: 40px; }
+    .about-label { font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); }
+    .about-text { font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); }
+    @media (max-width: 1000px) {
+      .stage-rail { position: static; width: auto; margin-bottom: -56px; }
+      .stage-label { position: static; display: flex; align-items: baseline; gap: 12px; }
+      .stage-name { font-size: 15px; margin-top: 0; }
+    }
     .jtbd-card { padding: 24px 0; border-top: 1px solid rgb(230, 230, 228); }
     .jtbd-stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 16px; }
     .ia-row { display: grid; grid-template-columns: 1fr 3fr; gap: 24px; padding: 16px 0; border-top: 1px solid rgb(230, 230, 228); align-items: start; }
@@ -27,6 +41,8 @@
       .sec h2 { font-size: 26px !important; }
       .jtbd-stat-row { grid-template-columns: 1fr !important; gap: 8px !important; }
       .ia-row { grid-template-columns: 1fr !important; gap: 4px !important; }
+      .process-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+      .about-row { grid-template-columns: 1fr !important; gap: 10px !important; }
       article { padding: 48px 20px 80px !important; }
     }
   </style>
@@ -51,106 +67,189 @@
 
     <div>
       <header style="margin-bottom: 48px;">
-        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 12px;">{{ project.title }}</h1>
-        <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 20px;">{{ project.role }}</p>
-        <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ {{ t.openFigma }}</a>
+        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0;">{{ project.title }}</h1>
       </header>
 
       <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
         <img class="zoom-img" src="./uploads/dispatch-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
       </div>
+
+      <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="display: inline-block; margin-top: 20px; font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ {{ t.openFigma }}</a>
     </div>
 
+    <section class="sec" id="sec-about">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.aboutHeading }}</h2>
+      <p style="font-size: 20px; font-weight: 400; line-height: 1.45; color: rgb(12, 12, 12); margin: 0;">{{ about.lead }}</p>
+      <div style="height: 32px;"></div>
+      <div>
+        <div class="about-row">
+          <span class="about-label">{{ t.roleLabel }}</span>
+          <span class="about-text">{{ about.role }}</span>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.problemsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.problems }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.goalsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.goals }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.actionsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.actions }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.resultsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.results }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="sec-process">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">{{ t.processHeading }}</h2>
+      <div class="process-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px 40px;">
+        <sc-for list="{{ processSteps }}" as="step" hint-placeholder-count="4">
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <span style="font-size: 17px; color: rgb(127, 127, 127); flex-shrink: 0;">{{ step.num }}</span>
+            <div>
+              <span style="display: block; font-size: 17px; font-weight: 500; color: rgb(12, 12, 12); margin-bottom: 6px;">{{ step.label }}</span>
+              <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ step.desc }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <div class="stage" id="stage-01">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">01</div><div class="stage-name">Discover</div></div></div>
     <section class="sec" id="sec-context">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.contextHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ contextText }}</p>
     </section>
 
+    <section class="sec" id="sec-asis">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.asIsHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0; white-space: pre-line;">{{ asIsText }}</p>
+    </section>
+
+    <section class="sec" id="sec-desk">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.deskResearchHeading }}</h2>
+      <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px;">
+        <sc-for list="{{ deskFindings }}" as="find" hint-placeholder-count="4">
+          <p style="font-size: 17px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 0;">{{ find.text }}</p>
+        </sc-for>
+      </div>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.conclusionLabel }}</b> {{ deskConclusionText }}</p>
+    </section>
+    </div>
+
+    <div class="stage" id="stage-02">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">02</div><div class="stage-name">Define</div></div></div>
     <section class="sec" id="sec-problem">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.problemHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0; white-space: pre-line;">{{ problemText }}</p>
     </section>
 
-    <section class="sec" id="sec-process">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 40px;">{{ t.processHeading }}</h2>
-
-      <div style="margin-bottom: 48px;">
-        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.asIsHeading }}</h3>
-        <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0; white-space: pre-line;">{{ asIsText }}</p>
+    <section class="sec" id="sec-jtbd">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.jtbdHeading }}</h2>
+      <p style="font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); margin: 0 0 24px;">{{ t.jtbdIntro }}</p>
+      <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 32px;">
+        <sc-for list="{{ dispatcherTasks }}" as="task" hint-placeholder-count="7">
+          <div style="display: flex; align-items: baseline; gap: 12px;">
+            <span style="font-size: 15px; color: rgb(127, 127, 127); flex-shrink: 0;">{{ task.num }}</span>
+            <span style="font-size: 16px; color: rgb(66, 67, 61);"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ task.name }}.</b> {{ task.desc }}</span>
+          </div>
+        </sc-for>
       </div>
-
-      <div style="margin-bottom: 48px;">
-        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.deskResearchHeading }}</h3>
-        <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px;">
-          <sc-for list="{{ deskFindings }}" as="find" hint-placeholder-count="4">
-            <p style="font-size: 17px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 0;">{{ find.text }}</p>
-          </sc-for>
-        </div>
-        <p style="font-size: 17px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 0;"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ t.conclusionLabel }}</b> {{ deskConclusionText }}</p>
-      </div>
-
-      <div style="margin-bottom: 48px;">
-        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 12px;">{{ t.jtbdHeading }}</h3>
-        <p style="font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); margin: 0 0 24px;">{{ t.jtbdIntro }}</p>
-        <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 32px;">
-          <sc-for list="{{ dispatcherTasks }}" as="task" hint-placeholder-count="7">
-            <div style="display: flex; align-items: baseline; gap: 12px;">
-              <span style="font-size: 15px; color: rgb(127, 127, 127); flex-shrink: 0;">{{ task.num }}</span>
-              <span style="font-size: 16px; color: rgb(66, 67, 61);"><b style="font-weight: 600; color: rgb(12, 12, 12);">{{ task.name }}.</b> {{ task.desc }}</span>
-            </div>
-          </sc-for>
-        </div>
-        <div>
-          <sc-for list="{{ jtbd }}" as="j" hint-placeholder-count="7">
-            <div class="jtbd-card">
-              <p style="font-size: 17px; font-weight: 500; line-height: 1.45; color: rgb(12, 12, 12); margin: 0;">{{ j.need }}</p>
-              <div class="jtbd-stat-row">
-                <div>
-                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.importanceLabel }}: {{ j.importanceLevel }}</span>
-                  <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.importanceNote }}</span>
-                </div>
-                <div>
-                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.confidenceLabel }}: {{ j.confidenceLevel }}</span>
-                  <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.confidenceNote }}</span>
-                </div>
-                <div>
-                  <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.complexityLabel }}: {{ j.complexityLevel }}</span>
-                  <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.complexityNote }}</span>
-                </div>
+      <div>
+        <sc-for list="{{ jtbd }}" as="j" hint-placeholder-count="7">
+          <div class="jtbd-card">
+            <p style="font-size: 17px; font-weight: 500; line-height: 1.45; color: rgb(12, 12, 12); margin: 0;">{{ j.need }}</p>
+            <div class="jtbd-stat-row">
+              <div>
+                <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.importanceLabel }}: {{ j.importanceLevel }}</span>
+                <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.importanceNote }}</span>
+              </div>
+              <div>
+                <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.confidenceLabel }}: {{ j.confidenceLevel }}</span>
+                <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.confidenceNote }}</span>
+              </div>
+              <div>
+                <span style="display: block; font-size: 13px; font-weight: 500; color: rgb(127, 127, 127); margin-bottom: 4px;">{{ t.complexityLabel }}: {{ j.complexityLevel }}</span>
+                <span style="font-size: 15px; line-height: 1.4; color: rgb(66, 67, 61);">{{ j.complexityNote }}</span>
               </div>
             </div>
-          </sc-for>
-        </div>
+          </div>
+        </sc-for>
       </div>
+    </section>
+    </div>
 
-      <div style="margin-bottom: 48px;">
-        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.iaHeading }}</h3>
-        <div>
-          <sc-for list="{{ entities }}" as="ent" hint-placeholder-count="5">
-            <div class="ia-row">
-              <span style="font-size: 16px; font-weight: 600; color: rgb(12, 12, 12);">{{ ent.name }}</span>
-              <span style="font-size: 15px; line-height: 1.5; color: rgb(66, 67, 61);">{{ ent.fields }}</span>
-            </div>
-          </sc-for>
-        </div>
-        <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 20px 0 0;">{{ priorityCalcText }}</p>
-      </div>
+    <div class="stage" id="stage-03">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">03</div><div class="stage-name">Test</div></div></div>
+    <section class="sec" id="sec-test">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.testHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0;">{{ resultText }}</p>
+    </section>
+    </div>
 
-      <div style="margin-bottom: 48px;">
-        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.designSystemHeading }}</h3>
-        <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 0;">{{ designSystemText }}</p>
-      </div>
-
+    <div class="stage" id="stage-04">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">04</div><div class="stage-name">Develop</div></div></div>
+    <section class="sec" id="sec-ia">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.iaHeading }}</h2>
       <div>
-        <h3 style="font-size: 22px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 16px;">{{ t.architectureHeading }}</h3>
-        <div class="zoom-wrap" style="border-radius: 16px; border: 1px solid rgb(230, 230, 228);">
-          <img class="zoom-img" src="./uploads/dispatch-architecture.webp" alt="{{ t.architectureHeading }}" style="width: 100%; height: auto; display: block;">
-        </div>
+        <sc-for list="{{ entities }}" as="ent" hint-placeholder-count="5">
+          <div class="ia-row">
+            <span style="font-size: 16px; font-weight: 600; color: rgb(12, 12, 12);">{{ ent.name }}</span>
+            <span style="font-size: 15px; line-height: 1.5; color: rgb(66, 67, 61);">{{ ent.fields }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 20px 0 0;">{{ priorityCalcText }}</p>
+    </section>
+
+    <section class="sec" id="sec-designsystem">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.designSystemHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.5; color: rgb(66, 67, 61); margin: 0;">{{ designSystemText }}</p>
+    </section>
+
+    <section class="sec" id="sec-architecture">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.architectureHeading }}</h2>
+      <div class="zoom-wrap" style="border-radius: 16px; border: 1px solid rgb(230, 230, 228);">
+        <img class="zoom-img" src="./uploads/dispatch-architecture.webp" alt="{{ t.architectureHeading }}" style="width: 100%; height: auto; display: block;">
       </div>
     </section>
 
     <section class="sec" id="sec-solution">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">{{ t.solutionHeading }}</h2>
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.solutionHeading }}</h2>
       <div style="display: flex; flex-direction: column; gap: 40px;">
         <sc-for list="{{ solutionBlocks }}" as="block" hint-placeholder-count="2">
           <div>
@@ -160,11 +259,7 @@
         </sc-for>
       </div>
     </section>
-
-    <section class="sec" id="sec-result">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.resultHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: rgb(66, 67, 61); margin: 0;">{{ resultText }}</p>
-    </section>
+    </div>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid rgb(230, 230, 228);">
       <a href="rytmo.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: rgb(12, 12, 12); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
@@ -191,7 +286,7 @@ class Component extends DCLogic {
     const t = isEn ? {
       home: 'Home', openFigma: 'Open file in Figma',
       contextHeading: 'Context', problemHeading: 'Problem',
-      processHeading: 'Process',
+      processHeading: 'Design Process',
       asIsHeading: 'How it works today, without a tool',
       deskResearchHeading: 'Desk research', conclusionLabel: 'Conclusion:',
       jtbdHeading: 'JTBD & priorities', jtbdIntro: 'Seven jobs the dispatcher needs done, distilled from the process above:',
@@ -200,13 +295,14 @@ class Component extends DCLogic {
       designSystemHeading: 'Design system',
       architectureHeading: 'Architecture decisions',
       solutionHeading: 'Solution',
-      resultHeading: 'Result',
+      testHeading: 'Checked against the JTBD',
+      aboutHeading: 'About the project', roleLabel: 'My role', problemsLabel: 'Problems', goalsLabel: 'Product goals', actionsLabel: 'What I did', resultsLabel: 'Results',
       viewRytmo: 'View Rytmo',
       ruColor: 'oklch(0.7 0.004 80)', enColor: 'rgb(12,12,12)',
     } : {
       home: 'На главную', openFigma: 'Открыть файл в Figma',
       contextHeading: 'Контекст', problemHeading: 'Проблема',
-      processHeading: 'Процесс',
+      processHeading: 'Дизайн-процесс',
       asIsHeading: 'Как это устроено сейчас, без инструмента',
       deskResearchHeading: 'Деск-ресерч', conclusionLabel: 'Вывод:',
       jtbdHeading: 'JTBD и приоритеты', jtbdIntro: 'Семь задач диспетчера, выделенные из разбора процесса выше:',
@@ -215,19 +311,86 @@ class Component extends DCLogic {
       designSystemHeading: 'Дизайн-система',
       architectureHeading: 'Архитектурные решения',
       solutionHeading: 'Решение',
-      resultHeading: 'Результат',
+      testHeading: 'Проверка по JTBD',
+      aboutHeading: 'О проекте', roleLabel: 'Моя роль', problemsLabel: 'Проблемы', goalsLabel: 'Цели продукта', actionsLabel: 'Что я сделал', resultsLabel: 'Результаты',
       viewRytmo: 'Смотреть Rytmo',
       ruColor: 'rgb(12,12,12)', enColor: 'oklch(0.7 0.004 80)',
     };
 
     const project = isEn ? {
       title: 'Dispatcher Console for a Courier Company',
-      role: 'Personal project',
       figmaLink: 'https://www.figma.com/design/oFljSQK8Nwayyfj0TnkMIj/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B6?node-id=0-1&t=DRU2yTAn8oQ7HMc6-1',
     } : {
       title: 'Диспетчерская консоль курьерской компании',
-      role: 'Личный проект',
       figmaLink: 'https://www.figma.com/design/oFljSQK8Nwayyfj0TnkMIj/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B6?node-id=0-1&t=DRU2yTAn8oQ7HMc6-1',
+    };
+
+    const processSteps = isEn ? [
+      { num: '01', label: 'Discover', desc: 'Context and data' },
+      { num: '02', label: 'Define', desc: 'Problem and hypothesis' },
+      { num: '03', label: 'Test', desc: 'Hypothesis testing' },
+      { num: '04', label: 'Develop', desc: 'Solution and screens' },
+    ] : [
+      { num: '01', label: 'Discover', desc: 'Контекст и данные' },
+      { num: '02', label: 'Define', desc: 'Проблема и гипотеза' },
+      { num: '03', label: 'Test', desc: 'Проверка гипотезы' },
+      { num: '04', label: 'Develop', desc: 'Решение и экраны' },
+    ];
+
+    const about = isEn ? {
+      lead: "A dispatcher console for a B2B courier delivery service. It shows which orders might miss their window, lets the dispatcher reassign a whole group of orders in one action, and sorts problems by what to fix first.",
+      role: "Personal project. Research and design: I broke down the process, reviewed existing tools, identified the dispatcher's jobs, and designed the data model, design system, and interface.",
+      problems: [
+        { text: "Manual tracking doesn't work at 100+ orders a day: without SLA risk scoring, a missed delivery is only noticed after the fact." },
+        { text: "One failure cascades into dozens of missed deliveries. A breakdown on a 35-stop route can take down 15-22 deliveries; these numbers show the scale and were not measured on a real service." },
+        { text: "When several problems happen at once, there is nothing to compare them with, so personal experience alone decides the order." },
+        { text: "Without a dedicated tool, orders live in a spreadsheet, and assigning or reassigning means phone calls and manual cell edits." },
+      ],
+      goals: [
+        { text: "See SLA risk before the client or the courier calls." },
+        { text: "Assign and reassign orders in one action, including a whole group when a route breaks down." },
+        { text: "See the cause of a problem with an order right away." },
+        { text: "Know what to fix first when there are several problems." },
+      ],
+      actions: [
+        { text: "Broke down the dispatcher's current process in a spreadsheet: calls, manual edits, searching with Ctrl+F." },
+        { text: "Reviewed existing tools (Yandex Routing, Alvys, Dispatch Science, Bringg, OptimoRoute) and found what can be taken ready-made and what has to be figured out from scratch." },
+        { text: "Identified seven dispatcher jobs and rated each by importance, confidence, and complexity." },
+        { text: "Designed the data model (order, courier, route, client, exception) and how exception priority is calculated." },
+        { text: "Defined the design system components and the architecture decisions." },
+        { text: "Designed the console interface: orders table, bulk reassignment, and an \"Exceptions\" filter with priority." },
+      ],
+      results: [
+        { text: "The mockup covers all seven of the dispatcher's jobs, from risk monitoring to prioritizing several problems at once." },
+        { text: "Expected effect (hypothesis, not measured): fifteen calls and fifteen sheet edits after a failure turn into one bulk action, and route risk shows up in the list before the courier calls." },
+      ],
+    } : {
+      lead: 'Диспетчерская консоль для B2B-сервиса курьерской доставки. Показывает, какие заказы могут не успеть, позволяет переназначить целую группу заказов одним действием и сортирует проблемы по тому, что чинить первым.',
+      role: 'Исследование и дизайн: разобрал процесс, изучил существующие инструменты, выделил задачи диспетчера, спроектировал модель данных, дизайн-систему и интерфейс.',
+      problems: [
+        { text: 'Ручное отслеживание при 100+ заказах в день не работает: без оценки риска по SLA срыв замечают только постфактум.' },
+        { text: 'Один сбой каскадом превращается в десятки сорванных доставок. Поломка на маршруте с 35 точками может сорвать 15-22 доставки; эти цифры показывают масштаб и не измерены на реальном сервисе.' },
+        { text: 'Когда проблем сразу несколько, их нечем сравнить между собой, и очерёдность решает только личный опыт.' },
+        { text: 'Без отдельного инструмента заказы живут в таблице, а назначение и переназначение идут звонками и ручными правками ячеек.' },
+      ],
+      goals: [
+        { text: 'Видеть риск по SLA до того, как позвонит клиент или курьер.' },
+        { text: 'Назначать и переназначать заказы одним действием, в том числе всю группу при сбое на маршруте.' },
+        { text: 'Сразу видеть причину проблемы с заказом.' },
+        { text: 'Понимать, что чинить первым, когда проблем несколько.' },
+      ],
+      actions: [
+        { text: 'Разобрал текущий процесс диспетчера в таблице: звонки, ручные правки, поиск через Ctrl+F.' },
+        { text: 'Изучил существующие инструменты (Яндекс Маршрутизация, Alvys, Dispatch Science, Bringg, OptimoRoute) и понял, что можно взять готовым, а что придётся продумывать самому.' },
+        { text: 'Выделил семь задач диспетчера и оценил каждую по важности, уверенности и сложности.' },
+        { text: 'Спроектировал модель данных (заказ, курьер, маршрут, клиент, исключение) и расчёт приоритета исключения.' },
+        { text: 'Определил состав дизайн-системы и архитектурные решения.' },
+        { text: 'Спроектировал интерфейс консоли: таблица заказов, массовое переназначение и фильтр «Исключения» с приоритетом.' },
+      ],
+      results: [
+        { text: 'Макет закрывает все семь задач диспетчера, от мониторинга риска до приоритизации нескольких проблем сразу.' },
+        { text: 'Ожидаемый эффект (гипотеза, не измерено): пятнадцать звонков и пятнадцать правок таблицы при сбое заменяются одним массовым действием, а риск на маршруте виден в списке до звонка курьера.' },
+      ],
     };
 
     const contextText = isEn
@@ -328,7 +491,7 @@ class Component extends DCLogic {
       ? 'The mockup covers all seven of the dispatcher\'s jobs, from risk monitoring to prioritizing several problems at once.'
       : 'Макет закрывает все семь задач диспетчера, от мониторинга риска до приоритизации нескольких проблем сразу.';
 
-    return { t, project, contextText, problemText, asIsText, deskFindings, deskConclusionText, dispatcherTasks, jtbd, entities, priorityCalcText, designSystemText, solutionBlocks, resultText };
+    return { t, project, processSteps, about, contextText, problemText, asIsText, deskFindings, deskConclusionText, dispatcherTasks, jtbd, entities, priorityCalcText, designSystemText, solutionBlocks, resultText };
   }
 }
 </script>

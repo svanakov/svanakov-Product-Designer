@@ -15,12 +15,28 @@
     ::selection { background: oklch(0.58 0.19 264 / 0.25); }
     html { scroll-behavior: smooth; }
     .sec { scroll-margin-top: 40px; }
+    .stage { position: relative; display: flex; flex-direction: column; gap: 96px; }
+    .stage-rail { position: absolute; left: -112px; top: 0; bottom: 0; width: 88px; }
+    .stage-label { position: sticky; top: 96px; }
+    .stage-num { font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(127, 127, 127); }
+    .stage-name { font-size: 14px; font-weight: 500; color: rgb(127, 127, 127); margin-top: 2px; }
+    .about-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 24px 0; border-top: 1px solid rgb(230, 230, 228); align-items: start; }
+    .about-row:first-child { border-top: none; padding-top: 40px; }
+    .about-label { font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); }
+    .about-text { font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); }
+    @media (max-width: 1000px) {
+      .stage-rail { position: static; width: auto; margin-bottom: -56px; }
+      .stage-label { position: static; display: flex; align-items: baseline; gap: 12px; }
+      .stage-name { font-size: 15px; margin-top: 0; }
+    }
     .zoom-wrap { display: block; overflow: hidden; cursor: zoom-in; }
     .zoom-img { transition: transform 400ms ease; display: block; }
     .zoom-wrap:hover .zoom-img { transform: scale(1.04); }
     @media (max-width: 720px) {
       .case-title { font-size: 24px !important; }
       .sec h2 { font-size: 26px !important; }
+      .process-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+      .about-row { grid-template-columns: 1fr !important; gap: 10px !important; }
       article { padding: 48px 20px 80px !important; }
     }
   </style>
@@ -45,27 +61,113 @@
 
     <div>
       <header style="margin-bottom: 48px;">
-        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 12px;">{{ project.title }}</h1>
-        <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0 0 6px;">{{ project.role }}</p>
-        <p style="font-size: 15px; font-weight: 500; color: rgb(127, 127, 127); margin: 0 0 20px;">{{ project.duration }}</p>
-        <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ {{ t.openFigma }}</a>
+        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0;">{{ project.title }}</h1>
       </header>
 
       <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
         <img class="zoom-img" src="./uploads/campus-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
       </div>
+
+      <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="display: inline-block; margin-top: 20px; font-size: 15px; color: oklch(0.58 0.19 264); text-decoration: none; border-bottom: 1px solid oklch(0.58 0.19 264 / 0.4);">↗ {{ t.openFigma }}</a>
     </div>
 
+    <section class="sec" id="sec-about">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.aboutHeading }}</h2>
+      <p style="font-size: 20px; font-weight: 400; line-height: 1.45; color: rgb(12, 12, 12); margin: 0;">{{ about.lead }}</p>
+      <div style="height: 32px;"></div>
+      <div>
+        <div class="about-row">
+          <span class="about-label">{{ t.roleLabel }}</span>
+          <span class="about-text">{{ about.role }}</span>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.problemsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.problems }}" as="item" hint-placeholder-count="3">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.goalsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.goals }}" as="item" hint-placeholder-count="3">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.actionsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.actions }}" as="item" hint-placeholder-count="3">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.resultsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.results }}" as="item" hint-placeholder-count="3">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: rgb(127, 127, 127);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="sec-process">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">{{ t.processHeading }}</h2>
+      <div class="process-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px 40px;">
+        <sc-for list="{{ processSteps }}" as="step" hint-placeholder-count="4">
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <span style="font-size: 17px; color: rgb(127, 127, 127); flex-shrink: 0;">{{ step.num }}</span>
+            <div>
+              <span style="display: block; font-size: 17px; font-weight: 500; color: rgb(12, 12, 12); margin-bottom: 6px;">{{ step.label }}</span>
+              <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ step.desc }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <div class="stage" id="stage-01">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">01</div><div class="stage-name">Discover</div></div></div>
     <section class="sec" id="sec-problem">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.problemHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ problemText }}</p>
     </section>
+    </div>
 
+    <div class="stage" id="stage-02">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">02</div><div class="stage-name">Define</div></div></div>
     <section class="sec" id="sec-solution">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.solutionHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ solutionText }}</p>
     </section>
+    </div>
 
+    <div class="stage" id="stage-03">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">03</div><div class="stage-name">Test</div></div></div>
+    <section class="sec" id="sec-result">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.testHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ resultText }}</p>
+    </section>
+    </div>
+
+    <div class="stage" id="stage-04">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">04</div><div class="stage-name">Develop</div></div></div>
     <section class="sec" id="sec-screens">
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 32px;">{{ t.screensHeading }}</h2>
       <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 48px;">
@@ -97,11 +199,7 @@
       <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.limitationHeading }}</h2>
       <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ limitationText }}</p>
     </section>
-
-    <section class="sec" id="sec-result">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: rgb(12, 12, 12); margin: 0 0 24px;">{{ t.resultHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(66, 67, 61); margin: 0;">{{ resultText }}</p>
-    </section>
+    </div>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid rgb(230, 230, 228);">
       <a href="dispatch.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: rgb(12, 12, 12); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">
@@ -128,27 +226,84 @@ class Component extends DCLogic {
     const t = isEn ? {
       home: 'Home', openFigma: 'Open file in Figma',
       problemHeading: 'Problem', solutionHeading: 'Solution', screensHeading: 'Screens',
-      monetizationHeading: 'Monetization (idea)', limitationHeading: 'Format limitation', resultHeading: 'Result',
+      monetizationHeading: 'Monetization (idea)', limitationHeading: 'Format limitation', testHeading: 'Tested in real use',
+      aboutHeading: 'About the project', roleLabel: 'My role', problemsLabel: 'Problems', goalsLabel: 'Product goals', actionsLabel: 'What I did', resultsLabel: 'Results', processHeading: 'Design Process',
       viewDispatch: 'View Dispatch Console',
       ruColor: 'oklch(0.7 0.004 80)', enColor: 'rgb(12,12,12)',
     } : {
       home: 'На главную', openFigma: 'Открыть файл в Figma',
       problemHeading: 'Проблема', solutionHeading: 'Решение', screensHeading: 'Экраны',
-      monetizationHeading: 'Монетизация (идея)', limitationHeading: 'Ограничение формата', resultHeading: 'Результат',
+      monetizationHeading: 'Монетизация (идея)', limitationHeading: 'Ограничение формата', testHeading: 'Проверка в использовании',
+      aboutHeading: 'О проекте', roleLabel: 'Моя роль', problemsLabel: 'Проблемы', goalsLabel: 'Цели продукта', actionsLabel: 'Что я сделал', resultsLabel: 'Результаты', processHeading: 'Дизайн-процесс',
       viewDispatch: 'Смотреть Dispatch Console',
       ruColor: 'rgb(12,12,12)', enColor: 'oklch(0.7 0.004 80)',
     };
 
     const project = isEn ? {
       title: 'Campus',
-      role: 'University schedule as a PWA, solo product design',
-      duration: 'Personal project',
       figmaLink: 'https://www.figma.com/design/9XC5UJSMw1Oy3m776TuwTw/%D0%9A%D0%B0%D0%BC%D0%BF%D1%83%D1%81?node-id=0-1&t=GeVDLvna4psUg7Cf-1',
     } : {
       title: 'Campus',
-      role: 'Расписание вуза как PWA, продуктовый дизайн (соло)',
-      duration: 'Личный проект',
       figmaLink: 'https://www.figma.com/design/9XC5UJSMw1Oy3m776TuwTw/%D0%9A%D0%B0%D0%BC%D0%BF%D1%83%D1%81?node-id=0-1&t=GeVDLvna4psUg7Cf-1',
+    };
+
+    const processSteps = isEn ? [
+      { num: '01', label: 'Discover', desc: 'Context and data' },
+      { num: '02', label: 'Define', desc: 'Problem and hypothesis' },
+      { num: '03', label: 'Test', desc: 'Hypothesis testing' },
+      { num: '04', label: 'Develop', desc: 'Solution and screens' },
+    ] : [
+      { num: '01', label: 'Discover', desc: 'Контекст и данные' },
+      { num: '02', label: 'Define', desc: 'Проблема и гипотеза' },
+      { num: '03', label: 'Test', desc: 'Проверка гипотезы' },
+      { num: '04', label: 'Develop', desc: 'Решение и экраны' },
+    ];
+
+    const about = isEn ? {
+      lead: "Campus is a PWA with the university schedule that works offline, instead of the official app that keeps crashing. It shows what you need right now: the current class, the next one, and when you can head home.",
+      role: "Personal project. Solo product design: I chose the product format and designed the screens and components.",
+      problems: [
+        { text: "The official university app (\"My Bauman\") crashes regularly and doesn't work without internet." },
+        { text: "When you urgently needed to check the schedule, it let us down." },
+        { text: "Workarounds: a screenshot of the schedule in the gallery, or copying it into a separate spreadsheet." },
+        { text: "The problem was local: not university-wide, just within our friend circle." },
+      ],
+      goals: [
+        { text: "Keep the schedule always at hand, including offline." },
+        { text: "Show what matters right now: the current class, the next one, and when you can head home." },
+        { text: "Avoid store publishing and maintaining iOS and Android in parallel." },
+      ],
+      actions: [
+        { text: "Chose the PWA format: it works offline via a service worker and installs in one tap." },
+        { text: "Designed four screens: home with today's schedule, weekly schedule, class card, settings." },
+        { text: "Built the components and statuses." },
+        { text: "Thought through a Campus Pro subscription model (it stayed at the concept stage)." },
+      ],
+      results: [
+        { text: "Used it ourselves and shared it with some classmates. Everyone was happy: the schedule was always at hand." },
+      ],
+    } : {
+      lead: 'Campus — PWA с расписанием вуза, которое работает офлайн, вместо официального приложения, которое регулярно вылетает. ',
+      role: 'Личный проект',
+      problems: [
+        { text: 'Официальное приложение вуза («Мой МГТУ») регулярно вылетает и не работает без интернета.' },
+        { text: 'Когда срочно нужно было посмотреть расписание, оно подводило.' },
+        { text: 'Обходные пути: скриншот расписания в галерее или перенос его в отдельную таблицу.' },
+      ],
+      goals: [
+        { text: 'Расписание всегда в быстром доступе, в том числе без интернета.' },
+        { text: 'Сразу показывать то, что нужно сейчас: текущую пару, следующую и когда можно уйти домой.' },
+        { text: 'Обойтись без публикации в сторах и параллельной поддержки iOS и Android.' },
+      ],
+      actions: [
+        { text: 'Выбрал формат PWA: работает офлайн через service worker и устанавливается в один клик.' },
+        { text: 'Спроектировал четыре экрана: главный с расписанием на сегодня, расписание на неделю, карточка пары, настройки.' },
+        { text: 'Собрал компоненты и статусы.' },
+        { text: 'Продумал модель подписки Campus Pro (осталась на уровне концепции).' },
+      ],
+      results: [
+        { text: 'Пользовались сами и поделились с частью одногруппников, все были довольны: расписание всегда было под рукой.' },
+      ],
     };
 
     const problemText = isEn
@@ -209,13 +364,13 @@ class Component extends DCLogic {
 
     const limitationText = isEn
       ? "Originally wanted the app to show the current class and countdown in Live Activities on iPhone, so the status would stay visible on the lock screen without opening the app. PWAs don't have access to that API, so the idea had to be dropped."
-      : 'Изначально хотели, чтобы приложение выводило текущую пару и таймер до конца в Live Activities на айфоне, чтобы был виден постоянный статус на экране блокировки, без необходимости открывать приложение. PWA не даёт доступа к этому API, так что от идеи пришлось отказаться.';
+      : 'Изначально я задумывал, чтобы приложение выводило текущую пару и таймер до конца занятия в Live Activities на айфоне, чтобы был виден постоянный статус на экране блокировки, без необходимости открывать приложение. PWA не даёт доступа к этому API, так что от идеи пришлось отказаться.';
 
     const resultText = isEn
       ? 'Used it ourselves and shared it with some classmates — everyone was happy, the schedule was always at hand.'
       : 'Пользовались сами и пошерили с частью одногруппников, все были довольны — расписание всегда было под рукой.';
 
-    return { t, project, problemText, solutionText, screenshots, screens, monetizationText, limitationText, resultText };
+    return { t, project, processSteps, about, problemText, solutionText, screenshots, screens, monetizationText, limitationText, resultText };
   }
 }
 </script>
