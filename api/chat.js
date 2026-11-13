@@ -80,7 +80,7 @@ module.exports = async (req, res) => {
     if (!okIp || !okDay) return send(res, 429, 'rate_limited');
   } catch (e) {
     console.error('limiter', e.message);
-    return send(res, 503, 'unavailable');
+    return send(res, 503, 'unavailable_limiter');
   }
 
   let upstream;
@@ -100,11 +100,11 @@ module.exports = async (req, res) => {
     });
   } catch (e) {
     console.error('llm fetch', e.message);
-    return send(res, 503, 'unavailable');
+    return send(res, 503, 'unavailable_llm_fetch');
   }
   if (!upstream.ok || !upstream.body) {
     console.error('llm status', upstream.status);
-    return send(res, 503, 'unavailable');
+    return send(res, 503, `unavailable_llm_${upstream.status}`);
   }
 
   // Пробрасываем только текст ответа обычным потоком.
