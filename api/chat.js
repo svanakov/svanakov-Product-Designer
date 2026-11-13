@@ -61,6 +61,15 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return send(res, 405, 'method_not_allowed');
   if (!originAllowed(req.headers.origin)) return send(res, 403, 'forbidden');
 
+  // Закрытый режим: пока задан ASSISTANT_KEY, роут отвечает только тому, кто его знает.
+  // Чтобы открыть ассистента всем, удали переменную ASSISTANT_KEY в Vercel.
+  if (process.env.ASSISTANT_KEY) {
+    const h = (v) => crypto.createHash('sha256').update(String(v || '')).digest();
+    if (!crypto.timingSafeEqual(h(req.headers['x-assistant-key']), h(process.env.ASSISTANT_KEY))) {
+      return send(res, 403, 'forbidden');
+    }
+  }
+
   let body;
   try { body = await readJson(req); } catch { return send(res, 400, 'bad_request'); }
 
