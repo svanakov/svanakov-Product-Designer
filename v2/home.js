@@ -2,7 +2,9 @@
 import { cases } from './data/cases.js';
 import { works } from './data/works.js';
 import { experience, stack } from './data/experience.js';
-import { t, pick, getLang, applyI18n, setTodo, FLAGS, CV_URL, TG_URL, MAIL } from './site.js';
+import { t, pick, getLang, applyI18n, FLAGS, CV_URL, TG_URL, MAIL } from './site.js';
+import { video } from './data/video.js';
+import { mountAssistant } from './assistant.js';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const $ = (id) => document.getElementById(id);
@@ -135,6 +137,93 @@ function setupScrollRestore() {
   window.addEventListener('load', go, { once: true }); // высота могла измениться после загрузки картинок
 }
 
+// ---- Видео: чип в Hero, превью в «Как я работаю», модалка ----
+const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function setupVideo() {
+  const modal = $('video-modal'), body = $('video-body'), media = $('workflow-media');
+  const open = () => {
+    const lang = getLang();
+    if (video.src) {
+      if (!body.querySelector('video')) {
+        const v = document.createElement('video');
+        v.controls = true; v.playsInline = true; v.preload = 'metadata';
+        if (video.poster) v.poster = video.poster;
+        v.innerHTML = `<source src="${esc(video.src)}" type="video/mp4">`;
+        ['ru', 'en'].forEach((l) => {
+          if (!video.subtitles[l]) return;
+          const tr = document.createElement('track');
+          tr.kind = 'subtitles'; tr.src = video.subtitles[l]; tr.srclang = l; tr.label = l === 'ru' ? 'Русский' : 'English'; tr.default = l === lang;
+          v.appendChild(tr);
+        });
+        body.textContent = ''; body.appendChild(v);
+      }
+    } else {
+      body.innerHTML = `<div class="modal__ph"><span class="todo">${esc(t('workflow.video', lang))}</span></div>`;
+    }
+    modal.showModal();
+    const v = body.querySelector('video'); if (v) v.play().catch(() => {});
+  };
+  // Закрытие: Esc и крестик (нативно/кнопкой), клик по фону; видео ставим на паузу.
+  modal.addEventListener('click', (e) => { if (e.target === modal || e.target.closest('#video-close')) modal.close(); });
+  modal.addEventListener('close', () => { const v = body.querySelector('video'); if (v) v.pause(); });
+  media.addEventListener('click', open);
+  $('chip-video').addEventListener('click', (e) => { e.preventDefault(); open(); });
+
+  // Беззвучный фрагмент на повторе, загружается только когда блок близко к экрану.
+  if (video.previewSrc) {
+    media.classList.add('has-video');
+    const v = document.createElement('video');
+    v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none'; v.setAttribute('aria-hidden', 'true');
+    if (video.poster) v.poster = video.poster;
+    v.src = video.previewSrc;
+    media.prepend(v);
+    if ('IntersectionObserver' in window && !reduceMotion()) {
+      new IntersectionObserver((en) => en.forEach((x) => { if (x.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: 0.3 }).observe(media);
+    }
+  }
+  if (video.minutes) $('chip-video-min').textContent = ` · ${video.minutes} ${t('workflow.min')}`;
+}
+
+// ---- Ассистент: встроенный блок и чип в Hero ----
+let assistant = null;
+function setupAssistant() {
+  if (!FLAGS.ASSISTANT_ENABLED) return;
+  assistant = mountAssistant($('assistant'));
+  $('chip-assistant').addEventListener('click', (e) => {
+    e.preventDefault();
+    $('assistant').scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'center' });
+    setTimeout(() => assistant.focus(), reduceMotion() ? 0 : 700);
+  });
+}
+
+// ---- Появление секций при скролле ----
+function setupReveal() {
+  document.querySelectorAll('[data-reveal-group]').forEach((g) => [...g.children].forEach((c, i) => { c.setAttribute('data-reveal', ''); c.style.setProperty('--d', i); }));
+  const items = [...document.querySelectorAll('[data-reveal]')];
+  if (!('IntersectionObserver' in window) || reduceMotion()) { items.forEach((x) => x.classList.add('is-in')); window.__revealReady = true; return; }
+  const io = new IntersectionObserver((en) => en.forEach((x) => { if (x.isIntersecting) { x.target.classList.add('is-in'); io.unobserve(x.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  items.forEach((x) => io.observe(x));
+  window.__revealReady = true;
+}
+
+// ---- Лёгкий параллакс обложек при наведении (только мышь) ----
+function setupParallax() {
+  const list = $('cases-list');
+  if (!list || !matchMedia('(hover: hover) and (pointer: fine)').matches || reduceMotion()) return;
+  list.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    const cover = e.target.closest('.case-card__cover'); if (!cover) return;
+    const r = cover.getBoundingClientRect();
+    cover.style.setProperty('--mx', (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+    cover.style.setProperty('--my', (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
+  });
+  list.addEventListener('pointerout', (e) => {
+    const cover = e.target.closest && e.target.closest('.case-card__cover');
+    if (cover && !(e.relatedTarget && cover.contains(e.relatedTarget))) { cover.style.removeProperty('--mx'); cover.style.removeProperty('--my'); }
+  });
+}
+
 function renderAll() {
   const lang = getLang();
   renderCases(lang); renderWorks(lang); renderExperience(lang); renderContact(lang); renderFooter(lang);
@@ -142,6 +231,7 @@ function renderAll() {
   $('chip-video').hidden = !FLAGS.VIDEO;
   $('chip-assistant').hidden = !FLAGS.ASSISTANT_ENABLED;
   $('assistant').hidden = !FLAGS.ASSISTANT_ENABLED;
+  if ($('chip-video-min') && video.minutes) $('chip-video-min').textContent = ` · ${video.minutes} ${t('workflow.min', lang)}`;
   updateStack();
 }
 
@@ -149,4 +239,8 @@ renderAll();
 setupCarousel();
 setupStack();
 setupScrollRestore();
+setupVideo();
+setupAssistant();
+setupReveal();
+setupParallax();
 document.addEventListener('langchange', renderAll);

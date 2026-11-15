@@ -5,8 +5,25 @@ export const CV_URL = 'https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2
 export const TG_URL = 'https://t.me/svanakov';
 export const MAIL = 'vanakovsergey2004@yandex.ru';
 
-// Флаги фаз. Видео-чип включается в фазе 3, ассистент в фазе 4.
-export const FLAGS = { VIDEO: false, ASSISTANT_ENABLED: false };
+// Закрытый режим ассистента (как в v1): пока PUBLIC = false, блок виден только тому, кто открыл сайт с ?assistant=<ключ>.
+// Выключить у себя: ?assistant=off. Открыть всем: PUBLIC = true и удалить ASSISTANT_KEY в Vercel.
+export const PUBLIC = false;
+export let ASSISTANT_KEY = null;
+try {
+  const params = new URLSearchParams(location.search);
+  const p = params.get('assistant');
+  if (p === 'off') localStorage.removeItem('asst_key');
+  else if (p) localStorage.setItem('asst_key', p);
+  if (p) {
+    params.delete('assistant');
+    const qs = params.toString();
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+  }
+  ASSISTANT_KEY = localStorage.getItem('asst_key');
+} catch { /* storage недоступен */ }
+
+// Флаги фаз. ASSISTANT_ENABLED = ассистент доступен посетителю (публичный режим или есть ключ).
+export const FLAGS = { VIDEO: true, ASSISTANT_ENABLED: PUBLIC || !!ASSISTANT_KEY };
 
 // Каждая ссылка раздела: на главной это якорь, на остальных страницах путь на главную с якорем.
 const NAV = [
@@ -62,6 +79,7 @@ function mountHeader() {
   if (!slot) return;
   slot.outerHTML = `
   <header class="site-header" id="header">
+    <div class="scroll-progress" id="progress" aria-hidden="true"></div>
     <div class="site-header__row">
       <a class="brand" href="${isHome ? '#top' : './'}"><img src="../uploads/avatar.jpg" alt="" width="32" height="32"><span data-i18n="site.name"></span></a>
       <nav class="nav" data-i18n-aria="nav.main">${navLinks()}</nav>
@@ -110,7 +128,11 @@ function setupMenu() {
 function setupCompact() {
   const header = document.getElementById('header');
   if (!header) return;
-  const update = () => header.classList.toggle('is-compact', window.scrollY > 24);
+  const bar = document.getElementById('progress');
+  const update = () => {
+    header.classList.toggle('is-compact', window.scrollY > 24);
+    if (bar) { const max = document.documentElement.scrollHeight - window.innerHeight; bar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`; }
+  };
   update();
   window.addEventListener('scroll', update, { passive: true });
 }

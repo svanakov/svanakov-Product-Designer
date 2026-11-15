@@ -84,7 +84,7 @@ body.menu-open { overflow: hidden; }
 .chip[hidden] { display: none; }
 .chip--video { left: 0; top: 22px; }
 .chip--assistant { right: 0; top: 40px; }
-.chip--cv { left: 50%; bottom: 0; transform: translateX(-50%); }
+.chip--cv { left: 0; right: 0; margin: 0 auto; width: max-content; bottom: 0; }
 .hero__thesis { font-size: 36px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; max-width: 780px; margin: 40px auto 0; text-wrap: balance; }
 .hero__exp { font-size: 18px; color: var(--text-desc); margin: 20px auto 0; display: inline-block; }
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 999px; background: var(--inverse-bg); color: var(--inverse-text); font-size: 16px; font-weight: 500; text-decoration: none; transition: opacity 160ms ease; }
@@ -110,8 +110,8 @@ body.menu-open { overflow: hidden; }
 .case-card { border: 1px solid var(--border); border-radius: 24px; background: var(--surface); overflow: hidden; max-height: 85vh; }
 .case-card__link { display: grid; grid-template-columns: 1.25fr 1fr; height: 100%; text-decoration: none; color: inherit; }
 .case-card__cover { position: relative; overflow: hidden; min-height: 320px; background: var(--placeholder); }
-.case-card__cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 400ms ease; }
-.case-card__link:hover .case-card__cover img { transform: scale(1.04); }
+.case-card__cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 350ms ease-out; }
+.case-card__link:hover .case-card__cover img { transform: scale(1.07) translate(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -8px)); }
 .case-card__body { padding: 36px; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
 .case-card__meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--muted); }
 .case-card__meta span + span::before { content: '·'; margin-right: 8px; }
@@ -162,8 +162,16 @@ body.menu-open { overflow: hidden; }
 
 /* Как я работаю */
 .workflow { display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: start; }
-.workflow__media { aspect-ratio: 16 / 9; border-radius: 20px; border: 1px dashed var(--border-strong); background: var(--surface); display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; color: var(--muted); }
-.workflow__media video { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+.workflow__media { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 20px; border: 1px dashed var(--border-strong); background: var(--surface); display: flex; align-items: center; justify-content: center; text-align: center; padding: 0; overflow: hidden; color: var(--muted); cursor: pointer; font: inherit; transition: border-color 160ms ease; }
+.workflow__media:hover { border-color: var(--accent); }
+.workflow__media.has-video { border-style: solid; border-color: var(--border); }
+.workflow__media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.workflow__ph { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 24px; }
+.play { width: 56px; height: 56px; border-radius: 50%; background: var(--inverse-bg); color: var(--inverse-text); display: inline-flex; align-items: center; justify-content: center; transition: transform 200ms ease; }
+.workflow__media:hover .play { transform: scale(1.1); }
+.workflow__media.has-video .workflow__ph { position: absolute; inset: 0; justify-content: center; background: color-mix(in oklch, #000 25%, transparent); color: #fff; }
+.workflow__media.has-video .workflow__ph > span:not(.play) { display: none; }
+.workflow__media.has-video .play { background: #fff; color: #000; }
 .principles { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 28px; }
 .principles h3 { font-size: 20px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; }
 .principles p { margin: 0; font-size: 16px; line-height: 1.5; color: var(--text-desc); }
@@ -208,3 +216,90 @@ body.menu-open { overflow: hidden; }
 .site-footer a { text-decoration: none; font-size: 15px; color: var(--text-3); }
 .site-footer a:hover { color: var(--text); }
 .site-footer__copy { font-size: 14px; color: var(--muted); }
+
+/* ---------- Модалка с видео ---------- */
+.modal { border: 0; padding: 0; background: #000; border-radius: 16px; width: min(960px, 94vw); max-height: 94vh; overflow: visible; color: #fff; }
+.modal::backdrop { background: rgba(0, 0, 0, 0.72); }
+.modal__close { position: absolute; top: -48px; right: 0; background: rgba(255,255,255,.14); border: 0; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.modal__close:hover { background: rgba(255,255,255,.26); }
+.modal__body video { display: block; width: 100%; max-height: 90vh; border-radius: 16px; background: #000; }
+.modal__ph { aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; color: #fff; }
+
+/* ---------- Ассистент (встроенный блок) ---------- */
+.asst { border: 1px solid var(--border); background: var(--surface); border-radius: 24px; overflow: hidden; margin-bottom: 56px; }
+.asst__head { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); }
+.asst__title { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+.asst__sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.asst__log { min-height: 150px; max-height: min(420px, 60vh); overflow-y: auto; overscroll-behavior: contain; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; font-size: 16px; line-height: 1.5; }
+.asst__msg { max-width: min(640px, 90%); white-space: pre-wrap; overflow-wrap: anywhere; }
+.asst__msg.is-user { align-self: flex-end; background: var(--bg); border: 1px solid var(--border); padding: 9px 14px; border-radius: 16px 16px 4px 16px; }
+.asst__msg.is-bot { align-self: flex-start; color: var(--text-2); }
+.asst__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.asst__link { display: inline-flex; align-items: center; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font-size: 14px; font-weight: 500; text-decoration: none; transition: background 160ms ease; }
+.asst__link:hover { background: var(--hover-bg); }
+.asst__chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.asst__chip { padding: 10px 16px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg); font: inherit; font-size: 15px; color: var(--text); cursor: pointer; transition: background 160ms ease, transform 160ms ease; }
+.asst__chip:hover { background: var(--hover-bg); transform: translateY(-1px); }
+.asst__card { border: 1px solid var(--border); background: var(--bg); border-radius: 14px; padding: 14px 16px; }
+.asst__form { display: flex; gap: 10px; padding: 14px 24px 10px; border-top: 1px solid var(--border); }
+.asst__input { flex: 1; min-width: 0; padding: 12px 16px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font: inherit; font-size: 16px; }
+.asst__input::placeholder { color: var(--faint); }
+.asst__send { padding: 0 22px; border-radius: 999px; border: 0; background: var(--inverse-bg); color: var(--inverse-text); font: inherit; font-weight: 500; cursor: pointer; }
+.asst__send[disabled], .asst__input[disabled] { opacity: .5; cursor: default; }
+.asst__hint { padding: 0 24px 16px; font-size: 13px; color: var(--muted); }
+.asst__dots { display: inline-flex; gap: 5px; padding: 6px 0; }
+.asst__dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); opacity: .3; }
+@media (max-width: 720px) {
+  .asst { border-radius: 20px; margin-bottom: 40px; }
+  .asst__head, .asst__log { padding-left: 16px; padding-right: 16px; }
+  .asst__form { padding: 12px 16px 8px; } .asst__hint { padding: 0 16px 14px; }
+  .asst__chip { font-size: 14px; padding: 9px 14px; }
+}
+
+/* ---------- Анимации (всё через transform/opacity, выключается при prefers-reduced-motion) ---------- */
+.scroll-progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none; }
+.hero__ring { display: none; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } }
+@keyframes pop { from { opacity: 0; transform: scale(.82); } }
+@keyframes chip-in { from { opacity: 0; transform: translateY(14px) scale(.9); } }
+@keyframes chip-float { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(var(--dx, 0px), var(--dy, 0px), 0); } }
+@keyframes ring { 0% { transform: scale(1); opacity: .45; } 100% { transform: scale(1.75); opacity: 0; } }
+@keyframes bob { 50% { transform: translateY(3px); } }
+@keyframes dlg-in { from { opacity: 0; transform: translateY(14px) scale(.97); } }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes msg-in { from { opacity: 0; transform: translateY(8px); } }
+@keyframes dot { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+@keyframes chip-pop { from { opacity: 0; transform: translateY(6px); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Вход Hero */
+  .hero [data-hero] { animation: rise .8s cubic-bezier(.2,.7,.2,1) backwards; animation-delay: calc(var(--h, 0) * 1ms + var(--hd, 0) * 1ms); }
+  .hero [data-hero="0"] { animation-name: pop; }
+  .hero [data-hero="3"] { animation-delay: .25s; }
+  .hero [data-hero="4"] { animation-delay: .35s; }
+  .hero [data-hero="5"] { animation-delay: .45s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn { transition: opacity 160ms ease, transform 200ms ease; }
+  .btn [aria-hidden="true"] { display: inline-block; animation: bob 1.8s ease-in-out infinite; }
+  .btn:hover [aria-hidden="true"] { animation-play-state: paused; }
+
+  /* Появление секций при скролле */
+  html.anim [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--d, 0) * 90ms); }
+  html.anim [data-reveal].is-in { opacity: 1; transform: none; }
+
+  .big-links a span[aria-hidden="true"] { transition: transform 200ms ease; }
+  .big-links a:hover span[aria-hidden="true"] { transform: translate(4px, -4px); }
+  .asst__msg { animation: msg-in .35s ease backwards; }
+  .asst__chip { animation: chip-pop .45s ease backwards; animation-delay: calc(var(--i, 0) * 70ms); }
+  .asst__dots i { animation: dot 1.2s infinite ease-in-out; }
+  .asst__dots i:nth-child(2) { animation-delay: .15s; } .asst__dots i:nth-child(3) { animation-delay: .3s; }
+  dialog[open] { animation: dlg-in .28s cubic-bezier(.2,.8,.2,1); }
+  dialog[open]::backdrop { animation: fade-in .28s ease; }
+}
+/* Чипы «дышат» вокруг аватара: малая амплитуда, медленно, на hover останавливаются. Только на десктопе. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 721px) {
+  .chip { animation: chip-in .7s cubic-bezier(.2,.8,.2,1) var(--in, 0s) backwards, chip-float var(--dur, 6s) ease-in-out calc(var(--in, 0s) + .7s) infinite alternate; }
+  .hero__stage:hover .chip { animation-play-state: paused, paused; }
+  .hero__ring { display: block; position: absolute; left: 50%; top: 50%; width: 148px; height: 148px; margin: -74px 0 0 -74px; border-radius: 50%; border: 1.5px solid var(--accent); opacity: 0; pointer-events: none; animation: ring 3.6s ease-out 1.2s infinite; }
+  .hero__ring--2 { animation-delay: 3s; }
+}

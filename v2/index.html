@@ -9,6 +9,15 @@
 <link rel="stylesheet" href="../theme.css">
 <script src="../theme.js"></script>
 <link rel="stylesheet" href="./site.css">
+<script>
+  // Анимации появления включаем только если пользователь не просил меньше движения.
+  (function () {
+    var d = document.documentElement;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    d.classList.add('anim');
+    setTimeout(function () { if (!window.__revealReady) d.classList.remove('anim'); }, 3000);
+  })();
+</script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
@@ -31,23 +40,24 @@
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div class="container">
       <div class="hero__stage">
-        <img class="hero__avatar" src="../uploads/avatar.jpg" width="148" height="148" data-i18n-alt="hero.avatarAlt" alt="">
+        <span class="hero__ring" aria-hidden="true"></span><span class="hero__ring hero__ring--2" aria-hidden="true"></span>
+        <img class="hero__avatar" data-hero="0" src="../uploads/avatar.jpg" width="148" height="148" data-i18n-alt="hero.avatarAlt" alt="">
         <div class="hero__chips">
-          <a class="chip chip--video" id="chip-video" href="#workflow" hidden><span data-i18n="hero.chipVideo"></span></a>
-          <a class="chip chip--assistant" id="chip-assistant" href="#assistant" hidden><span data-i18n="hero.chipAssistant"></span></a>
-          <a class="chip chip--cv" href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener"><span data-i18n="hero.chipCv"></span></a>
+          <a class="chip chip--video" id="chip-video" href="#workflow" style="--in:.45s;--dx:6px;--dy:-8px;--dur:5.5s" hidden><span data-i18n="hero.chipVideo"></span><span id="chip-video-min"></span></a>
+          <a class="chip chip--assistant" id="chip-assistant" href="#assistant" style="--in:.6s;--dx:-7px;--dy:7px;--dur:6.5s" hidden><span data-i18n="hero.chipAssistant"></span></a>
+          <a class="chip chip--cv" style="--in:.75s;--dx:5px;--dy:6px;--dur:7s" href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener"><span data-i18n="hero.chipCv"></span></a>
         </div>
       </div>
-      <h1 class="hero__thesis" id="hero-title" data-i18n="hero.thesis"></h1>
-      <p class="hero__exp" data-i18n="hero.exp"></p>
-      <div class="hero__cta"><a class="btn" href="#cases"><span data-i18n="hero.cta"></span><span aria-hidden="true">↓</span></a></div>
+      <h1 class="hero__thesis" data-hero="3" id="hero-title" data-i18n="hero.thesis"></h1>
+      <p class="hero__exp" data-hero="4" data-i18n="hero.exp"></p>
+      <div class="hero__cta" data-hero="5"><a class="btn" href="#cases"><span data-i18n="hero.cta"></span><span aria-hidden="true">↓</span></a></div>
     </div>
   </section>
 
   <!-- 2. Кейсы -->
   <section class="section" id="cases" aria-labelledby="cases-title">
     <div class="container">
-      <h2 class="section__title" id="cases-title" data-i18n="cases.title"></h2>
+      <h2 class="section__title" data-reveal id="cases-title" data-i18n="cases.title"></h2>
       <div class="cases-bar" aria-hidden="true"><span id="cases-counter">01 / 03</span></div>
       <div class="cases" id="cases-list"></div>
     </div>
@@ -56,7 +66,7 @@
   <!-- Карусель работ -->
   <section class="section" id="works" aria-labelledby="works-title">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-reveal>
         <h2 class="section__title" id="works-title" data-i18n="works.title"></h2>
         <div style="display:flex;align-items:center;gap:20px">
           <a class="text-link" href="./works.html" data-i18n="works.all"></a>
@@ -66,7 +76,7 @@
           </div>
         </div>
       </div>
-      <div class="carousel-wrap">
+      <div class="carousel-wrap" data-reveal style="--d:1">
         <ul class="carousel" id="works-carousel" tabindex="0" role="region" data-i18n-aria="works.carousel"></ul>
       </div>
     </div>
@@ -75,10 +85,12 @@
   <!-- 3. Как я работаю -->
   <section class="section" id="workflow" aria-labelledby="workflow-title">
     <div class="container">
-      <h2 class="section__title" id="workflow-title" data-i18n="workflow.title"></h2>
+      <h2 class="section__title" data-reveal id="workflow-title" data-i18n="workflow.title"></h2>
       <div class="workflow">
-        <div class="workflow__media" id="workflow-media"><span data-i18n="workflow.video"></span></div>
-        <ul class="principles">
+        <button type="button" class="workflow__media" id="workflow-media" data-reveal aria-haspopup="dialog" data-i18n-aria="workflow.play">
+          <span class="workflow__ph" id="workflow-ph"><span class="play" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span data-i18n="workflow.video"></span></span>
+        </button>
+        <ul class="principles" data-reveal-group>
           <li><h3 data-i18n="workflow.p1.title"></h3><p data-i18n="workflow.p1.text"></p></li>
           <li><h3 data-i18n="workflow.p2.title"></h3><p data-i18n="workflow.p2.text"></p></li>
           <li><h3 data-i18n="workflow.p3.title"></h3><p data-i18n="workflow.p3.text"></p></li>
@@ -90,10 +102,10 @@
   <!-- 4. Обо мне -->
   <section class="section" id="about" aria-labelledby="about-title">
     <div class="container">
-      <h2 class="section__title" id="about-title" data-i18n="about.title"></h2>
+      <h2 class="section__title" data-reveal id="about-title" data-i18n="about.title"></h2>
       <div class="about">
-        <img class="about__photo" src="../uploads/avatar.jpg" width="200" height="200" loading="lazy" data-i18n-alt="hero.avatarAlt" alt="">
-        <div class="about__text">
+        <img class="about__photo" data-reveal src="../uploads/avatar.jpg" width="200" height="200" loading="lazy" data-i18n-alt="hero.avatarAlt" alt="">
+        <div class="about__text" data-reveal-group>
           <p data-i18n="about.p1"></p>
           <p data-i18n="about.p2"></p>
           <p data-i18n="about.p3"></p>
@@ -105,8 +117,8 @@
   <!-- 5. Опыт и стек -->
   <section class="section" id="experience" aria-labelledby="experience-title">
     <div class="container">
-      <h2 class="section__title" id="experience-title" data-i18n="experience.title"></h2>
-      <div class="exp">
+      <h2 class="section__title" data-reveal id="experience-title" data-i18n="experience.title"></h2>
+      <div class="exp" data-reveal-group>
         <div><h3 data-i18n="experience.work"></h3><ol class="timeline" id="timeline"></ol></div>
         <div><h3 data-i18n="experience.stack"></h3><div class="stack" id="stack"></div></div>
       </div>
@@ -117,16 +129,21 @@
   <!-- 6. Финал -->
   <section class="section" id="contact" aria-labelledby="contact-title">
     <div class="container">
-      <h2 class="section__title" id="contact-title" data-i18n="contact.title"></h2>
-      <p class="contact__lead" data-i18n="contact.lead"></p>
+      <h2 class="section__title" data-reveal id="contact-title" data-i18n="contact.title"></h2>
+      <p class="contact__lead" data-reveal data-i18n="contact.lead"></p>
       <!-- Фаза 4: здесь встроенный блок ассистента -->
       <div class="assistant-slot" id="assistant" hidden></div>
-      <div class="big-links" id="big-links"></div>
+      <div class="big-links" id="big-links" data-reveal-group></div>
     </div>
   </section>
 </main>
 
 <footer class="site-footer" id="site-footer"></footer>
+
+<dialog class="modal" id="video-modal" data-i18n-aria="workflow.play">
+  <button type="button" class="modal__close" id="video-close" data-i18n-aria="works.close"><svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M4 4L18 18M18 4L4 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  <div class="modal__body" id="video-body"></div>
+</dialog>
 
 <script type="module" src="./site.js"></script>
 <script type="module" src="./home.js"></script>

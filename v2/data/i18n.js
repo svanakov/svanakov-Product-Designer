@@ -40,6 +40,8 @@ export const dict = {
 
     'workflow.title': 'TODO: От макета до кода за N минут',
     'workflow.video': 'TODO: видео Figma → код',
+    'workflow.play': 'Смотреть видео «Figma → код с ИИ»',
+    'workflow.min': 'мин',
     'workflow.p1.title': 'TODO: принцип 1',
     'workflow.p1.text': 'TODO: описание принципа',
     'workflow.p2.title': 'TODO: принцип 2',
@@ -112,6 +114,8 @@ export const dict = {
 
     'workflow.title': 'TODO: From mockup to code in N minutes',
     'workflow.video': 'TODO: Figma → code video',
+    'workflow.play': 'Watch the “Figma → code with AI” video',
+    'workflow.min': 'min',
     'workflow.p1.title': 'TODO: principle 1',
     'workflow.p1.text': 'TODO: principle description',
     'workflow.p2.title': 'TODO: principle 2',
