@@ -40,16 +40,11 @@
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div class="container">
       <div class="hero__stage">
-        <img class="hero__avatar" data-hero="0" src="../uploads/white-1.webp" width="148" height="148" data-i18n-alt="hero.avatarAlt" alt="">
-        <div class="hero__chips">
-          <a class="chip chip--video" id="chip-video" href="#workflow" style="--in:.45s;--dx:6px;--dy:-8px;--dur:5.5s" hidden><span data-i18n="hero.chipVideo"></span><span id="chip-video-min"></span></a>
-          <a class="chip chip--assistant" id="chip-assistant" href="#assistant" style="--in:.6s;--dx:-7px;--dy:7px;--dur:6.5s" hidden><span data-i18n="hero.chipAssistant"></span></a>
-          <a class="chip chip--contacts" style="--in:.75s;--dx:5px;--dy:6px;--dur:7s" href="#contact"><span data-i18n="hero.chipContacts"></span></a>
-        </div>
+        <img class="hero__avatar" data-hero="0" src="../uploads/white.webp" width="148" height="148" data-i18n-alt="hero.avatarAlt" alt="">
       </div>
+      <p class="hero__name" data-hero="2"><span class="hero__fio" data-i18n="hero.fio"></span><span class="hero__age" data-i18n="hero.age"></span></p>
       <h1 class="hero__thesis" data-hero="3" id="hero-title" data-i18n="hero.thesis"></h1>
-      <p class="hero__exp" data-hero="4" data-i18n="hero.exp"></p>
-      <div class="hero__cta" data-hero="5"><a class="btn" href="#cases"><span data-i18n="hero.cta"></span><span aria-hidden="true">↓</span></a></div>
+      <div class="hero__cta" data-hero="5"><a class="btn" href="#cases"><span data-i18n="hero.cta"></span><span aria-hidden="true">↓</span></a><a class="btn btn--ghost" href="#contact"><span data-i18n="hero.chipContacts"></span></a></div>
     </div>
   </section>
 
@@ -69,11 +64,10 @@
     <div class="container">
       <div class="section__head" data-reveal>
         <h2 class="section__title" id="works-title" data-i18n="works.title"></h2>
-        <a class="text-link" href="./works.html" data-i18n="works.all"></a>
       </div>
-    </div>
-    <div class="marquee" id="works-marquee" data-reveal style="--d:1" role="region" data-i18n-aria="works.carousel">
-      <div class="marquee__track"></div>
+      <div class="marquee" id="works-marquee" data-reveal style="--d:1" role="region" data-i18n-aria="works.carousel">
+        <div class="marquee__track"></div>
+      </div>
     </div>
   </section>
 
@@ -89,46 +83,37 @@
     </div>
   </section>
 
-  <!-- 4. Обо мне -->
-  <section class="section" id="about" aria-labelledby="about-title">
-    <div class="container">
-      <h2 class="section__title" data-reveal id="about-title" data-i18n="about.title"></h2>
-      <div class="about">
-        <img class="about__photo" data-reveal src="../uploads/white.webp" width="200" height="200" loading="lazy" data-i18n-alt="hero.avatarAlt" alt="">
-        <div class="about__text" data-reveal-group>
-          <p data-i18n="about.p1"></p>
-          <p data-i18n="about.p2"></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- 5. Опыт и стек -->
   <section class="section" id="experience" aria-labelledby="experience-title">
     <div class="container">
       <h2 class="section__title" data-reveal id="experience-title" data-i18n="experience.title"></h2>
       <div class="exp" data-reveal-group>
-        <div><h3 data-i18n="experience.work"></h3><ol class="timeline" id="timeline"></ol></div>
-        <div><h3 data-i18n="experience.stack"></h3><div class="stack" id="stack"></div></div>
+        <div class="exp__col exp__col--skills"><h3 data-i18n="experience.stack"></h3><div class="stack" id="stack"></div></div>
+        <div class="exp__col exp__col--jobs"><h3 id="experience-work" data-i18n="experience.work"></h3><ol class="timeline" id="timeline"></ol></div>
       </div>
-      <p class="exp__cv"><a class="text-link" href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener"><span data-i18n="experience.cv"></span> →</a></p>
+      <p class="exp__cv"><a class="btn btn--cv" href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener"><span data-i18n="experience.cv"></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8.5 7H17v8.5"/></svg></a></p>
     </div>
   </section>
 
-  <!-- 6. Финал -->
+  <!-- 6. ИИ-ассистент: отдельный раздел перед контактами -->
+  <section class="section section--assistant" id="assistant" aria-labelledby="assistant-title">
+    <div class="container">
+      <h2 class="section__title" data-reveal id="assistant-title" data-i18n="assistant.title"></h2>
+      <div class="assistant-slot" id="assistant-slot" hidden></div>
+    </div>
+  </section>
+
+  <!-- 7. Контакты -->
   <section class="section" id="contact" aria-labelledby="contact-title">
     <div class="container">
       <h2 class="section__title" data-reveal id="contact-title" data-i18n="contact.title"></h2>
-      <p class="contact__lead" data-reveal data-i18n="contact.lead"></p>
-      <!-- Фаза 4: здесь встроенный блок ассистента -->
-      <div class="assistant-slot" id="assistant" hidden></div>
       <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
       <div class="big-links" id="big-links" data-reveal-group></div>
     </div>
   </section>
 </main>
 
-<footer class="site-footer" id="site-footer"></footer>
+<nav class="dock" id="dock"></nav>
 
 <dialog class="modal" id="video-modal" data-i18n-aria="workflow.play">
   <button type="button" class="modal__close" id="video-close" data-i18n-aria="works.close"><svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M4 4L18 18M18 4L4 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
@@ -137,5 +122,6 @@
 
 <script type="module" src="./site.js"></script>
 <script type="module" src="./home.js"></script>
+<script type="module" src="./pet.js"></script>
 </body>
 </html>

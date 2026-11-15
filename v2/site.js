@@ -140,5 +140,12 @@ setupClickSound();
 
 // Далёкие облака на заднем плане верха страницы (кроме страниц кейсов).
 if (document.body.dataset.page !== 'case') {
-  document.body.insertAdjacentHTML('afterbegin', '<div class="sky" aria-hidden="true"><span class="bg-cloud c1"></span><span class="bg-cloud c2"></span><span class="bg-cloud c3"></span></div>');
+  // Звёзды: мерцающие точки, видны только в тёмной теме. Генератор с фиксированным зерном, чтобы небо не менялось при каждой загрузке.
+  let seed = 7;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  const stars = Array.from({ length: 70 }, () => {
+    const size = (0.9 + rnd() * 1.8).toFixed(1);
+    return `<i style="left:${(rnd() * 100).toFixed(1)}%;top:${(rnd() * 88).toFixed(1)}%;--s:${size}px;--d:${(2.4 + rnd() * 4).toFixed(1)}s;--t:${(-rnd() * 6).toFixed(1)}s"></i>`;
+  }).join('');
+  document.body.insertAdjacentHTML('afterbegin', `<div class="sky" aria-hidden="true"><div class="stars">${stars}</div><span class="bg-cloud c1"></span><span class="bg-cloud c2"></span><span class="bg-cloud c3"></span></div>`);
 }

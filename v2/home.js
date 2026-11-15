@@ -15,10 +15,15 @@ function renderCases(lang) {
       <a class="case-card__link" href="${esc(c.href)}" data-case="${esc(c.slug)}">
         <div class="case-card__cover"><img src="${esc(c.cover)}" alt="" loading="lazy"></div>
         <div class="case-card__body">
-          <div class="case-card__meta"><span>${esc(pick(c.domain, lang))}</span><span>${esc(t('cases.kind.' + c.kind, lang))}</span></div>
           <h3 class="case-card__title">${esc(pick(c.title, lang))}</h3>
+          <div class="case-card__meta">
+            <span class="case-card__platform">${esc(c.platform ? pick(c.platform, lang) : '')}</span>
+            <ul class="case-card__stack">${(c.stack || []).map((s) => `<li>${esc(pick(s, lang))}</li>`).join('')}</ul>
+          </div>
           <div><p class="case-card__label">${esc(t('cases.problem', lang))}</p><p class="case-card__text">${esc(pick(c.problem, lang))}</p></div>
-          <div><p class="case-card__label">${esc(t('cases.result', lang))}</p><p class="case-card__text">${esc(pick(c.result, lang))}<span class="case-card__note">${esc(pick(c.resultNote, lang))}</span></p></div>
+          <div><p class="case-card__label">${esc(t('cases.result', lang))}</p>${[].concat(c.result).length > 1
+            ? `<ul class="case-card__list">${[].concat(c.result).map((r) => `<li>${esc(pick(r, lang))}</li>`).join('')}</ul>`
+            : `<p class="case-card__text">${esc(pick([].concat(c.result)[0], lang))}</p>`}</div>
           <span class="case-card__btn">${esc(t('cases.more', lang))} <span aria-hidden="true">→</span></span>
         </div>
       </a>
@@ -27,21 +32,23 @@ function renderCases(lang) {
 
 function renderExperience(lang) {
   $('timeline').innerHTML = experience.map((e) => `
-    <li>
-      <div class="timeline__period ${pick(e.period, lang).startsWith('TODO') ? 'todo' : ''}">${esc(pick(e.period, lang))}</div>
-      <div class="timeline__role ${pick(e.role, lang).startsWith('TODO') ? 'todo' : ''}">${esc(pick(e.role, lang))}</div>
-      <div class="timeline__domain ${pick(e.domain, lang).startsWith('TODO') ? 'todo' : ''}">${esc(pick(e.domain, lang))}</div>
-      <ul>${e.results.map((r) => `<li class="${pick(r, lang).startsWith('TODO') ? 'todo' : ''}">${esc(pick(r, lang))}</li>`).join('')}</ul>
+    <li class="job">
+      <div class="job__head"><span class="job__company">${esc(pick(e.company, lang))}</span><span class="job__period">${esc(pick(e.period, lang))}</span></div>
+      <div class="job__role">${esc(pick(e.role, lang))}</div>
+      <div class="job__domain">${esc(pick(e.domain, lang))}</div>
+      <ul class="job__results">${e.results.map((r) => `<li>${esc(pick(r, lang))}</li>`).join('')}</ul>
     </li>`).join('');
   $('stack').innerHTML = stack.map((g) => `
-    <div class="stack__group"><h4>${esc(t('stack.' + g.key, lang))}</h4>
-      <ul class="stack__items">${g.items.map((i) => { const s = pick(i, lang); return `<li class="${s.startsWith('TODO') ? 'todo' : ''}">${esc(s)}</li>`; }).join('')}</ul>
+    <div class="stack__group"><h4>${esc(pick(g.title, lang))}</h4>
+      ${g.plain
+        ? `<ul class="stack__plain">${g.items.map((i) => `<li>${esc(pick(i, lang))}</li>`).join('')}</ul>`
+        : `<ul class="stack__items">${g.items.map((i) => `<li>${esc(pick(i, lang))}</li>`).join('')}</ul>`}
     </div>`).join('');
 }
 
 const COPY_ICON = '<svg class="ic-copy" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></svg><svg class="ic-done" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 function renderContact(lang) {
-  const arrow = '<span class="big-link__arrow" aria-hidden="true">↗</span>';
+  const arrow = '<span class="big-link__arrow" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M8.5 6H18v9.5"/></svg></span>';
   const row = (href, label, kind, value, ext) => `
     <div class="big-link">
       <a class="big-link__main" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}><span class="big-link__label">${esc(label)}</span>${arrow}</a>
@@ -81,14 +88,44 @@ function setupCopy() {
   });
 }
 
-function renderFooter(lang) {
-  const nav = ['cases', 'works', 'workflow', 'about', 'experience'].map((id) => `<a href="#${id}">${esc(t('nav.' + id, lang))}</a>`).join('');
-  $('site-footer').innerHTML = `
-    <div class="container site-footer__row">
-      <nav aria-label="${esc(t('nav.main', lang))}">${nav}<a href="${CV_URL}" target="_blank" rel="noopener">CV</a></nav>
-      <div class="lang"><button type="button" data-lang="ru">RU</button><span aria-hidden="true">/</span><button type="button" data-lang="en">EN</button></div>
-      <span class="site-footer__copy">© ${new Date().getFullYear()}</span>
-    </div>`;
+// Нижняя навигация: плавающие «таблетки», подсвечивается раздел, в котором сейчас страница.
+const DOCK = [['cases', 'nav.cases'], ['works', 'nav.works'], ['workflow', 'nav.workflow'], ['experience', 'nav.experience'], ['assistant', 'nav.assistant'], ['contact', 'hero.chipContacts']];
+function renderDock(lang) {
+  const dock = $('dock');
+  dock.setAttribute('aria-label', t('nav.main', lang));
+  const up = `<button type="button" class="dock__top" id="dock-top" aria-label="${esc(t('nav.top', lang))}" title="${esc(t('nav.top', lang))}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg></button>`;
+  const spark = '<svg class="dock__spark" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9L12 2zM19 15l.9 2.6L22.5 18.5l-2.6.9L19 22l-.9-2.6-2.6-.9 2.6-.9L19 15z"/></svg>';
+  dock.innerHTML = up + DOCK.map(([id, key]) => id === 'assistant'
+    ? `<a href="#${id}" data-dock="${id}" class="dock__ai">${spark}<span>${esc(t(key, lang))}</span></a>`
+    : `<a href="#${id}" data-dock="${id}">${esc(t(key, lang))}</a>`).join('');
+  updateDock();
+}
+function updateDock() {
+  // Кнопка «наверх» слева от навигации появляется, только когда долистали до конца раздела контактов
+  const top = $('dock-top'), contact = $('contact');
+  if (top && contact) top.classList.toggle('is-visible', contact.getBoundingClientRect().bottom <= window.innerHeight + 60);
+  // Текущий раздел: тот, чей верх ниже всех, но уже выше 40% экрана.
+  let current = '', best = -Infinity;
+  for (const [id] of DOCK) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    const top = el.getBoundingClientRect().top;
+    if (top <= window.innerHeight * 0.4 && top > best) { best = top; current = id; }
+  }
+  document.querySelectorAll('#dock a').forEach((a) => {
+    if (a.dataset.dock === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+  });
+}
+
+// ---- Все карточки кейсов одной высоты: берём высоту самой высокой ----
+function equalizeCards() {
+  const wrap = document.querySelector('.cases-wrap'), cards = [...document.querySelectorAll('.case-card')];
+  if (!wrap || !cards.length) return;
+  wrap.style.removeProperty('--card-h');
+  cards.forEach((c) => { c.style.height = 'auto'; });
+  const h = Math.ceil(Math.max(...cards.map((c) => c.offsetHeight)));
+  wrap.style.setProperty('--card-h', `${h}px`);
+  cards.forEach((c) => { c.style.height = ''; });
 }
 
 // ---- Стопка карточек: прогресс --p и счётчик ----
@@ -174,7 +211,6 @@ function setupVideo() {
   modal.addEventListener('click', (e) => { if (e.target === modal || e.target.closest('#video-close')) modal.close(); });
   modal.addEventListener('close', () => { const v = body.querySelector('video'); if (v) v.pause(); });
   media.addEventListener('click', open);
-  $('chip-video').addEventListener('click', (e) => { e.preventDefault(); open(); });
 
   // Беззвучный фрагмент на повторе, загружается только когда блок близко к экрану.
   if (video.previewSrc) {
@@ -188,7 +224,6 @@ function setupVideo() {
       new IntersectionObserver((en) => en.forEach((x) => { if (x.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: 0.3 }).observe(media);
     }
   }
-  if (video.minutes) $('chip-video-min').textContent = ` · ${video.minutes} ${t('workflow.min')}`;
 }
 
 // ---- Ассистент: встроенный блок и чип в Hero ----
@@ -197,12 +232,7 @@ function setupVideo() {
 const ASSISTANT_LIVE = false;
 let assistant = null;
 function setupAssistant() {
-  assistant = ASSISTANT_LIVE && FLAGS.ASSISTANT_ENABLED ? mountAssistant($('assistant')) : mountAssistantPreview($('assistant'));
-  $('chip-assistant').addEventListener('click', (e) => {
-    e.preventDefault();
-    $('assistant').scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'center' });
-    setTimeout(() => assistant.focus(), reduceMotion() ? 0 : 700);
-  });
+  assistant = ASSISTANT_LIVE && FLAGS.ASSISTANT_ENABLED ? mountAssistant($('assistant-slot')) : mountAssistantPreview($('assistant-slot'));
 }
 
 // ---- Появление секций при скролле ----
@@ -234,19 +264,22 @@ function setupParallax() {
 
 function renderAll() {
   const lang = getLang();
-  renderCases(lang); renderExperience(lang); renderContact(lang); renderFooter(lang);
+  renderCases(lang); equalizeCards(); renderExperience(lang); renderContact(lang); renderDock(lang);
   applyI18n(document, lang);
-  $('chip-video').hidden = !FLAGS.VIDEO;
-  $('chip-assistant').hidden = false;
-  $('assistant').hidden = false;
-  if ($('chip-video-min') && video.minutes) $('chip-video-min').textContent = ` · ${video.minutes} ${t('workflow.min', lang)}`;
+  $('assistant-slot').hidden = false;
   updateStack();
 }
 
 renderAll();
+$('dock').addEventListener('click', (e) => { if (e.target.closest('#dock-top')) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' }); });
 mountMarquee($('works-marquee'));
 setupCopy();
 setupStack();
+window.addEventListener('scroll', updateDock, { passive: true });
+window.addEventListener('resize', updateDock);
+window.addEventListener('resize', () => { equalizeCards(); updateStack(); });
+window.addEventListener('load', () => { equalizeCards(); updateStack(); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { equalizeCards(); updateStack(); });
 setupScrollRestore();
 setupVideo();
 setupAssistant();
