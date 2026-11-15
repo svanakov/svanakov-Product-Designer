@@ -228,9 +228,9 @@ function setupVideo() {
 }
 
 // ---- Ассистент: встроенный блок и чип в Hero ----
-// Пока ассистент не подключён: всем показывается только макет. Включить настоящий: ASSISTANT_LIVE = true
+// Настоящий ассистент включён флагом ASSISTANT_LIVE. Без ключа всем показывается только макет.
 // (и он по-прежнему виден только владельцу с ключом, пока PUBLIC = false в site.js).
-const ASSISTANT_LIVE = false;
+const ASSISTANT_LIVE = true;
 let assistant = null;
 function setupAssistant() {
   assistant = ASSISTANT_LIVE && FLAGS.ASSISTANT_ENABLED ? mountAssistant($('assistant-slot')) : mountAssistantPreview($('assistant-slot'));
