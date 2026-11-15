@@ -5,6 +5,7 @@ import { t, pick, getLang, applyI18n, FLAGS, CV_URL, TG_URL, MAIL } from './site
 import { video } from './data/video.js';
 import { mountAssistant, mountAssistantPreview } from './assistant.js';
 import { mountMarquee } from './marquee.js';
+import { works } from './data/works.js';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const $ = (id) => document.getElementById(id);
@@ -272,7 +273,7 @@ function renderAll() {
 
 renderAll();
 $('dock').addEventListener('click', (e) => { if (e.target.closest('#dock-top')) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' }); });
-mountMarquee($('works-marquee'));
+mountMarquee($('works-marquee'), works, 1); // одна лента, порядок задаёт data/works.js
 setupCopy();
 setupStack();
 window.addEventListener('scroll', updateDock, { passive: true });

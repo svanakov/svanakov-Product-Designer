@@ -125,8 +125,27 @@ function start() {
   let drag = null, suppressClick = false, drags = 0, carry = 0;
   const POS_KEY = 'pet_pos';
   const clamp = (x, y) => [Math.max(8, Math.min(innerWidth - el.offsetWidth - 8, x)), Math.max(8, Math.min(innerHeight - el.offsetHeight - 8, y))];
-  const place = (x, y, save) => {
+  // Облачко не должно заезжать под нижнюю навигацию и плавающую панель темы и языка: упёршись в них, оно останавливается рядом
+  const OBSTACLES = ['#dock', '#float-controls'];
+  function avoid(x, y) {
+    const w = el.offsetWidth, h = el.offsetHeight, m = 10;
+    for (const sel of OBSTACLES) {
+      const o = document.querySelector(sel); if (!o) continue;
+      const r = o.getBoundingClientRect(); if (!r.width) continue;
+      if (x + w > r.left - m && x < r.right + m && y + h > r.top - m && y < r.bottom + m) {
+        // выходим из зоны по самому короткому пути: вверх, вниз, влево или вправо
+        const opts = [[x, r.top - h - m], [x, r.bottom + m], [r.left - w - m, y], [r.right + m, y]]
+          .filter(([ox, oy]) => ox >= 8 && oy >= 8 && ox + w <= innerWidth - 8 && oy + h <= innerHeight - 8)
+          .sort((a, b) => Math.hypot(a[0] - x, a[1] - y) - Math.hypot(b[0] - x, b[1] - y));
+        if (opts.length) [x, y] = opts[0];
+      }
+    }
+    return [x, y];
+  }
+  // loose = true: пока облачко несут, оно может проходить поверх навигации; зона обходится, когда его отпустили
+  const place = (x, y, save, loose) => {
     [x, y] = clamp(x, y);
+    if (!loose) [x, y] = avoid(x, y);
     el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.bottom = 'auto';
     // пузырь не должен вылезать за экран: у верхнего края он ниже питомца, у правого прижат вправо
     el.classList.toggle('is-top', y < 90); el.classList.toggle('is-right', x > innerWidth - 290);
@@ -150,7 +169,7 @@ function start() {
       say(drags === 4 ? t().again : rnd(t().pick), true);
       carry = setInterval(() => say(rnd(t().carry), true), 2600);
     }
-    place(e.clientX - drag.dx, e.clientY - drag.dy);
+    place(e.clientX - drag.dx, e.clientY - drag.dy, false, true);
   });
   const endDrag = () => {
     if (!drag) return;
@@ -159,6 +178,8 @@ function start() {
     clearInterval(carry);
     el.classList.remove('is-drag'); mood('happy', 'smile', 1100); hop(); activity(); anchorX = null;
     const r = el.getBoundingClientRect();
+    // Отпустили над навигацией: плавно переезжаем в ближайшую свободную точку (вверх или в сторону)
+    el.classList.add('is-glide'); setTimeout(() => el.classList.remove('is-glide'), 700);
     place(r.left, r.top, true);
     suppressClick = true; setTimeout(() => { suppressClick = false; }, 0);
     // реплика зависит от места, куда его поставили

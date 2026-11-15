@@ -147,5 +147,5 @@ if (document.body.dataset.page !== 'case') {
     const size = (0.9 + rnd() * 1.8).toFixed(1);
     return `<i style="left:${(rnd() * 100).toFixed(1)}%;top:${(rnd() * 88).toFixed(1)}%;--s:${size}px;--d:${(2.4 + rnd() * 4).toFixed(1)}s;--t:${(-rnd() * 6).toFixed(1)}s"></i>`;
   }).join('');
-  document.body.insertAdjacentHTML('afterbegin', `<div class="sky" aria-hidden="true"><div class="stars">${stars}</div><span class="bg-cloud c1"></span><span class="bg-cloud c2"></span><span class="bg-cloud c3"></span></div>`);
+  document.body.insertAdjacentHTML('afterbegin', `<div class="sky" aria-hidden="true"><div class="stars">${stars}</div><span class="bg-cloud c1"></span><span class="bg-cloud c2"></span><span class="bg-cloud c3"></span><span class="bg-cloud c4"></span><span class="bg-cloud c5"></span></div>`);
 }

@@ -4,7 +4,6 @@
 // Курсор ушёл за пределы ленты: она плавно трогается и едет дальше с того места, где остановилась.
 // После закрытия картинки лента снова едет, как только курсор вне ленты.
 // При prefers-reduced-motion движения нет, лента просто листается пальцем или колесом.
-import { works } from './data/works.js';
 import { pick, getLang } from './site.js';
 import { openLightbox } from './lightbox.js';
 
@@ -14,9 +13,10 @@ const EASING = 4;                 // чем больше, тем быстрее 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-export function mountMarquee(root) {
+// list: работы этой ленты; dir: 1 едет справа налево, -1 слева направо (у двух лент направления встречные)
+export function mountMarquee(root, list, dir = 1) {
   const track = root.querySelector('.marquee__track');
-  const n = works.length;
+  const n = list.length;
   let x = 0, v = 0, setW = 0, raf = 0, last = 0;
   let hover = false, focused = false, lbOpen = false;
   let dragging = false, dragMoved = 0, lastPX = 0, suppressClick = false;
@@ -33,7 +33,7 @@ export function mountMarquee(root) {
     return `<button type="button" class="marquee__item" data-id="${w.id}" aria-label="${esc(alt)}"${clone ? ' tabindex="-1" aria-hidden="true"' : ''}>
       <img src="${esc(w.src)}" width="${w.w}" height="${w.h}" alt="" draggable="false"></button>`;
   }
-  function appendSet(lang, clone) { track.insertAdjacentHTML('beforeend', works.map((w) => itemHtml(w, lang, clone)).join('')); }
+  function appendSet(lang, clone) { track.insertAdjacentHTML('beforeend', list.map((w) => itemHtml(w, lang, clone)).join('')); }
 
   function measure() {
     if (isStatic || track.children.length < n + 1) return;
@@ -50,7 +50,7 @@ export function mountMarquee(root) {
     appendSet(lang, false);
     root.classList.toggle('is-static', isStatic);
     if (!isStatic) { appendSet(lang, true); measure(); }
-    x = 0; v = 0;
+    x = dir < 0 ? -setW / 2 : 0; v = 0; // лента, едущая вправо, стартует с середины набора, чтобы слева не было пустоты
     track.style.transform = '';
     ensure();
   }
@@ -61,7 +61,7 @@ export function mountMarquee(root) {
     const target = paused() ? 0 : SPEED;
     v += (target - v) * (1 - Math.exp(-dt * EASING));
     if (target === 0 && v < 0.05) { v = 0; raf = 0; return; } // полностью остановились, цикл не крутим вхолостую
-    x -= v * dt;
+    x -= dir * v * dt;
     wrap();
     paint();
     raf = requestAnimationFrame(frame);
@@ -120,7 +120,7 @@ export function mountMarquee(root) {
   root.addEventListener('click', (e) => {
     if (suppressClick) return;
     const b = e.target.closest('.marquee__item'); if (!b) return;
-    const w = works.find((k) => k.id === b.dataset.id); if (!w) return;
+    const w = list.find((k) => k.id === b.dataset.id); if (!w) return;
     v = 0; // замираем сразу, чтобы увеличение вышло ровно из миниатюры
     openLightbox(b, { src: w.src, alt: pick(w.alt, getLang()) }, {
       onOpen: () => { lbOpen = true; },

@@ -17,7 +17,7 @@ export const cases = [
       { ru: '11 из 12 участников (92%) первым кликом попали на рекомендуемую тренировку.', en: '11 of 12 participants (92%) landed on the recommended workout with their first click.' },
       { ru: 'Средний SEQ по трём сценариям: 6.2 из 7.', en: 'Average SEQ across the three scenarios: 6.2 out of 7.' },
     ],
-    cover: '../uploads/rytmo-cover.webp',
+    cover: '../uploads/rytmo-cover2.webp?v=3',
   },
   {
     slug: 'campus',
@@ -35,7 +35,7 @@ export const cases = [
       ru: 'Расписание работает офлайн, пользуются одногруппники.',
       en: 'The schedule works offline, classmates use it.',
     },
-    cover: '../uploads/campus-cover.webp',
+    cover: '../uploads/campus-cover2.webp?v=2',
   },
   {
     slug: 'dispatch',
@@ -52,6 +52,6 @@ export const cases = [
       ru: '15 звонков при сбое заменяются одним массовым действием.',
       en: '15 calls after a failure become one bulk action.',
     },
-    cover: '../uploads/dispatch-cover.webp',
+    cover: '../uploads/dispatch-cover2.webp?v=2',
   },
 ];
