@@ -228,9 +228,9 @@ export function mountAssistant(root) {
 // ---------- Демо-ассистент: полноценный интерфейс на заготовленных ответах (без запросов к серверу) ----------
 // Тексты ответов взяты только из кейсов и CV. Настоящий ассистент включается флагом ASSISTANT_LIVE в home.js.
 const CASES = {
-  rytmo: { href: './rytmo.html', cover: '../uploads/rytmo-cover.webp', title: { ru: 'Rytmo', en: 'Rytmo' }, sub: { ru: 'Мобильное приложение', en: 'Mobile app' } },
-  campus: { href: './campus.html', cover: '../uploads/campus-cover.webp', title: { ru: 'Campus', en: 'Campus' }, sub: { ru: 'Веб, PWA', en: 'Web, PWA' } },
-  dispatch: { href: './dispatch.html', cover: '../uploads/dispatch-cover.webp', title: { ru: 'Диспетчерская консоль', en: 'Dispatcher Console' }, sub: { ru: 'Веб, B2B', en: 'Web, B2B' } },
+  rytmo: { href: './rytmo.html', cover: '../uploads/rytmo-cover2.webp?v=3', title: { ru: 'Rytmo', en: 'Rytmo' }, sub: { ru: 'Мобильное приложение', en: 'Mobile app' } },
+  campus: { href: './campus.html', cover: '../uploads/campus-cover2.webp?v=2', title: { ru: 'Campus', en: 'Campus' }, sub: { ru: 'Веб, PWA', en: 'Web, PWA' } },
+  dispatch: { href: './dispatch.html', cover: '../uploads/dispatch-cover2.webp?v=2', title: { ru: 'Диспетчерская консоль', en: 'Dispatcher Console' }, sub: { ru: 'Веб, B2B', en: 'Web, B2B' } },
 };
 const DEMO = {
   edtech: { q: { ru: 'Какой опыт в EdTech?', en: 'What is his EdTech experience?' }, card: 'campus', follow: ['metrics', 'campus', 'tools'], keys: /edtech|образован|дэш|dash|учител|teacher/i,
@@ -277,7 +277,11 @@ const MAXQ = 6;
 const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 const INITIAL = ['edtech', 'hardest', 'research', 'remote'];
 
-export function mountAssistantPreview(root) {
+// opts.live = true: тот же интерфейс, но ответы идут от настоящей нейросети (POST /api/chat), а не из заготовок.
+export function mountAssistantPreview(root, opts = {}) {
+  const live = !!opts.live;
+  const history = []; // переписка для сервера (только в live-режиме)
+  let ctrl = null;
   let sound = null;
   if (matchMedia('(hover: hover) and (pointer: fine)').matches) { sound = new Audio('../sounds/liecio-menu_beep_short_snap-533778.mp3'); sound.volume = 0.12; }
   const plink = () => { if (sound) { sound.currentTime = 0; sound.play().catch(() => {}); } };
@@ -361,7 +365,64 @@ export function mountAssistantPreview(root) {
       badge.classList.remove('is-tick'); void badge.offsetWidth; badge.classList.add('is-tick');
     }
 
+    // Настоящий ответ: тот же интерфейс, поток текста с сервера
+    async function askLive(id, free) {
+      const question = (free || (id ? pick(DEMO[id].q, lang) : '')).trim();
+      if (!question || busy || count >= MAXQ) return;
+      busy = true; primeAudio(); ai.classList.add('is-asked');
+      if (id) asked.add(id);
+      addUser(question); input.value = ''; chips.classList.add('is-hidden');
+      send.innerHTML = '<span class="ai__stop"></span>'; send.setAttribute('aria-label', u.stop);
+      const bubble = addBot(`<span class="ai__think">${T[lang].thinking}</span>`);
+      setState('thinking');
+      history.push({ role: 'user', content: question });
+      ctrl = new AbortController();
+      let answer = '', stream = null, failed = '', detail = '';
+      const ensure = () => { if (!stream) { setState('speaking'); bubble.textContent = ''; stream = createWordStream(bubble, scroll); } return stream; };
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (ASSISTANT_KEY) headers['x-assistant-key'] = ASSISTANT_KEY;
+        const r = await fetch(API, { method: 'POST', headers, signal: ctrl.signal, body: JSON.stringify({ messages: history, page: 'home' }) });
+        if (r.status === 429) failed = 'limit';
+        else if (!r.ok || !r.body) { let t = ''; try { t = (await r.text()).slice(0, 60); } catch {} throw new Error(`${r.status} ${t}`.trim()); }
+        else {
+          count = quotaBump().count; updateCounter();
+          const reader = r.body.getReader(), dec = new TextDecoder();
+          for (;;) {
+            const part = await reader.read(); if (part.done) break;
+            answer += dec.decode(part.value, { stream: true });
+            ensure().update(stripMarkers(answer), false);
+          }
+        }
+      } catch (e) {
+        if (e.name === 'AbortError') { if (stream) stream.skip(); }
+        else if (!answer) { failed = 'error'; detail = e.message || ''; }
+      }
+      const finish = () => {
+        const caret = bubble.querySelector('.ai__caret'); if (caret) caret.remove();
+        setState(''); busy = false; send.innerHTML = ARROW_UP; send.setAttribute('aria-label', u.send);
+        if (count >= MAXQ) lockDemo(); else { chips.classList.remove('is-hidden'); renderChips([], true); }
+        scroll();
+      };
+      if (failed) {
+        history.pop();
+        bubble.innerHTML = `${failed === 'limit' ? u.limit : T[lang].errorTitle}${detail && ASSISTANT_KEY ? `<small class="ai__err"> (${detail.replace(/[<>&]/g, '')})</small>` : ''}${tgCard()}`;
+        finish(); return;
+      }
+      if (!answer) { history.pop(); bubble.parentElement.remove(); finish(); return; }
+      await new Promise((res) => { const st = ensure(); st.onDone(res); st.update(stripMarkers(answer), true); });
+      let extra = 0;
+      markers(answer).forEach((m) => {
+        if (extra >= 2) return;
+        if (m === 'contact') { bubble.insertAdjacentHTML('beforeend', tgCard()); extra++; }
+        else if (m.startsWith('case:') && CASES[m.slice(5)]) { bubble.insertAdjacentHTML('beforeend', caseCard(m.slice(5))); extra++; }
+      });
+      history.push({ role: 'assistant', content: answer });
+      chime(); finish();
+    }
+
     function ask(id, free) {
+      if (live) return askLive(id, free);
       if (busy || count >= MAXQ) return;
       busy = true; count = quotaBump().count; updateCounter(); primeAudio(); ai.classList.add('is-asked');
       const item = id ? DEMO[id] : null;
@@ -393,9 +454,11 @@ export function mountAssistantPreview(root) {
       e.preventDefault();
       const v = input.value.trim();
       if (!v || busy) return;
+      if (live) { askLive(null, v); return; }
       const hit = Object.keys(DEMO).find((k) => DEMO[k].keys.test(v));
       ask(hit && !asked.has(hit) ? hit : (hit ? hit : null), v);
     });
+    send.addEventListener('click', () => { if (live && busy && ctrl) ctrl.abort(); }); // кнопка «Стоп»
     // Питомец смотрит за курсором
     ai.addEventListener('pointermove', (e) => {
       if (e.pointerType !== 'mouse' || ai.classList.contains('is-thinking') || ai.classList.contains('is-speaking')) return;

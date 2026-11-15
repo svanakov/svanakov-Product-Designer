@@ -230,10 +230,12 @@ function setupVideo() {
 // ---- Ассистент: встроенный блок и чип в Hero ----
 // Настоящий ассистент включён флагом ASSISTANT_LIVE. Без ключа всем показывается только макет.
 // (и он по-прежнему виден только владельцу с ключом, пока PUBLIC = false в site.js).
-const ASSISTANT_LIVE = true;
+// Пока настоящий ответ только на localhost (там прокси на боевой бэкенд). На сайте у всех демо с подсказками.
+// Включить на сайте: поставить true.
+const ASSISTANT_LIVE = ['localhost', '127.0.0.1'].includes(location.hostname);
 let assistant = null;
 function setupAssistant() {
-  assistant = ASSISTANT_LIVE && FLAGS.ASSISTANT_ENABLED ? mountAssistant($('assistant-slot')) : mountAssistantPreview($('assistant-slot'));
+  assistant = mountAssistantPreview($('assistant-slot'), { live: ASSISTANT_LIVE && FLAGS.ASSISTANT_ENABLED }); // тот же интерфейс; живой режим только с ключом
 }
 
 // ---- Появление секций при скролле ----
