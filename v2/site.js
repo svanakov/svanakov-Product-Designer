@@ -1,4 +1,4 @@
-// Общая оболочка v2: шапка, меню, язык, подсветка раздела. Подключается на всех страницах как module.
+// Общая оболочка v2: плавающие переключатели темы и языка, тексты. Подключается на всех страницах как module.
 import { dict } from './data/i18n.js';
 
 export const CV_URL = 'https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing';
@@ -25,18 +25,7 @@ try {
 // Флаги фаз. ASSISTANT_ENABLED = ассистент доступен посетителю (публичный режим или есть ключ).
 export const FLAGS = { VIDEO: true, ASSISTANT_ENABLED: PUBLIC || !!ASSISTANT_KEY };
 
-// Каждая ссылка раздела: на главной это якорь, на остальных страницах путь на главную с якорем.
-const NAV = [
-  { id: 'cases', key: 'nav.cases' },
-  { id: 'works', key: 'nav.works' },
-  { id: 'workflow', key: 'nav.workflow' },
-  { id: 'about', key: 'nav.about' },
-  { id: 'experience', key: 'nav.experience' },
-];
-
-const isHome = document.body.dataset.page === 'home';
 const reloadOnLang = document.body.hasAttribute('data-lang-reload');
-const href = (id) => (isHome ? `#${id}` : `./#${id}`);
 
 export function getLang() {
   try { return localStorage.getItem('lang') === 'en' ? 'en' : 'ru'; } catch { return 'ru'; }
@@ -66,94 +55,48 @@ export function setTodo(el, text) {
 const THEME_ICON = '<svg class="ti-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="ti-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
 const themeBtn = () => `<button type="button" class="theme-toggle" data-theme-toggle data-i18n-aria="nav.theme" data-i18n-title="nav.theme">${THEME_ICON}</button>`;
 const langBtns = () => '<div class="lang"><button type="button" data-lang="ru">RU</button><span aria-hidden="true">/</span><button type="button" data-lang="en">EN</button></div>';
-const burgerIcon = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M3 6H19M3 11H19M3 16H19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
-const closeIcon = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M4 4L18 18M18 4L4 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
-
-function navLinks(cls) {
-  const items = NAV.map((n) => `<a href="${href(n.id)}" data-nav="${n.id}" data-i18n="${n.key}"></a>`).join('');
-  return items + `<a href="${CV_URL}" target="_blank" rel="noopener" data-i18n="nav.cv"></a>`;
-}
-
-function mountHeader() {
+// Плавающая панель в углу: переключатель темы и языка. Шапки нет.
+// На страницах кейсов добавляется маленькая стрелка назад (иначе с кейса некуда вернуться, пока нет нового шаблона).
+const backIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+function mountControls() {
   const slot = document.getElementById('site-header');
   if (!slot) return;
-  slot.outerHTML = `
-  <header class="site-header" id="header">
-    <div class="scroll-progress" id="progress" aria-hidden="true"></div>
-    <div class="site-header__row">
-      <a class="brand" href="${isHome ? '#top' : './'}"><img src="../uploads/avatar.jpg" alt="" width="32" height="32"><span data-i18n="site.name"></span></a>
-      <nav class="nav" data-i18n-aria="nav.main">${navLinks()}</nav>
-      <div class="tools">${themeBtn()}${langBtns()}
-        <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="menu" data-i18n-aria="nav.menu">${burgerIcon}</button>
-      </div>
-    </div>
-  </header>
-  <div class="menu" id="menu" hidden role="dialog" aria-modal="true" data-i18n-aria="nav.menu">
-    <div class="menu__top">
-      <div class="tools">${langBtns()}${themeBtn()}</div>
-      <button type="button" class="burger" id="menu-close" style="display:inline-flex" data-i18n-aria="nav.close">${closeIcon}</button>
-    </div>
-    <nav class="menu__links" data-i18n-aria="nav.main">${navLinks()}</nav>
-  </div>`;
+  slot.outerHTML = `<div class="float-controls" id="float-controls">${themeBtn()}<span class="float-sep" aria-hidden="true"></span>${langBtns()}</div>`;
+  if (document.body.dataset.page === 'case') mountBackButtons();
 }
 
-function setupMenu() {
-  const menu = document.getElementById('menu');
-  const burger = document.getElementById('burger');
-  const closeBtn = document.getElementById('menu-close');
-  if (!menu || !burger) return;
-  const open = () => {
-    menu.hidden = false; document.body.classList.add('menu-open'); burger.setAttribute('aria-expanded', 'true'); closeBtn.focus();
-  };
-  const close = () => {
-    menu.hidden = true; document.body.classList.remove('menu-open'); burger.setAttribute('aria-expanded', 'false'); burger.focus({ preventScroll: true });
-  };
-  burger.addEventListener('click', open);
-  closeBtn.addEventListener('click', close);
-  menu.addEventListener('click', (e) => { if (e.target.closest('a[href^="#"], a[href^="./"]')) { menu.hidden = true; document.body.classList.remove('menu-open'); burger.setAttribute('aria-expanded', 'false'); } });
-  document.addEventListener('keydown', (e) => {
-    if (menu.hidden) return;
-    if (e.key === 'Escape') return close();
-    if (e.key === 'Tab') { // фокус остаётся внутри меню
-      const f = [...menu.querySelectorAll('a, button')].filter((el) => el.offsetParent !== null);
-      if (!f.length) return;
-      const first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
-  });
-  window.matchMedia('(min-width: 881px)').addEventListener('change', (m) => { if (m.matches && !menu.hidden) close(); });
-}
+// Страницы кейсов: кнопка «вернуться» слева сверху, которая исчезает у конца страницы, и статичная ссылка «вернуться»
+// внизу, в одной строке со ссылкой «Смотреть …» (оформлена так же, как она).
+function mountBackButtons() {
+  const label = '<span aria-hidden="true">←</span><span data-i18n="case.back"></span>';
+  document.body.insertAdjacentHTML('afterbegin', `<a class="back-btn" id="back-btn" href="./#cases">${label}</a>`);
+  document.body.insertAdjacentHTML('beforeend', `<a class="back-link" id="back-link" href="./#cases">${label}</a>`);
+  const btn = document.getElementById('back-btn'), bottom = document.getElementById('back-link');
 
-function setupCompact() {
-  const header = document.getElementById('header');
-  if (!header) return;
-  const bar = document.getElementById('progress');
-  const update = () => {
-    header.classList.toggle('is-compact', window.scrollY > 24);
-    if (bar) { const max = document.documentElement.scrollHeight - window.innerHeight; bar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`; }
-  };
-  update();
-  window.addEventListener('scroll', update, { passive: true });
-}
+  // Страница кейса рисуется старым рантаймом и может перерисовываться, поэтому в её разметку ничего не вставляем:
+  // нижняя ссылка лежит в body и ставится по координатам строки со ссылкой «Смотреть …».
+  const findLink = () => document.querySelector('article a[href="campus.html"], article a[href="dispatch.html"], article a[href="rytmo.html"]');
 
-// Подсветка текущего раздела на главной: активен последний раздел, верх которого выше 40% экрана.
-// Финал (#contact) пункта в меню не имеет, поэтому на нём подсветка снимается.
-function setupScrollSpy() {
-  if (!isHome) return;
-  const ids = [...NAV.map((n) => n.id), 'contact'];
-  const update = () => {
-    let current = '';
-    for (const id of ids) {
-      const el = document.getElementById(id);
-      if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4) current = id;
-    }
-    document.querySelectorAll('[data-nav]').forEach((a) => {
-      if (a.dataset.nav === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
-    });
-  };
+  function update() {
+    const link = findLink();
+    if (!link) return;
+    const r = link.getBoundingClientRect();
+    bottom.style.display = '';
+    bottom.style.left = `${link.parentElement.getBoundingClientRect().left + window.scrollX}px`;
+    bottom.style.top = `${r.top + window.scrollY + (r.height - bottom.offsetHeight) / 2}px`;
+    // Верхняя кнопка тает за 300 px до конца страницы и исчезает совсем, когда внизу видна нижняя ссылка.
+    const vh = window.innerHeight;
+    const restTop = r.top + window.scrollY - (document.documentElement.scrollHeight - vh);
+    const fade = Math.min(1, Math.max(0, (r.top - restTop) / 300));
+    btn.style.opacity = fade.toFixed(3);
+    btn.style.pointerEvents = fade < 0.5 ? 'none' : '';
+    btn.tabIndex = fade < 0.5 ? -1 : 0;
+  }
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+  new MutationObserver(update).observe(document.body, { childList: true, subtree: true });
+  bottom.style.display = 'none';
   update();
 }
 
@@ -168,9 +111,34 @@ function setupLang() {
   });
 }
 
-mountHeader();
+mountControls();
 applyI18n();
-setupMenu();
-setupCompact();
-setupScrollSpy();
 setupLang();
+
+// Звук клика по ссылкам, как в первой версии: тихий щелчок на устройствах с мышью.
+// Переход на другую страницу откладывается на 150 мс, чтобы звук успел прозвучать.
+// На страницах кейсов этот звук уже есть в их собственном скрипте, поэтому там не дублируем.
+function setupClickSound() {
+  if (document.body.dataset.page === 'case') return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const sound = new Audio('../sounds/liecio-menu_beep_short_snap-533778.mp3');
+  sound.volume = 0.15;
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+    const href = link.getAttribute('href');
+    const stays = !href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http') || link.target === '_blank' || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey;
+    if (!stays) {
+      e.preventDefault();
+      setTimeout(() => { window.location.href = link.href; }, 150);
+    }
+  });
+}
+setupClickSound();
+
+// Далёкие облака на заднем плане верха страницы (кроме страниц кейсов).
+if (document.body.dataset.page !== 'case') {
+  document.body.insertAdjacentHTML('afterbegin', '<div class="sky" aria-hidden="true"><span class="bg-cloud c1"></span><span class="bg-cloud c2"></span><span class="bg-cloud c3"></span></div>');
+}

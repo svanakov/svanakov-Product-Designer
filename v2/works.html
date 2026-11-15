@@ -10,17 +10,9 @@
 <link rel="stylesheet" href="./site.css">
 <style>
   .works-grid { columns: 3 280px; column-gap: 20px; }
-  .works-grid figure { margin: 0 0 20px; break-inside: avoid; }
-  .works-grid button { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 20px; overflow: hidden; line-height: 0; }
-  .works-grid img { width: 100%; height: auto; border: 1px solid var(--border); border-radius: 20px; background: var(--placeholder); transition: transform 400ms ease; }
+  .works-grid button { display: block; width: 100%; margin: 0 0 20px; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 20px; overflow: hidden; line-height: 0; break-inside: avoid; }
+  .works-grid img { width: 100%; height: auto; border: 1px solid var(--border); border-radius: 20px; background: var(--placeholder); transition: transform .7s cubic-bezier(.22, 1, .36, 1); }
   .works-grid button:hover img { transform: scale(1.03); }
-  .works-grid figcaption { margin-top: 10px; font-size: 14px; color: var(--text-desc); }
-  .lightbox { border: 0; padding: 0; background: transparent; max-width: min(1200px, 94vw); max-height: 94vh; width: auto; color: var(--text); overflow: visible; }
-  .lightbox::backdrop { background: rgba(0, 0, 0, 0.72); }
-  .lightbox img { display: block; max-width: 100%; max-height: calc(94vh - 64px); width: auto; height: auto; margin: 0 auto; border-radius: 16px; }
-  .lightbox figcaption { color: #fff; text-align: center; margin-top: 12px; font-size: 15px; }
-  .lightbox__close { position: absolute; top: -48px; right: 0; background: rgba(255,255,255,.14); border: 0; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
-  .lightbox__close:hover { background: rgba(255,255,255,.26); }
   .page-lead { font-size: 19px; color: var(--text-desc); margin: -24px 0 48px; }
   .back { display: inline-block; margin-bottom: 24px; font-size: 15px; color: var(--text-3); text-decoration: none; }
   .back:hover { color: var(--text); }
@@ -50,11 +42,6 @@
     <div class="works-grid" id="works-grid"></div>
   </div>
 </main>
-
-<dialog class="lightbox" id="lightbox" aria-label="">
-  <button type="button" class="lightbox__close" id="lightbox-close" data-i18n-aria="works.close"><svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M4 4L18 18M18 4L4 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-  <figure style="margin:0"><img id="lightbox-img" alt=""><figcaption id="lightbox-cap"></figcaption></figure>
-</dialog>
 
 <script type="module" src="./site.js"></script>
 <script type="module" src="./works.js"></script>

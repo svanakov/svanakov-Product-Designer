@@ -150,3 +150,37 @@ export function mountAssistant(root) {
   render();
   return { focus: () => input.focus({ preventScroll: true }) };
 }
+
+// Внешний макет ассистента: тот же вид, но без запросов. Нужен, чтобы оценить дизайн до подключения.
+const PREVIEW = {
+  ru: { badge: 'Макет', hint: 'Ассистент пока не подключён. Это только внешний вид.',
+    q: 'Какой опыт в EdTech?',
+    a: 'Хороший вопрос. Сергей спроектировал Campus: PWA с расписанием вуза, которое работает офлайн. Это личный проект, а не работа для заказчика.',
+    link: 'Открыть кейс Campus' },
+  en: { badge: 'Mockup', hint: 'The assistant is not connected yet. This is only the look.',
+    q: 'What is his EdTech experience?',
+    a: 'Good question. Sergey designed Campus, a university schedule PWA that works offline. It is a personal project, not client work.',
+    link: 'Open the Campus case' },
+};
+export function mountAssistantPreview(root) {
+  function render() {
+    const lang = getLang(), l = T[lang], p = PREVIEW[lang];
+    root.innerHTML = `
+      <section class="asst" aria-labelledby="asst-title">
+        <div class="asst__head"><div><div class="asst__title" id="asst-title">${l.title}<span class="asst__badge">${p.badge}</span></div></div></div>
+        <div class="asst__log">
+          <div class="asst__msg is-user">${p.q}</div>
+          <div class="asst__msg is-bot">${p.a}<div class="asst__actions"><a class="asst__link" href="./campus.html">${p.link}</a></div></div>
+          <div class="asst__chips">${l.chips.map((q, i) => `<button type="button" class="asst__chip" style="--i:${i}" tabindex="-1" aria-disabled="true">${q}</button>`).join('')}</div>
+        </div>
+        <form class="asst__form" onsubmit="return false">
+          <input class="asst__input" type="text" disabled placeholder="${l.placeholder}" aria-label="${l.placeholder}">
+          <button class="asst__send" type="submit" disabled>${l.send}</button>
+        </form>
+        <div class="asst__hint">${p.hint}</div>
+      </section>`;
+  }
+  document.addEventListener('langchange', render);
+  render();
+  return { focus() {} };
+}

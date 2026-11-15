@@ -1,10 +1,10 @@
-// Главная v2: отрисовка секций из data/*.js и поведение карусели.
+// Главная v2: отрисовка секций из data/*.js и поведение страницы.
 import { cases } from './data/cases.js';
-import { works } from './data/works.js';
 import { experience, stack } from './data/experience.js';
 import { t, pick, getLang, applyI18n, FLAGS, CV_URL, TG_URL, MAIL } from './site.js';
 import { video } from './data/video.js';
-import { mountAssistant } from './assistant.js';
+import { mountAssistant, mountAssistantPreview } from './assistant.js';
+import { mountMarquee } from './marquee.js';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const $ = (id) => document.getElementById(id);
@@ -25,15 +25,6 @@ function renderCases(lang) {
     </article>`).join('');
 }
 
-function renderWorks(lang) {
-  $('works-carousel').innerHTML = works.map((w) => `
-    <li class="carousel__item"><figure style="margin:0">
-      <img src="${esc(w.src)}" width="${w.w}" height="${w.h}" alt="${esc(pick(w.alt, lang))}" loading="lazy">
-      <figcaption class="${pick(w.caption, lang).startsWith('TODO') ? 'todo' : ''}">${esc(pick(w.caption, lang))}</figcaption>
-    </figure></li>`).join('');
-  updateCarouselButtons();
-}
-
 function renderExperience(lang) {
   $('timeline').innerHTML = experience.map((e) => `
     <li>
@@ -48,12 +39,46 @@ function renderExperience(lang) {
     </div>`).join('');
 }
 
+const COPY_ICON = '<svg class="ic-copy" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></svg><svg class="ic-done" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 function renderContact(lang) {
-  const arrow = '<span aria-hidden="true">↗</span>';
-  $('big-links').innerHTML = `
-    <a href="${TG_URL}" target="_blank" rel="noopener"><span>${esc(t('contact.telegram', lang))}</span><small>@svanakov</small>${arrow}</a>
-    <a href="mailto:${MAIL}"><span>${esc(t('contact.email', lang))}</span><small>${MAIL}</small>${arrow}</a>
-    <a href="${CV_URL}" target="_blank" rel="noopener"><span>${esc(t('contact.cv', lang))}</span>${arrow}</a>`;
+  const arrow = '<span class="big-link__arrow" aria-hidden="true">↗</span>';
+  const row = (href, label, kind, value, ext) => `
+    <div class="big-link">
+      <a class="big-link__main" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}><span class="big-link__label">${esc(label)}</span>${arrow}</a>
+      ${kind
+        ? `<span class="copy-wrap"><button type="button" class="copy-btn" data-copy="${esc(value)}" data-kind="${kind}" aria-label="${esc(t('contact.copy.' + kind, lang))}" title="${esc(t('contact.copy.' + kind, lang))}">${COPY_ICON}</button><span class="copy-tip" aria-hidden="true"></span></span>`
+        : '<span class="copy-wrap copy-wrap--empty" aria-hidden="true"></span>'}
+    </div>`;
+  $('big-links').innerHTML =
+    row(TG_URL, t('contact.telegram', lang), 'telegram', '@svanakov', true) +
+    row(`mailto:${MAIL}`, t('contact.email', lang), 'email', MAIL, false) +
+    row(CV_URL, t('contact.cv', lang), null, '', true);
+}
+
+// Копирование контакта: клик по самой строке открывает контакт, кнопка справа копирует и показывает подсказку.
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch { /* нет доступа к буферу, пробуем старый способ */ }
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(ta); ta.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch { ok = false; }
+  ta.remove();
+  return ok;
+}
+function setupCopy() {
+  const timers = new WeakMap();
+  $('big-links').addEventListener('click', async (e) => {
+    const btn = e.target.closest('.copy-btn'); if (!btn) return;
+    const ok = await copyText(btn.dataset.copy);
+    const wrap = btn.closest('.copy-wrap'), tip = wrap.querySelector('.copy-tip');
+    tip.textContent = ok ? t('contact.copied.' + btn.dataset.kind) : t('contact.copy.' + btn.dataset.kind);
+    wrap.classList.toggle('is-failed', !ok);
+    wrap.classList.add('is-shown'); btn.classList.toggle('is-done', ok);
+    const live = $('copy-status'); if (live) live.textContent = tip.textContent;
+    clearTimeout(timers.get(wrap));
+    timers.set(wrap, setTimeout(() => { wrap.classList.remove('is-shown'); btn.classList.remove('is-done'); }, 2000));
+  });
 }
 
 function renderFooter(lang) {
@@ -62,34 +87,13 @@ function renderFooter(lang) {
     <div class="container site-footer__row">
       <nav aria-label="${esc(t('nav.main', lang))}">${nav}<a href="${CV_URL}" target="_blank" rel="noopener">CV</a></nav>
       <div class="lang"><button type="button" data-lang="ru">RU</button><span aria-hidden="true">/</span><button type="button" data-lang="en">EN</button></div>
-      <span class="site-footer__copy">© ${new Date().getFullYear()} ${esc(t('footer.rights', lang))} · ${esc(t('footer.location', lang))}</span>
+      <span class="site-footer__copy">© ${new Date().getFullYear()}</span>
     </div>`;
 }
 
-// Карусель: стрелки листают на ширину видимой области, клавиатура работает на самом списке.
-function updateCarouselButtons() {
-  const el = $('works-carousel'), prev = $('works-prev'), next = $('works-next');
-  if (!el || !prev) return;
-  prev.disabled = el.scrollLeft <= 2;
-  next.disabled = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
-}
-function setupCarousel() {
-  const el = $('works-carousel');
-  const by = (dir) => el.scrollBy({ left: dir * Math.max(240, el.clientWidth * 0.8), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-  $('works-prev').addEventListener('click', () => by(-1));
-  $('works-next').addEventListener('click', () => by(1));
-  el.addEventListener('scroll', updateCarouselButtons, { passive: true });
-  el.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') { e.preventDefault(); by(1); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); by(-1); }
-  });
-  window.addEventListener('resize', updateCarouselButtons);
-}
-
 // ---- Стопка карточек: прогресс --p и счётчик ----
-const STACK_TOP = 112, STACK_STEP = 14, STACK_GAP = 32; // совпадают с site.css
+const STACK_TOP = 112, STACK_STEP = 0, STACK_GAP = 32; // совпадают с site.css
 const stackMQ = matchMedia('(prefers-reduced-motion: no-preference) and (min-height: 701px)');
-const pad = (n) => String(n).padStart(2, '0');
 function updateStack() {
   const cards = [...document.querySelectorAll('.case-card')];
   if (!cards.length) return;
@@ -105,9 +109,11 @@ function updateStack() {
     card.style.setProperty('--p', p.toFixed(3));
     if (card.getBoundingClientRect().top <= STACK_TOP + i * STACK_STEP + 60) active = i;
   });
-  const counter = $('cases-counter');
-  const text = `${pad(active + 1)} / ${pad(cards.length)}`;
-  if (counter && counter.textContent !== text) counter.textContent = text;
+  const dots = $('cases-dots');
+  if (dots) {
+    if (dots.children.length !== cards.length) dots.innerHTML = cards.map(() => '<span></span>').join('');
+    [...dots.children].forEach((d, i) => d.classList.toggle('is-active', i === active));
+  }
 }
 function setupStack() {
   window.addEventListener('scroll', updateStack, { passive: true });
@@ -186,10 +192,12 @@ function setupVideo() {
 }
 
 // ---- Ассистент: встроенный блок и чип в Hero ----
+// Пока ассистент не подключён: всем показывается только макет. Включить настоящий: ASSISTANT_LIVE = true
+// (и он по-прежнему виден только владельцу с ключом, пока PUBLIC = false в site.js).
+const ASSISTANT_LIVE = false;
 let assistant = null;
 function setupAssistant() {
-  if (!FLAGS.ASSISTANT_ENABLED) return;
-  assistant = mountAssistant($('assistant'));
+  assistant = ASSISTANT_LIVE && FLAGS.ASSISTANT_ENABLED ? mountAssistant($('assistant')) : mountAssistantPreview($('assistant'));
   $('chip-assistant').addEventListener('click', (e) => {
     e.preventDefault();
     $('assistant').scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'center' });
@@ -226,17 +234,18 @@ function setupParallax() {
 
 function renderAll() {
   const lang = getLang();
-  renderCases(lang); renderWorks(lang); renderExperience(lang); renderContact(lang); renderFooter(lang);
+  renderCases(lang); renderExperience(lang); renderContact(lang); renderFooter(lang);
   applyI18n(document, lang);
   $('chip-video').hidden = !FLAGS.VIDEO;
-  $('chip-assistant').hidden = !FLAGS.ASSISTANT_ENABLED;
-  $('assistant').hidden = !FLAGS.ASSISTANT_ENABLED;
+  $('chip-assistant').hidden = false;
+  $('assistant').hidden = false;
   if ($('chip-video-min') && video.minutes) $('chip-video-min').textContent = ` · ${video.minutes} ${t('workflow.min', lang)}`;
   updateStack();
 }
 
 renderAll();
-setupCarousel();
+mountMarquee($('works-marquee'));
+setupCopy();
 setupStack();
 setupScrollRestore();
 setupVideo();

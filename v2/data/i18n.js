@@ -18,7 +18,7 @@ export const dict = {
     'hero.avatarAlt': 'Сергей Ванаков',
     'hero.chipVideo': 'Figma → код с ИИ',
     'hero.chipAssistant': 'Спросить ассистента',
-    'hero.chipCv': 'CV',
+    'hero.chipContacts': 'Контакты',
     'hero.cta': 'Смотреть кейсы',
 
     'cases.title': 'Кейсы',
@@ -42,17 +42,10 @@ export const dict = {
     'workflow.video': 'TODO: видео Figma → код',
     'workflow.play': 'Смотреть видео «Figma → код с ИИ»',
     'workflow.min': 'мин',
-    'workflow.p1.title': 'TODO: принцип 1',
-    'workflow.p1.text': 'TODO: описание принципа',
-    'workflow.p2.title': 'TODO: принцип 2',
-    'workflow.p2.text': 'TODO: описание принципа',
-    'workflow.p3.title': 'TODO: принцип 3',
-    'workflow.p3.text': 'TODO: описание принципа',
 
     'about.title': 'Обо мне',
     'about.p1': 'TODO: как пришёл в дизайн',
     'about.p2': 'TODO: что важно в работе',
-    'about.p3': 'TODO: чем занимаюсь вне работы или к чему стремлюсь',
 
     'experience.title': 'Опыт и стек',
     'experience.work': 'Опыт',
@@ -68,9 +61,11 @@ export const dict = {
     'contact.telegram': 'Telegram',
     'contact.email': 'Почта',
     'contact.cv': 'CV',
+    'contact.copy.telegram': 'Скопировать Telegram',
+    'contact.copy.email': 'Скопировать почту',
+    'contact.copied.telegram': 'Telegram скопирован',
+    'contact.copied.email': 'Почта скопирована',
 
-    'footer.rights': 'Сергей Ванаков',
-    'footer.location': 'Тула, удалённо',
 
     'case.back': 'Назад к кейсам',
   },
@@ -92,7 +87,7 @@ export const dict = {
     'hero.avatarAlt': 'Sergey Vanakov',
     'hero.chipVideo': 'Figma → code with AI',
     'hero.chipAssistant': 'Ask the assistant',
-    'hero.chipCv': 'CV',
+    'hero.chipContacts': 'Contacts',
     'hero.cta': 'View cases',
 
     'cases.title': 'Case studies',
@@ -116,17 +111,10 @@ export const dict = {
     'workflow.video': 'TODO: Figma → code video',
     'workflow.play': 'Watch the “Figma → code with AI” video',
     'workflow.min': 'min',
-    'workflow.p1.title': 'TODO: principle 1',
-    'workflow.p1.text': 'TODO: principle description',
-    'workflow.p2.title': 'TODO: principle 2',
-    'workflow.p2.text': 'TODO: principle description',
-    'workflow.p3.title': 'TODO: principle 3',
-    'workflow.p3.text': 'TODO: principle description',
 
     'about.title': 'About me',
     'about.p1': 'TODO: how I came to design',
     'about.p2': 'TODO: what matters in my work',
-    'about.p3': 'TODO: what I do outside work or aim for',
 
     'experience.title': 'Experience and stack',
     'experience.work': 'Experience',
@@ -142,9 +130,11 @@ export const dict = {
     'contact.telegram': 'Telegram',
     'contact.email': 'Email',
     'contact.cv': 'CV',
+    'contact.copy.telegram': 'Copy Telegram',
+    'contact.copy.email': 'Copy email',
+    'contact.copied.telegram': 'Telegram copied',
+    'contact.copied.email': 'Email copied',
 
-    'footer.rights': 'Sergey Vanakov',
-    'footer.location': 'Tula, remote',
 
     'case.back': 'Back to cases',
   },
