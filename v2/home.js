@@ -8,8 +8,8 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&
 const $ = (id) => document.getElementById(id);
 
 function renderCases(lang) {
-  $('cases-list').innerHTML = cases.map((c) => `
-    <article class="case-card" id="case-${esc(c.slug)}">
+  $('cases-list').innerHTML = cases.map((c, i) => `
+    <article class="case-card" id="case-${esc(c.slug)}" style="--i:${i}">
       <a class="case-card__link" href="${esc(c.href)}" data-case="${esc(c.slug)}">
         <div class="case-card__cover"><img src="${esc(c.cover)}" alt="" loading="lazy"></div>
         <div class="case-card__body">
@@ -84,6 +84,57 @@ function setupCarousel() {
   window.addEventListener('resize', updateCarouselButtons);
 }
 
+// ---- Стопка карточек: прогресс --p и счётчик ----
+const STACK_TOP = 112, STACK_STEP = 14, STACK_GAP = 32; // совпадают с site.css
+const stackMQ = matchMedia('(prefers-reduced-motion: no-preference) and (min-height: 701px)');
+const pad = (n) => String(n).padStart(2, '0');
+function updateStack() {
+  const cards = [...document.querySelectorAll('.case-card')];
+  if (!cards.length) return;
+  if (!stackMQ.matches) { cards.forEach((c) => c.style.removeProperty('--p')); return; }
+  let active = 0;
+  cards.forEach((card, i) => {
+    const next = cards[i + 1];
+    let p = 0;
+    if (next) {
+      const travel = next.getBoundingClientRect().top - (STACK_TOP + (i + 1) * STACK_STEP);
+      p = 1 - Math.min(1, Math.max(0, travel / (card.offsetHeight + STACK_GAP)));
+    }
+    card.style.setProperty('--p', p.toFixed(3));
+    if (card.getBoundingClientRect().top <= STACK_TOP + i * STACK_STEP + 60) active = i;
+  });
+  const counter = $('cases-counter');
+  const text = `${pad(active + 1)} / ${pad(cards.length)}`;
+  if (counter && counter.textContent !== text) counter.textContent = text;
+}
+function setupStack() {
+  window.addEventListener('scroll', updateStack, { passive: true });
+  window.addEventListener('resize', updateStack);
+  stackMQ.addEventListener('change', updateStack);
+  updateStack();
+}
+
+// ---- Возврат со страницы кейса: восстановить прокрутку к тому же месту ----
+// Браузерное восстановление отключаем: карточки рисуются скриптом, и оно срабатывает до нужной высоты страницы.
+const SCROLL_KEY = 'v2:home-scroll';
+function setupScrollRestore() {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const read = () => { try { return JSON.parse(sessionStorage.getItem(SCROLL_KEY) || 'null'); } catch { return null; } };
+  const write = (o) => { try { sessionStorage.setItem(SCROLL_KEY, JSON.stringify(o)); } catch {} };
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-case]');
+    if (a) write({ y: window.scrollY, slug: a.dataset.case });
+  });
+  window.addEventListener('pagehide', () => write({ ...(read() || {}), y: window.scrollY }));
+  const type = (performance.getEntriesByType('navigation')[0] || {}).type;
+  if (type !== 'back_forward' && type !== 'reload') return;
+  const s = read();
+  if (!s || typeof s.y !== 'number' || location.hash) return;
+  const go = () => { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, s.y); document.documentElement.style.scrollBehavior = ''; updateStack(); };
+  go();
+  window.addEventListener('load', go, { once: true }); // высота могла измениться после загрузки картинок
+}
+
 function renderAll() {
   const lang = getLang();
   renderCases(lang); renderWorks(lang); renderExperience(lang); renderContact(lang); renderFooter(lang);
@@ -91,8 +142,11 @@ function renderAll() {
   $('chip-video').hidden = !FLAGS.VIDEO;
   $('chip-assistant').hidden = !FLAGS.ASSISTANT_ENABLED;
   $('assistant').hidden = !FLAGS.ASSISTANT_ENABLED;
+  updateStack();
 }
 
 renderAll();
 setupCarousel();
+setupStack();
+setupScrollRestore();
 document.addEventListener('langchange', renderAll);
