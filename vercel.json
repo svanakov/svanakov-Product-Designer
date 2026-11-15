@@ -1,0 +1,20 @@
+{
+  "headers": [
+    {
+      "source": "/v2/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/v2",
+      "destination": "/v2/",
+      "permanent": false
+    }
+  ]
+}

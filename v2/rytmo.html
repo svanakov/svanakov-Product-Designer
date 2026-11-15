@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../theme.css">
+<script src="../theme.js"></script>
+<link rel="stylesheet" href="./site.css">
+<meta name="robots" content="noindex, nofollow">
+<script src="../support.js"></script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114133229', 'ym');
+
+    ym(114133229, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/114133229" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body data-page="case" data-lang-reload>
+<div id="site-header"></div>
+<x-dc>
+
+<helmet>
+  <style>
+    body { margin: 0; -webkit-tap-highlight-color: transparent; }
+    * { -webkit-tap-highlight-color: transparent; }
+    ::selection { background: color-mix(in oklch, var(--accent) 25%, transparent); }
+    html { scroll-behavior: smooth; }
+    .sec { scroll-margin-top: 40px; }
+    .stage { position: relative; display: flex; flex-direction: column; gap: 96px; }
+    .stage-rail { position: absolute; left: -112px; top: 0; bottom: 0; width: 88px; }
+    .stage-label { position: sticky; top: 96px; }
+    .stage-num { font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--muted); }
+    .stage-name { font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+    @media (max-width: 1000px) {
+      .stage-rail { position: static; width: auto; margin-bottom: -56px; }
+      .stage-label { position: static; display: flex; align-items: baseline; gap: 12px; }
+      .stage-name { font-size: 15px; margin-top: 0; }
+    }
+    .jtbd-table-row { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding: 16px 0; border-top: 1px solid var(--border); align-items: start; }
+    .jtbd-table-head { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding-bottom: 12px; font-size: 13px; font-weight: 500; color: var(--muted); }
+    .about-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 24px 0; border-top: 1px solid var(--border); align-items: start; }
+    .about-row:first-child { border-top: none; padding-top: 40px; }
+    .about-label { font-size: 15px; font-weight: 500; color: var(--muted); }
+    .about-text { font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); }
+    .zoom-wrap { display: block; overflow: hidden; cursor: zoom-in; }
+    .zoom-img { transition: transform 400ms ease; display: block; }
+    .zoom-wrap:hover .zoom-img { transform: scale(1.04); }
+    @media (max-width: 720px) {
+      .case-title { font-size: 24px !important; }
+      .sec h2 { font-size: 26px !important; }
+      .jtbd-table-row, .jtbd-table-head { grid-template-columns: 1fr !important; gap: 6px !important; }
+      .about-row { grid-template-columns: 1fr !important; gap: 10px !important; }
+      .process-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+      article { padding: 48px 20px 80px !important; }
+    }
+  </style>
+</helmet>
+
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh;">
+
+
+  <article style="max-width: 800px; margin: 0 auto; padding: 64px 32px 120px; display: flex; flex-direction: column; gap: 96px;" class="art">
+
+    <div>
+      <header style="margin-bottom: 48px;">
+        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0;">{{ project.title }}</h1>
+      </header>
+
+      <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
+        <img class="zoom-img" src="../uploads/rytmo-cover.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+      </div>
+
+      <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="display: inline-block; margin-top: 20px; font-size: 15px; color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);">↗ {{ t.openFigma }}</a>
+    </div>
+
+    <section class="sec" id="sec-about">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.aboutHeading }}</h2>
+      <p style="font-size: 20px; font-weight: 400; line-height: 1.45; color: var(--text); margin: 0;">{{ about.lead }}</p>
+      <div style="height: 32px;"></div>
+      <div>
+        <div class="about-row">
+          <span class="about-label">{{ t.roleLabel }}</span>
+          <span class="about-text">{{ about.role }}</span>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.problemsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.problems }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: var(--muted);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.goalsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.goals }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: var(--muted);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.actionsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.actions }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: var(--muted);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div class="about-row">
+          <span class="about-label">{{ t.resultsLabel }}</span>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ about.results }}" as="item" hint-placeholder-count="4">
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="color: var(--muted);">•</span>
+                <span class="about-text">{{ item.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="sec-process">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 32px;">{{ t.processHeading }}</h2>
+      <div class="process-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px 40px;">
+        <sc-for list="{{ processSteps }}" as="step" hint-placeholder-count="4">
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <span style="font-size: 17px; color: var(--muted); flex-shrink: 0;">{{ step.num }}</span>
+            <div>
+              <span style="display: block; font-size: 17px; font-weight: 500; color: var(--text); margin-bottom: 6px;">{{ step.label }}</span>
+              <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;">{{ step.desc }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <div class="stage" id="stage-01">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">01</div><div class="stage-name">Discover</div></div></div>
+    <section class="sec" id="sec-competitors">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.competitorsHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0 0 20px;">{{ competitorsText }}</p>
+      <!-- <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">Вывод:</b> {{ competitorsConclusion }}</p> -->
+    </section>
+
+    <section class="sec" id="sec-interviews">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.interviewsHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0 0 20px;">{{ interviewsMethod }}</p>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">{{ t.keyFindingsLabel }}</b> {{ interviewsFindings }}</p>
+    </section>
+    </div>
+
+    <div class="stage" id="stage-02">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">02</div><div class="stage-name">Define</div></div></div>
+    <section class="sec" id="sec-problem">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.problemHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0 0 20px;">{{ problemText }}</p>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">{{ t.hypothesisLabel }}</b> {{ hypothesisText }}</p>
+    </section>
+
+    <section class="sec" id="sec-jtbd">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.jtbdHeading }}</h2>
+      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0 0 24px;">{{ t.jtbdIntro }}</p>
+      <div>
+        <div class="jtbd-table-head">
+          <span>JTBD</span><span>{{ t.hypothesisCol }}</span><span>ICE</span>
+        </div>
+        <sc-for list="{{ jtbd }}" as="row" hint-placeholder-count="6">
+          <div class="jtbd-table-row">
+            <span style="font-size: 17px; line-height: 1.45; color: var(--text-2);">{{ row.jtbd }}</span>
+            <span style="font-size: 17px; line-height: 1.45; color: var(--text-2);">{{ row.hypothesis }}</span>
+            <span style="font-size: 17px; font-weight: 600; color: var(--text);">{{ row.ice }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+    </div>
+
+    <div class="stage" id="stage-03">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">03</div><div class="stage-name">Test</div></div></div>
+    <section class="sec" id="sec-test">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.testHeading }}</h2>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <sc-for list="{{ testBlocks }}" as="blk" hint-placeholder-count="3">
+          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">{{ blk.label }}</b> {{ blk.text }}</p>
+        </sc-for>
+      </div>
+    </section>
+    </div>
+
+    <div class="stage" id="stage-04">
+      <div class="stage-rail"><div class="stage-label"><div class="stage-num">04</div><div class="stage-name">Develop</div></div></div>
+    <section class="sec" id="sec-flow">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 32px;">{{ t.flowHeading }}</h2>
+      <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 40px;">
+        <sc-for list="{{ flows }}" as="flow" hint-placeholder-count="3">
+          <div>
+            <h3 style="font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 12px;">{{ flow.title }}</h3>
+            <p style="font-size: 17px; font-weight: 500; line-height: 1.45; color: var(--text); margin: 0 0 12px;">{{ flow.goal }}</p>
+            <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0;">{{ flow.steps }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <div class="zoom-wrap" style="border-radius: 16px; border: 1px solid var(--border);">
+        <img class="zoom-img" src="../uploads/user-flow.webp" alt="{{ t.flowHeading }}" style="width: 100%; height: auto; display: block;">
+      </div>
+    </section>
+
+    <section class="sec" id="sec-screens">
+      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 32px;">{{ t.screensHeading }}</h2>
+
+      <div class="zoom-wrap" style="border-radius: 20px; border: 1px solid var(--border); margin-bottom: 48px;">
+        <img class="zoom-img" src="../uploads/prototypes.webp" alt="{{ t.prototypesAlt }}" style="width: 100%; height: auto; display: block;">
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 40px;">
+        <sc-for list="{{ screens }}" as="screen" hint-placeholder-count="3">
+          <div>
+            <h3 style="font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 12px;">{{ screen.title }}</h3>
+            <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0;">{{ screen.text }}</p>
+          </div>
+        </sc-for>
+      </div>
+
+    </section>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid var(--border);">
+      <a href="campus.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: var(--accent);">
+        {{ t.viewCampus }} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+  </article>
+</div>
+
+<div id="lightbox" style="display: none; position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, 0.75); align-items: center; justify-content: center; padding: 48px;">
+  <button id="lightbox-close" aria-label="Закрыть" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; border-radius: 50%; width: 40px; height: 40px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L18 18M18 4L4 18" stroke="var(--bg)" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <img id="lightbox-img" src="" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;">
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const lang = localStorage.getItem('lang') || 'ru';
+    const isEn = lang === 'en';
+    const t = isEn ? {
+      home: 'Home', openFigma: 'Open file in Figma',
+      problemHeading: 'Problem & Key Hypothesis', hypothesisLabel: 'Hypothesis:',
+      aboutHeading: 'About the project', roleLabel: 'My role', problemsLabel: 'Problems', goalsLabel: 'Product goals', actionsLabel: 'What I did', resultsLabel: 'Results',
+      processHeading: 'Design Process',
+      competitorsHeading: 'Diving into the problem',
+      interviewsHeading: 'In-depth interviews', keyFindingsLabel: 'Key findings:',
+      jtbdHeading: 'JTBD & Hypothesis Prioritization',
+      jtbdIntro: 'From research and interviews, 14 JTBDs were identified and prioritized via ICE (1–5). Key ones:',
+      hypothesisCol: 'Hypothesis',
+      flowHeading: 'User Flow — Three Scenarios',
+      screensHeading: 'Prototypes & Screens',
+      prototypesAlt: 'Prototypes — Rytmo',
+      testHeading: 'Usability test results',
+      viewCampus: 'View Campus',
+      ruColor: 'var(--faint)', enColor: 'var(--text)',
+    } : {
+      home: 'На главную', openFigma: 'Открыть файл в Figma',
+      problemHeading: 'Проблема и ключевая гипотеза', hypothesisLabel: 'Гипотеза:',
+      aboutHeading: 'О проекте', roleLabel: 'Моя роль', problemsLabel: 'Проблемы', goalsLabel: 'Цели продукта', actionsLabel: 'Что я сделал', resultsLabel: 'Результаты',
+      processHeading: 'Дизайн-процесс',
+      competitorsHeading: 'Погружение в задачу',
+      interviewsHeading: 'Глубинные интервью', keyFindingsLabel: 'Ключевые результаты:',
+      jtbdHeading: 'JTBD и приоритизация гипотез',
+      jtbdIntro: 'Из исследования и интервью выделено 14 JTBD, приоритизированных через ICE(1-5). Ключевые:',
+      hypothesisCol: 'Гипотеза',
+      flowHeading: 'User Flow — три сценария',
+      screensHeading: 'Прототипы и экраны',
+      prototypesAlt: 'Прототипы — Rytmo',
+      testHeading: 'Результаты юзабилити-теста',
+      viewCampus: 'Смотреть Campus',
+      ruColor: 'var(--text)', enColor: 'var(--faint)',
+    };
+
+    const project = isEn ? {
+      title: 'Rytmo',
+      figmaLink: 'https://www.figma.com/design/jQ2wZFv1KXbSK1UjnqYj3Y/%D0%A4%D0%B8%D1%82%D0%BD%D0%B5%D1%81-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BE%D0%B5-%D1%83%D0%B4%D0%B5%D1%80%D0%B6%D0%B8%D0%B2%D0%B0%D0%B5%D1%82-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%BF%D0%BE%D1%82%D0%B5%D1%80%D0%B8-%D0%BC%D0%BE%D1%82%D0%B8%D0%B2%D0%B0%D1%86%D0%B8%D0%B8?node-id=2224-1186&t=wYgXzAwsuNlmF4SL-1',
+    } : {
+      title: 'Rytmo',
+      figmaLink: 'https://www.figma.com/design/jQ2wZFv1KXbSK1UjnqYj3Y/%D0%A4%D0%B8%D1%82%D0%BD%D0%B5%D1%81-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D1%82%D0%BE%D1%80%D0%BE%D0%B5-%D1%83%D0%B4%D0%B5%D1%80%D0%B6%D0%B8%D0%B2%D0%B0%D0%B5%D1%82-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5-%D0%BF%D0%BE%D1%82%D0%B5%D1%80%D0%B8-%D0%BC%D0%BE%D1%82%D0%B8%D0%B2%D0%B0%D1%86%D0%B8%D0%B8?node-id=2224-1186&t=wYgXzAwsuNlmF4SL-1',
+    };
+
+    const problemText = isEn
+      ? "People's natural motivation to work out regularly drops off after 2–3 weeks. A habit that holds without effort only forms after 2–3 months. In this gap, a person is left alone with the decision to keep training regularly — and this is exactly when most people give up on their workouts."
+      : 'Естественная мотивация людей к регулярным тренировкам падает уже через 2-3 недели. Привычка, которая держится без усилий, формируется только через 2-3 месяца. В этот период времени человек остаётся один на один с решением тренироваться регулярно, чаще всего именно в этот период времени люди забрасывают тренировки.';
+
+    const hypothesisText = isEn
+      ? 'if the product takes on the role of external support during exactly this period, the share of users still active by day 60–90 after install — when the habit usually sets in — will grow.'
+      : 'если продукт возьмёт на себя функцию внешней опоры именно в этот период, то вырастет доля пользователей, остающихся активными к 60–90 дню после установки, когда привычка обычно закрепляется.';
+
+    const processSteps = isEn ? [
+      { num: '01', label: 'Discover', desc: 'Context and data' },
+      { num: '02', label: 'Define', desc: 'Problem and hypothesis' },
+      { num: '03', label: 'Test', desc: 'Hypothesis testing' },
+      { num: '04', label: 'Develop', desc: 'Solution and screens' },
+    ] : [
+      { num: '01', label: 'Discover', desc: 'Контекст и данные' },
+      { num: '02', label: 'Define', desc: 'Проблема и гипотеза' },
+      { num: '03', label: 'Test', desc: 'Проверка гипотезы' },
+      { num: '04', label: 'Develop', desc: 'Решение и экраны' },
+    ];
+
+    const competitorsText = isEn
+      ? 'Ran desk research, studied forums and app store reviews. Analyzed several popular fitness apps across a few dimensions: onboarding and personalization, how achievements are presented, progress display, repeat-visit behavior, social features.'
+      : 'Провел деск ресерч, изучал форумы и отзывы в магазинах приложений. Проанализировал несколько популярных фитнес-приложений по нескольким срезам: онбординг и персонализация, подача достижений, отображение прогресса, поведение при повторном визите, социальные функции.';
+
+    const interviewsMethod = isEn
+      ? '4 interviews with people who tried to start training regularly over the past year. Some gave up in the first weeks, some stuck with it for 2+ months. Questions covered motives and pain points: what triggered the start, what kept them going, what happened at the moment of the first miss or relapse.'
+      : '4 интервью с людьми, пытавшимися начать регулярно тренироваться за последний год. Часть бросили в первые недели, часть удержались 2+ месяца. Вопросы были про мотивы и боли: что стало триггером начала, что держало, что происходило в момент первого пропуска или срыва.';
+
+    const interviewsFindings = isEn
+      ? 'external accountability (a trainer, a partner) holds regularity better than personal discipline — losing it makes misses more frequent. Churn turned out to be uneven: some leave because their routine breaks down (travel), some because they lose accountability, and some simply because they\'ve reached their goal, which doesn\'t need a product fix at all. For everyone, missing a workout triggered guilt over "choosing to do nothing."'
+      : 'внешняя подотчётность (тренер, партнёр) держит регулярность сильнее, чем личная дисциплина — при её потере пропуски учащаются. Отток оказался неоднородным: часть уходит из-за разрушенной рутины (поездки), часть — из-за потери подотчётности, а часть — просто достигнув цели, что вообще не требует решения продукта. У всех пропуск тренировки вызывал чувство вины за «выбор ничего не делать».';
+
+    const jtbd = isEn ? [
+      { jtbd: "Busy day — I want to fit in a short workout so I don't skip entirely", hypothesis: 'A short workout option is available every day', ice: '14' },
+      { jtbd: "My streak reset — I don't want my effort to feel wasted", hypothesis: "The streak doesn't burn out instantly — there's a recovery window", ice: '13' },
+      { jtbd: 'Opening the app for the first time — I want one clear option, not a catalog', hypothesis: 'One recommended option on first launch', ice: '12' },
+      { jtbd: "Not sure I'm doing the exercise right — I want to see how it's done", hypothesis: 'Video with real execution technique', ice: '11' },
+      { jtbd: 'I might forget about a workout — I want a reminder', hypothesis: 'A reminder at the right moment, without a judgmental tone', ice: '11' },
+      { jtbd: "Signing up for a free trial — I want to be sure money won't be charged without warning", hypothesis: 'Transparent billing date + advance reminder', ice: '11' },
+    ] : [
+      { jtbd: 'Загруженный день — хочу успеть короткую тренировку, чтобы не пропустить совсем', hypothesis: 'Короткий вариант тренировки доступен в любой день', ice: '14' },
+      { jtbd: 'Счётчик серии обнулился — не хочу, чтобы труд обесценился', hypothesis: 'Серия не сгорает мгновенно — есть окно на восстановление', ice: '13' },
+      { jtbd: 'Открываю приложение впервые — хочу один понятный вариант, а не каталог', hypothesis: 'Один рекомендуемый вариант на старте', ice: '12' },
+      { jtbd: 'Не уверен, что делаю упражнение правильно — хочу увидеть, как это делается', hypothesis: 'Видео с реальной техникой выполнения', ice: '11' },
+      { jtbd: 'Могу забыть про тренировку — хочу получить напоминание', hypothesis: 'Напоминание в нужный момент, без осуждающего тона', ice: '11' },
+      { jtbd: 'Оформляю бесплатный период — хочу быть уверен, что деньги не спишутся без предупреждения', hypothesis: 'Прозрачная дата списания + напоминание заранее', ice: '11' },
+    ];
+
+    const flows = isEn ? [
+      {
+        title: 'First launch',
+        goal: 'Remove first-time uncertainty.',
+        steps: 'Sign up → Onboarding (goal selection) → Home (one recommended option, not a catalog) → Workout detail → Workout video player (technique) → Workout completed',
+      },
+      {
+        title: 'Return after a miss',
+        goal: "Don't let a miss become a habit of missing.",
+        steps: 'Trigger (missed day) → Reminder (non-judgmental) → Home (week status, streak frozen) → Catch-up (short catch-up workout, counts) → end-of-week branch: goal met → badge for N weeks / not met → soft landing + flexible goal for next week',
+      },
+      {
+        title: 'Repeat visit',
+        goal: "Reinforce what's already working.",
+        steps: 'Home (mid-week progress) → Program detail → Program completed (3 metrics: consistency, total effort, habit signal) → Home (goal achieved) → subscription offer (value without pressure, transparent billing date)',
+      },
+    ] : [
+      {
+        title: 'Первый запуск',
+        goal: 'Снять растерянность новичка.',
+        steps: 'Sign up → Onboarding (выбор цели) → Home (один рекомендуемый вариант, не каталог) → Workout detail → Workout video player (техника выполнения) → Workout completed',
+      },
+      {
+        title: 'Возврат после пропуска',
+        goal: 'Не дать пропуску стать привычкой пропускать.',
+        steps: 'Триггер (пропуск дня) → Напоминание (без осуждения) → Home (статус недели, серия заморожена) → Catch-up (короткая тренировка-догонялка, засчитывается) → в конце недели разветвление: цель выполнена → бейдж за N недель / не выполнена → мягкая посадка + гибкая цель на следующую неделю',
+      },
+      {
+        title: 'Повторный визит',
+        goal: 'Подкрепить то, что уже работает.',
+        steps: 'Home (mid-week progress) → Program detail → Program completed (3 метрики: регулярность, совокупное усилие, сигнал привычки) → Home (goal achieved) → предложение подписки (ценность без давления, прозрачная дата списания)',
+      },
+    ];
+
+    const screens = isEn ? [
+      {
+        title: 'First launch',
+        text: "The person signs up, goes through onboarding, then lands on a home screen with one curated option. Opens a workout, watches a short technique video, starts training. If they decide to leave early — progress is still saved, not lost. At the end — a screen with first-workout results, with no pressure to continue today specifically.",
+      },
+      {
+        title: 'Return after a miss',
+        text: 'A notification brings them back after a missed day. The home screen shows — not an empty space or judgment, but a status: the streak is frozen but can be recovered by training in the next few days. The person picks a short catch-up workout, completes it — and sees the streak restored, not started over.',
+      },
+      {
+        title: 'Repeat visit',
+        text: "The home screen shows weekly progress and how far the goal is. The person picks a program, completes it — and right at the finish sees not just base numbers, but that the goal was truly achieved. Back on the home screen: streak and progress updated instantly, with no need to go into separate stats. Only after that, once engagement looks real, does the subscription offer appear — with an honest billing date, not a countdown timer and pressure.",
+      },
+    ] : [
+      {
+        title: 'Первый запуск',
+        text: 'Человек регистрируется, проходит онбординг, затем попадает на главный экран с одним подобранным вариантом. Открывает тренировку, смотрит короткое видео с техникой, начинает заниматься. Если решает выйти раньше — прогресс всё равно засчитывается, а не пропадает. В конце — экран с результатами первой тренировки, без давления продолжать именно сегодня.',
+      },
+      {
+        title: 'Возврат после пропуска',
+        text: 'Уведомление возвращает в приложение после пропущенного дня. На главном экране — не пустое место и не осуждение, а статус: серия заморожена, но её можно вернуть, если позаниматься в ближайшие дни. Человек выбирает короткую тренировку-догонялку, проходит её — и видит, что серия восстановлена, а не начата заново.',
+      },
+      {
+        title: 'Повторный визит',
+        text: 'На главном экране виден прогресс за неделю и сколько осталось до цели. Человек выбирает программу, проходит её до конца — и в момент завершения сразу видит не только базовые цифры, но и то, что цель действительно выполнена. Возвращаясь на главный экран, видит: стрик и прогресс обновились тут же, без перехода в отдельную статистику. Только после этого, когда видно, что вовлечённость реальна, появляется предложение подписки — с честной датой списания, а не таймером и давлением.',
+      },
+    ];
+
+    const results = isEn ? {
+      next: "Methodology: a usability test of a clickable prototype with 12 participants. Task — without hints, find and start today's workout from the home screen, which simultaneously shows the recommended workout, a filterable catalog, and programs.\n\nFirst-Click Rate: 11 of 12 participants (92%) landed on the recommended workout block with their first click, rather than going into the catalog or programs. This is a direct test of the highest-ICE-priority hypothesis — that one clear recommended option reduces choice paralysis better than a catalog. The result confirms: participants don't browse options looking for a fit, they read the recommendation as the primary path to action right away.\n\nSEQ (Single Ease Question): after each of the three scenarios, participants rated task ease on a 1–7 scale. Average score — 6.2 out of 7, indicating high subjective ease of use across all three flows — first launch, return visit, and return after a miss.",
+    } : {
+      next: 'Методология: юзабилити-тест кликабельного прототипа на 12 участниках. Задача — без подсказок найти и начать сегодняшнюю тренировку с главного экрана, где одновременно показаны рекомендуемая тренировка, каталог с фильтрами и программы.\n\nFirst-Click Rate: 11 из 12 участников (92%) первым кликом попали на блок рекомендуемой тренировки, а не ушли в каталог или программы. Это прямая проверка гипотезы с наивысшим приоритетом по ICE — предположения, что один явный рекомендуемый вариант снижает паралич выбора лучше, чем каталог. Результат подтверждает: участники не листают варианты в поисках подходящего, а сразу считывают рекомендацию как основной путь действия.\n\nSEQ (Single Ease Question): после каждого из трёх сценариев участников просили оценить лёгкость выполнения задачи по шкале 1-7. Средний балл — 6.2 из 7, что соответствует высокой субъективной простоте использования по всем трём флоу — первый запуск, повторный визит и возврат после пропуска.',
+    };
+
+    const about = isEn ? {
+      lead: "Rytmo is a mobile fitness app for people who quit working out in week 2-3. It takes the role of external support while the habit is still forming: one recommended workout instead of a catalog, a return after a miss without judgment, and a subscription offered only once engagement is real.",
+      role: "Personal project. Research, design, prototype: I ran the research, identified the JTBD and hypotheses, designed three scenarios, built a clickable prototype, and tested it with users.",
+      problems: [
+        { text: "Natural motivation drops after 2-3 weeks, while a habit that holds without effort only forms after 2-3 months." },
+        { text: "In this gap a person is left alone with the decision to keep training, and this is when most people give up." },
+        { text: "External accountability holds regularity better than personal discipline: when it is lost, misses become more frequent." },
+        { text: "Any missed workout triggers guilt over \"choosing to do nothing\"." },
+      ],
+      goals: [
+        { text: "Grow the share of users still active by day 60-90 after install, when the habit usually sets in." },
+        { text: "Remove the first-time uncertainty on first launch." },
+        { text: "Keep a miss from turning into a habit of missing." },
+        { text: "Reinforce what already works, and offer a subscription without pressure and with a transparent billing date." },
+      ],
+      actions: [
+        { text: "Ran desk research: reviewed popular fitness apps on onboarding and personalization, how achievements are presented, progress display, repeat-visit behavior, and social features." },
+        { text: "Ran 4 in-depth interviews with people who tried to start training regularly." },
+        { text: "Identified the JTBD and prioritized 15 hypotheses via ICE." },
+        { text: "Designed three scenarios for different moments of motivation drop-off and built a clickable prototype." },
+        { text: "Tested the prototype with 12 participants." },
+      ],
+      results: [
+        { text: "11 of 12 participants (92%) landed on the recommended workout with their first click, rather than the catalog or programs." },
+        { text: "Average SEQ across the three scenarios: 6.2 out of 7." },
+        { text: "Expected effect (hypothesis, not measured): a larger share of users still active by day 60-90 after install. After launch, this is the metric I would check." },
+      ],
+    } : {
+      lead: 'Rytmo — мобильное фитнес-приложение для тех, кто бросает тренировки на 2-3 неделе. Оно берёт на себя роль внешней опоры, пока привычка ещё не сформировалась: один рекомендуемый вариант вместо каталога, возврат после пропуска без осуждения и подписка только когда вовлечённость уже реальна.',
+      role: 'Личный проект. Исследование, дизайн, прототип: сам провёл исследование, выделил JTBD и гипотезы, спроектировал три сценария, собрал кликабельный прототип и проверил его на пользователях.',
+      problems: [
+        { text: 'Естественная мотивация падает уже через 2-3 недели, а привычка формируется только через 2-3 месяца' },
+        { text: 'В этот промежуток человек остаётся один на один с решением тренироваться, и именно тогда чаще всего бросает' },
+        { text: 'Внешняя подотчётность держит регулярность сильнее самодисциплины: при её потере пропуски учащаются' },
+        { text: 'Любой пропуск тренировки вызывает чувство вины за выбор ничего не делать' },
+      ],
+      goals: [
+        { text: 'Увеличить долю пользователей, остающихся активными к 60-90 дню после установки, когда привычка обычно закрепляется.' },
+        { text: 'Снять растерянность новичка на первом запуске.' },
+        { text: 'Не дать пропуску стать привычкой пропускать.' },
+        { text: 'Подкрепить то, что уже работает, и предлагать подписку без давления, с прозрачной датой списания.' },
+      ],
+      actions: [
+        { text: 'Провёл деск-ресерч: разобрал популярные фитнес-приложения по онбордингу и персонализации, подаче достижений, отображению прогресса, поведению при повторном визите и социальным функциям.' },
+        { text: 'Провёл 4 глубинных интервью с людьми, которые пытались начать регулярно тренироваться.' },
+        { text: 'Выделил JTBD и приоритизировал 15 гипотез через ICE.' },
+        { text: 'Спроектировал три сценария под разные моменты разрыва мотивации и собрал кликабельный прототип.' },
+        { text: 'Проверил прототип юзабилити-тестом на 12 участниках.' },
+      ],
+      results: [
+        { text: '11 из 12 участников (92%) первым кликом попали на рекомендуемую тренировку, а не в каталог или программы.' },
+        { text: 'Средний SEQ по трём сценариям: 6.2 из 7.' },
+        { text: 'Ожидаемый эффект: вырастет доля пользователей, остающихся активными к 60-90 дню после установки. После запуска проверял бы именно по этой метрике.' },
+      ],
+    };
+
+    const testBlocks = results.next.split('\n\n').map(par => {
+      const i = par.indexOf(': ');
+      return { label: par.slice(0, i + 1), text: par.slice(i + 2) };
+    });
+
+    return { t, project, problemText, hypothesisText, about, testBlocks, processSteps, competitorsText, interviewsMethod, interviewsFindings, jtbd, flows, screens, results };
+  }
+}
+</script>
+<script type="module">
+  const isTouchDevice = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!isTouchDevice) {
+    const clickSound = new Audio('../sounds/liecio-menu_beep_short_snap-533778.mp3');
+    clickSound.volume = 0.15;
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+      clickSound.currentTime = 0;
+      clickSound.play().catch(() => {});
+
+      const href = link.getAttribute('href');
+      const isSamePageJump = !href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http');
+      if (!isSamePageJump && link.target !== '_blank') {
+        e.preventDefault();
+        setTimeout(() => { window.location.href = href; }, 150);
+      }
+    });
+  }
+
+  function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.style.display = 'none';
+    document.getElementById('lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', (e) => {
+    const zoomImg = e.target.closest('.zoom-img');
+    if (zoomImg) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = zoomImg.src;
+      lightboxImg.alt = zoomImg.alt;
+      lightbox.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox.style.display !== 'none') {
+      const closeBtn = document.getElementById('lightbox-close');
+      if (e.target === lightbox || (closeBtn && closeBtn.contains(e.target))) {
+        closeLightbox();
+      }
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  document.addEventListener('click', (e) => {
+    const langBtn = e.target.closest('[data-lang]');
+    if (!langBtn) return;
+    localStorage.setItem('lang', langBtn.dataset.lang);
+    location.reload();
+  });
+</script>
+<script type="module" src="./site.js"></script>
+</body>
+</html>
