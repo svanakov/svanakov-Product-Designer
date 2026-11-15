@@ -5,14 +5,29 @@ import { createSprite } from './pet-sprite.js';
 
 const API = '/api/chat';
 const TG = 'https://t.me/svanakov';
-const MAX_QUESTIONS = 10;
+const MAX_QUESTIONS = 6;
+
+// Дневной лимит вопросов: счётчик лежит в localStorage и переживает перезагрузку страницы.
+// Окно 24 часа считается от первого вопроса; по истечении счётчик обнуляется. (Это защита от случайного «перезагрузил и спросил снова»,
+// настоящий лимит всё равно считает сервер: у клиентского счётчика обход тривиален.)
+const QUOTA_KEY = 'ai_quota', DAY_MS = 24 * 60 * 60 * 1000;
+function quotaRead() {
+  try { const q = JSON.parse(localStorage.getItem(QUOTA_KEY) || 'null'); if (q && typeof q.count === 'number' && Date.now() - q.since < DAY_MS) return q; } catch {}
+  return { count: 0, since: Date.now() };
+}
+function quotaBump() {
+  const q = quotaRead(); if (q.count === 0) q.since = Date.now(); q.count++;
+  try { localStorage.setItem(QUOTA_KEY, JSON.stringify(q)); } catch {}
+  return q;
+}
+const quotaHoursLeft = () => { const q = quotaRead(); return Math.max(1, Math.ceil((q.since + DAY_MS - Date.now()) / 3600000)); };
 const CASE_URLS = { rytmo: './rytmo.html', campus: './campus.html', dispatch: './dispatch.html' };
 
 const T = {
   ru: {
     title: 'Спросите о Сергее', preview: 'Предпросмотр, виден только вам', placeholder: 'Ваш вопрос', send: 'Отправить', stop: 'Стоп',
     hint: 'ИИ может ошибаться. Точные ответы у Сергея в Telegram.',
-    errorTitle: 'Ассистент сейчас недоступен.', limitTitle: 'На этом вопросов в одном чате достаточно.',
+    errorTitle: 'Ассистент сейчас недоступен.', limitTitle: 'На сегодня вопросов достаточно.',
     tgBtn: 'Открыть Telegram', contact: 'Спросить Сергея в Telegram', thinking: 'Думаю...',
     cases: { rytmo: 'Открыть кейс Rytmo', campus: 'Открыть кейс Campus', dispatch: 'Открыть кейс «Диспетчерская консоль»' },
     chips: ['Какой опыт в EdTech?', 'Расскажи про самый сложный проект', 'Как Сергей проводит исследования?', 'Работает ли удалённо?'],
@@ -20,7 +35,7 @@ const T = {
   en: {
     title: 'Ask about Sergei', preview: 'Private preview, visible only to you', placeholder: 'Your question', send: 'Send', stop: 'Stop',
     hint: 'AI can make mistakes. For exact answers, ask Sergei on Telegram.',
-    errorTitle: 'The assistant is unavailable right now.', limitTitle: 'That is enough questions for one chat.',
+    errorTitle: 'The assistant is unavailable right now.', limitTitle: 'That is enough questions for today.',
     tgBtn: 'Open Telegram', contact: 'Ask Sergei on Telegram', thinking: 'Thinking...',
     cases: { rytmo: 'Open the Rytmo case', campus: 'Open the Campus case', dispatch: 'Open the Dispatcher Console case' },
     chips: ['What is Sergei’s experience in EdTech?', 'Tell me about the hardest project', 'How does Sergei do research?', 'Does he work remotely?'],
@@ -134,7 +149,7 @@ export function mountAssistant(root) {
     busy = v; sendBtn.textContent = v ? L().stop : L().send; sendBtn.type = v ? 'button' : 'submit'; input.disabled = v;
   }
   function lockIfLimit() {
-    if (asked() < MAX_QUESTIONS) return false;
+    if (quotaRead().count < MAX_QUESTIONS) return false;
     input.disabled = true; sendBtn.disabled = true;
     if (!log.querySelector('.is-limit')) { const c = tgCard(L().limitTitle); c.classList.add('is-limit'); log.appendChild(c); scrollDown(); }
     return true;
@@ -165,7 +180,7 @@ export function mountAssistant(root) {
     question = (question || '').trim();
     if (!question || busy || lockIfLimit()) return;
     const chips = log.querySelector('.asst__chips'); if (chips) chips.remove();
-    history.push({ role: 'user', content: question }); save();
+    history.push({ role: 'user', content: question }); save(); quotaBump();
     addMsg('user', question); input.value = '';
     const bot = el('div', 'asst__msg is-bot is-pending');
     bot.setAttribute('aria-label', L().thinking);
@@ -248,11 +263,11 @@ const DEMO_FALLBACK = {
   en: 'For now I only answer the suggested questions. Everything else is best asked to Sergei on Telegram.',
 };
 const DEMO_UI = {
-  ru: { title: 'Облачко', badge: 'Бета-версия', tip: 'Количество вопросов ограничено: в одном чате можно задать 6', hello: 'Привет, я ИИ-ассистент Сергея. Расскажу про его кейсы и опыт. Напишите свой вопрос или выберите из подсказок.',
-        surprise: 'Удиви меня', send: 'Отправить', stop: 'Стоп', left: 'вопросов осталось', limit: 'На этом вопросов достаточно. Остальное лучше обсудить с Сергеем.',
+  ru: { title: 'Облачко', badge: 'Бета-версия', tip: 'Количество вопросов ограничено: в сутки можно задать 6', hello: 'Привет, я ИИ-ассистент Сергея. Расскажу про его кейсы и опыт. Напишите свой вопрос или выберите из подсказок.',
+        surprise: 'Удиви меня', send: 'Отправить', stop: 'Стоп', left: 'вопросов осталось', limit: 'На сегодня вопросов достаточно. Остальное лучше обсудить с Сергеем.', resets: 'Новые вопросы можно будет задать через {h} ч.',
         tg: 'Написать в Telegram', placeholder: 'Ваш вопрос' },
-  en: { title: 'Little Cloud', badge: 'Beta', tip: 'The number of questions is limited: 6 per chat', hello: 'Hi, I am Sergei’s AI assistant. I can tell you about his cases and experience. Type your own question or pick a suggestion.',
-        surprise: 'Surprise me', send: 'Send', stop: 'Stop', left: 'questions left', limit: 'That is enough questions. The rest is better discussed with Sergei.',
+  en: { title: 'Little Cloud', badge: 'Beta', tip: 'The number of questions is limited: 6 per day', hello: 'Hi, I am Sergei’s AI assistant. I can tell you about his cases and experience. Type your own question or pick a suggestion.',
+        surprise: 'Surprise me', send: 'Send', stop: 'Stop', left: 'questions left', limit: 'That is enough questions for today. The rest is better discussed with Sergei.', resets: 'You can ask again in {h} h.',
         tg: 'Write on Telegram', placeholder: 'Your question' },
 };
 const ARROW_UP = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg>';
@@ -272,7 +287,7 @@ export function mountAssistantPreview(root) {
 
   function build() {
     timers.forEach(clearTimeout); timers = []; clearTimeout(typeTimer);
-    asked = new Set(); count = 0; busy = false;
+    asked = new Set(); count = quotaRead().count; busy = false;
     const lang = getLang(), u = DEMO_UI[lang];
     let seed = 11; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
     const stars = Array.from({ length: 26 }, () => `<i style="left:${(rnd() * 100).toFixed(1)}%;top:${(rnd() * 90).toFixed(1)}%;--s:${(0.9 + rnd() * 1.6).toFixed(1)}px;--d:${(2.4 + rnd() * 4).toFixed(1)}s;--t:${(-rnd() * 6).toFixed(1)}s"></i>`).join('');
@@ -348,7 +363,7 @@ export function mountAssistantPreview(root) {
 
     function ask(id, free) {
       if (busy || count >= MAXQ) return;
-      busy = true; count++; updateCounter(); primeAudio(); ai.classList.add('is-asked');
+      busy = true; count = quotaBump().count; updateCounter(); primeAudio(); ai.classList.add('is-asked');
       const item = id ? DEMO[id] : null;
       if (id) asked.add(id);
       addUser(free || pick(item.q, lang));
@@ -363,7 +378,7 @@ export function mountAssistantPreview(root) {
         if (card) bubble.insertAdjacentHTML('beforeend', card === 'contact' ? tgCard() : caseCard(card));
         setState(''); busy = false; chime(); scroll(); // звоночек, когда ответ допечатался
         send.innerHTML = ARROW_UP; send.setAttribute('aria-label', u.send);
-        if (count >= MAXQ) { addBot(`${u.limit}${tgCard()}`); input.disabled = true; send.disabled = true; chips.innerHTML = ''; }
+        if (count >= MAXQ) lockDemo();
         else { chips.classList.remove('is-hidden'); renderChips([], true); }
       };
       later(() => {
@@ -405,8 +420,14 @@ export function mountAssistantPreview(root) {
       else { ci -= 2; if (ci <= 0) { ci = 0; erasing = false; ei = (ei + 1) % examples.length; } input.placeholder = full.slice(0, Math.max(ci, 0)) || '…'; typeTimer = setTimeout(typeLoop, 22); }
     };
 
-    addBot(u.hello);
-    renderChips(INITIAL); updateCounter(); typeLoop();
+    // Лимит исчерпан (в том числе до перезагрузки страницы): поле закрыто, сообщение говорит, когда он обновится
+    function lockDemo() {
+      input.disabled = true; send.disabled = true; chips.innerHTML = ''; ai.classList.add('is-asked');
+      addBot(`${u.limit} ${u.resets.replace('{h}', quotaHoursLeft())}${tgCard()}`);
+    }
+    if (count >= MAXQ) lockDemo();
+    else { addBot(u.hello); renderChips(INITIAL); }
+    updateCounter(); typeLoop();
   }
   document.addEventListener('langchange', build);
   build();

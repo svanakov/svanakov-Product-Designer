@@ -96,18 +96,21 @@ function start() {
     if (cur && cur !== current) { current = cur; if (greeted && !said.has(cur)) { said.add(cur); say(t()[cur]); mood('happy', 'smile', 900); } }
   };
   // Когда долистали до ассистента, питомец «переезжает» в чат: прыгает и уезжает за край, а в чате его двойник здоровается
-  let away = false;
+  let away = false, awayTimer = 0;
   const checkAway = () => {
     const a = document.getElementById('assistant'); if (!a) return;
     const r = a.getBoundingClientRect();
     const near = r.top < innerHeight * 0.8 && r.bottom > innerHeight * 0.2;
+    if (!near && !away && el.classList.contains('is-away')) el.classList.remove('is-away'); // страховка: вдали от ассистента питомец всегда на виду
     if (near === away) return;
     away = near;
     if (near) {
       bubble.hidden = true; hop(); mood('happy', 'o', 600);
-      setTimeout(() => el.classList.add('is-away'), reduce() ? 0 : 350);
+      clearTimeout(awayTimer);
+      awayTimer = setTimeout(() => { if (away) el.classList.add('is-away'); }, reduce() ? 0 : 350); // только если всё ещё у ассистента
       document.dispatchEvent(new CustomEvent('pet:away'));
     } else {
+      clearTimeout(awayTimer); // отложенный «уход» отменяем, иначе он сработает уже после возвращения
       el.classList.remove('is-away');
       setTimeout(() => { say(t().back, true); mood('happy', 'smile', 900); hop(); }, reduce() ? 0 : 500);
     }
