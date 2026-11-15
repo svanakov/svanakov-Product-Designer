@@ -1,0 +1,75 @@
+/* Токены темы. Светлая по умолчанию, тёмная по системной настройке или выбору пользователя. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: rgb(247, 247, 246);
+  --hover-bg: oklch(0.96 0.004 80);
+  --placeholder: oklch(0.87 0.004 80);
+  --border: rgb(230, 230, 228);
+  --border-strong: rgb(210, 210, 208);
+  --text: rgb(12, 12, 12);
+  --text-ui: oklch(0.19 0.006 80);
+  --text-2: rgb(66, 67, 61);
+  --text-desc: oklch(0.42 0.006 80);
+  --text-3: oklch(0.5 0.008 80);
+  --muted: rgb(127, 127, 127);
+  --faint: oklch(0.75 0.004 80);
+  --accent: oklch(0.58 0.19 264);
+  --shadow: rgba(0, 0, 0, 0.08);
+  --inverse-bg: rgb(12, 12, 12);
+  --inverse-text: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: oklch(0.16 0.004 80);
+    --surface: oklch(0.21 0.004 80);
+    --hover-bg: oklch(0.25 0.004 80);
+    --placeholder: oklch(0.27 0.004 80);
+    --border: oklch(0.29 0.004 80);
+    --border-strong: oklch(0.37 0.004 80);
+    --text: oklch(0.94 0.004 80);
+    --text-ui: oklch(0.94 0.004 80);
+    --text-2: oklch(0.78 0.006 80);
+    --text-desc: oklch(0.76 0.006 80);
+    --text-3: oklch(0.72 0.008 80);
+    --muted: oklch(0.64 0.006 80);
+    --faint: oklch(0.52 0.004 80);
+    --accent: oklch(0.72 0.14 264);
+    --shadow: rgba(0, 0, 0, 0.5);
+    --inverse-bg: oklch(0.94 0.004 80);
+    --inverse-text: oklch(0.16 0.004 80);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: oklch(0.16 0.004 80);
+  --surface: oklch(0.21 0.004 80);
+  --hover-bg: oklch(0.25 0.004 80);
+  --placeholder: oklch(0.27 0.004 80);
+  --border: oklch(0.29 0.004 80);
+  --border-strong: oklch(0.37 0.004 80);
+  --text: oklch(0.94 0.004 80);
+  --text-ui: oklch(0.94 0.004 80);
+  --text-2: oklch(0.78 0.006 80);
+  --text-desc: oklch(0.76 0.006 80);
+  --text-3: oklch(0.72 0.008 80);
+  --muted: oklch(0.64 0.006 80);
+  --faint: oklch(0.52 0.004 80);
+  --accent: oklch(0.72 0.14 264);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --inverse-bg: oklch(0.94 0.004 80);
+  --inverse-text: oklch(0.16 0.004 80);
+}
+html { background: var(--bg); }
+
+/* Переключатель темы: показываем иконку той темы, на которую переключит клик. */
+.theme-toggle { background: none; border: none; padding: 4px; cursor: pointer; color: var(--text); line-height: 0; border-radius: 8px; display: inline-flex; align-items: center; }
+.theme-toggle .ti-sun { display: none; }
+.theme-toggle .ti-moon { display: block; }
+:root[data-theme="dark"] .theme-toggle .ti-sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .ti-moon { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .ti-sun { display: block; }
+  :root:not([data-theme="light"]) .theme-toggle .ti-moon { display: none; }
+}
