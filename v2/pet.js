@@ -11,6 +11,8 @@ const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (matchMedia('(min-width: 1100px) and (hover: hover) and (pointer: fine)').matches) start();
 
 function start() {
+  let feeding = false;
+
   // ---------- DOM ----------
   const el = document.createElement('div');
   el.className = 'pet';
@@ -23,11 +25,11 @@ function start() {
 
   const L = {
     ru: { hero: 'Привет! Листай вниз ↓', cases: 'Три кейса. Кликни карточку', works: 'Наведи на ленту: она остановится', workflow: 'Нажми на видео!', experience: 'Тут опыт и навыки', contact: 'Есть вопросы? Спроси ассистента или напиши в Telegram',
-          poke: ['Эй!', 'Я просто облачко', 'Хи-хи', 'Привет-привет', 'Ой'], enough: 'Хватит щекотать!', sulk: 'Всё, я обиделся...', night: 'Ночь. Смотри, звёзды', day: 'Снова день', wake: 'Я не спал!', back: 'Я вернулся!', hint: 'Меня можно перетаскивать!', welcomeBack: 'Ура, ты вернулся! Я скучал', walk: ['Пойду прогуляюсь', 'Туда-сюда', 'Разомнусь'],
+          poke: ['Эй!', 'Я просто облачко', 'Хи-хи', 'Привет-привет', 'Ой'], enough: 'Хватит щекотать!', sulk: 'Всё, я обиделся...', night: 'Ночь. Смотри, звёзды', day: 'Снова день', wake: 'Я не спал!', back: 'Я вернулся!', hint: 'Меня можно перетаскивать!', treatCap: 'Покорми облачко', treatNudge: 'Перетащи звезду ко мне!', nyam: 'О, ням-ням!', treatBeg: 'Ну покорми меня, пожалуйста!', treatHint: 'Смотри, звезда! Хочу!', thanks: 'О, спасибо! Я так счастлив!', thanks2: 'Самая вкусная звезда в моей жизни', welcomeBack: 'Ура, ты вернулся! Я скучал', walk: ['Пойду прогуляюсь', 'Туда-сюда', 'Разомнусь'],
           pick: ['Ой! Ты меня несёшь!', 'Меня подняли!', 'Куда мы?', 'Ух, я лечу'], carry: ['Уиии!', 'Не урони!', 'Тут высоко', 'Красивый вид', 'Ещё немного...'],
           drop: ['Приземлился', 'Тут уютно', 'Хорошее место', 'Ладно, тут останусь', 'Спасибо!'], top: 'Тут высоко! Я боюсь', home: 'Дома!', dock: 'Тут навигация. Я не мешаю?', again: 'Опять? Мне нравится!' },
     en: { hero: 'Hi! Scroll down ↓', cases: 'Three cases. Click a card', works: 'Hover the strip: it will stop', workflow: 'Click the video!', experience: 'Experience and skills here', contact: 'Questions? Ask the assistant or write on Telegram',
-          poke: ['Hey!', 'Just a little cloud', 'Hehe', 'Hello hello', 'Oops'], enough: 'Stop tickling me!', sulk: 'That is it, I am sulking...', night: 'Night. Look, stars', day: 'Day again', wake: 'I was not sleeping!', back: 'I am back!', hint: 'You can drag me around!', welcomeBack: 'Yay, you are back! I missed you', walk: ['Going for a walk', 'Back and forth', 'Stretching my legs'],
+          poke: ['Hey!', 'Just a little cloud', 'Hehe', 'Hello hello', 'Oops'], enough: 'Stop tickling me!', sulk: 'That is it, I am sulking...', night: 'Night. Look, stars', day: 'Day again', wake: 'I was not sleeping!', back: 'I am back!', hint: 'You can drag me around!', treatCap: 'Feed the little cloud', treatNudge: 'Drag the star to me!', nyam: 'Oh, yum-yum!', treatBeg: 'Come on, feed me, please!', treatHint: 'Look, a star! I want it!', thanks: 'Oh, thank you! I am so happy!', thanks2: 'The tastiest star of my life', welcomeBack: 'Yay, you are back! I missed you', walk: ['Going for a walk', 'Back and forth', 'Stretching my legs'],
           pick: ['Oh! You are carrying me!', 'Picked up!', 'Where are we going?', 'Wow, I am flying'], carry: ['Wheee!', 'Do not drop me!', 'It is high up here', 'Nice view', 'Just a bit more...'],
           drop: ['Landed', 'Cozy here', 'Nice spot', 'OK, I will stay here', 'Thanks!'], top: 'It is high up here! I am scared', home: 'Home!', dock: 'The navigation is here. Am I in the way?', again: 'Again? I like it!' },
   };
@@ -172,7 +174,7 @@ function start() {
   const RANGE = 40;
   let lastDir = Math.random() < 0.5 ? -1 : 1, walking = false, anchorX = null;
   function stroll() {
-    if (!drag && !away && !s.sleeping && !walking && !reduce() && !el.classList.contains('is-away')) {
+    if (!drag && !away && !feeding && !s.sleeping && !walking && !reduce() && !el.classList.contains('is-away')) {
       const r = el.getBoundingClientRect();
       if (anchorX === null) anchorX = r.left; // место, вокруг которого он топчется (после перетаскивания обновляется)
       const dir = -lastDir;
@@ -195,6 +197,128 @@ function start() {
     setTimeout(stroll, 4500 + Math.random() * 5000);
   }
   setTimeout(stroll, 5000);
+
+  // ---------- пасхалка для тех, кто долистал до конца: звезду внизу страницы можно скормить облачку ----------
+  const treat = document.createElement('div');
+  treat.className = 'treat';
+  treat.innerHTML = '<canvas class="treat__c" width="9" height="9" aria-hidden="true"></canvas><span class="treat__cap"></span>';
+  (document.querySelector('#contact .container') || document.body).appendChild(treat);
+  treat.classList.add('is-in'); // звезда видна всегда, как только страница долистана до низа
+  const tc = treat.querySelector('canvas'), cap = treat.querySelector('.treat__cap');
+  const treatText = () => { cap.textContent = t().treatCap; };
+  treatText();
+  document.addEventListener('langchange', treatText);
+  (function paintStar() { // пиксельная звезда 9x9: B контур, Y заливка, W блик
+    const g = ['....B....', '...BYB...', '...BYB...', 'BBBBYBBBB', 'BYYYWYYYB', '.BYYYYYB.', '..BYYYB..', '.BYYBYYB.', '.BB...BB.'];
+    const col = { B: '#7a4b00', Y: '#ffcf33', W: '#fff4b8' }, c = tc.getContext('2d');
+    g.forEach((row, y) => [...row].forEach((ch, x) => { if (col[ch]) { c.fillStyle = col[ch]; c.fillRect(x, y, 1, 1); } }));
+  })();
+
+  let treatShown = false, treatGone = false;
+  const hearts = () => {
+    for (let i = 0; i < 7; i++) {
+      const h = document.createElement('i');
+      h.className = 'pet__heart'; h.textContent = '♥';
+      h.style.setProperty('--x', `${10 + Math.random() * 80}%`); h.style.setProperty('--d', `${Math.random() * 0.4}s`);
+      el.appendChild(h); setTimeout(() => h.remove(), 1900);
+    }
+  };
+  function feed() {
+    if (feeding || treatGone) return;
+    feeding = true; treatGone = true; stopNudges(); anchorX = null;
+    treat.classList.remove('is-drag');
+    // Звезда летит в облачко из того места, где сейчас находится (даже если её перетащили в другой угол экрана), и уменьшается
+    const sr = tc.getBoundingClientRect(), pr = el.getBoundingClientRect();
+    const dx = pr.left + pr.width / 2 - (sr.left + sr.width / 2), dy = pr.top + pr.height / 2 - (sr.top + sr.height / 2);
+    if (reduce()) treat.classList.add('is-gone');
+    else tc.animate([{ transform: 'none', opacity: 1 }, { transform: `translate(${dx}px, ${dy}px) scale(.15)`, opacity: 0 }], { duration: 420, easing: 'cubic-bezier(.5, 0, .75, .3)', fill: 'forwards' })
+      .onfinish = () => treat.classList.add('is-gone');
+    s.eyes = 'open'; s.mouth = 'o'; draw();
+    let n = 0;
+    const chew = setInterval(() => { s.mouth = n++ % 2 ? 'o' : 'smile'; draw(); }, 150);
+    setTimeout(() => {
+      clearInterval(chew);
+      mood('happy', 'smile', 4200); hop(); setTimeout(hop, 420); hearts();
+      say(t().thanks, true);
+      setTimeout(() => say(t().thanks2, true), 3300);
+      setTimeout(() => { feeding = false; }, 4200);
+    }, 1000);
+  }
+  const nearPet = (x, y) => { const r = el.getBoundingClientRect(); return x > r.left - 50 && x < r.right + 50 && y > r.top - 50 && y < r.bottom + 50; };
+  // Подсказки: сначала облачко просит звезду, через несколько секунд напоминает про перетаскивание, потом само подходит к ней
+  let nudge1 = 0, nudge2 = 0;
+  const stopNudges = () => { clearTimeout(nudge1); clearTimeout(nudge2); treat.classList.remove('is-hint'); };
+  function startNudges() {
+    nudge1 = setTimeout(() => {
+      if (treatGone || feeding || td) return;
+      const r = tc.getBoundingClientRect(), m = el.getBoundingClientRect();
+      s.lx = r.left + r.width / 2 < m.left + m.width / 2 ? -1 : 1; s.ly = 0; if (!s.sleeping) draw(); // смотрит на звезду
+      say(t().treatNudge, true); treat.classList.add('is-hint');
+    }, 6500);
+    nudge2 = setTimeout(() => {
+      if (treatGone || feeding || td) return;
+      const r = tc.getBoundingClientRect();
+      anchorX = null; el.classList.add('is-run'); hop();
+      place(r.left - el.offsetWidth - 8, r.top + r.height - el.offsetHeight);
+      setTimeout(() => { el.classList.remove('is-run'); if (!treatGone && !td) { say(t().treatBeg, true); mood('happy', 'o', 1200); } }, 1100);
+    }, 17000);
+  }
+  // Награда появляется, когда долистали до конца страницы
+  addEventListener('scroll', () => {
+    if (treatShown || away) return;
+    const c = document.getElementById('contact');
+    if (c && c.getBoundingClientRect().bottom <= innerHeight + 60) { treatShown = true; treat.classList.add('is-in'); say(t().treatHint, true); mood('happy', 'o', 900); hop(); startNudges(); }
+  }, { passive: true });
+  // Можно перетащить на облачко или просто нажать: тогда облачко само подбежит
+  let td = null;
+  treat.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0 || treatGone || (e.target !== tc && e.target !== cap)) return; // только сама звезда и её подпись
+    const r = tc.getBoundingClientRect();
+    td = { dx: Math.max(0, Math.min(r.width, e.clientX - r.left)), dy: Math.max(0, Math.min(r.height, e.clientY - r.top)), sx: e.clientX, sy: e.clientY, moved: false, w: r.width, h: r.height };
+    stopNudges();
+    treat.setPointerCapture(e.pointerId);
+    treat.classList.add('is-pressed'); // подпись под звездой пропадает
+    // облачко оживает: смотрит на звезду, рот «о», говорит «ням-ням»
+    wake(); activity();
+    const pr = el.getBoundingClientRect();
+    s.lx = r.left + r.width / 2 < pr.left ? -1 : r.left + r.width / 2 > pr.right ? 1 : 0; s.ly = r.top + r.height / 2 > pr.bottom ? 1 : 0;
+    mood('happy', 'o'); say(t().nyam, true);
+  });
+  treat.addEventListener('pointermove', (e) => {
+    if (!td) return;
+    if (!td.moved) { if (Math.hypot(e.clientX - td.sx, e.clientY - td.sy) < 5) return; td.moved = true; treat.classList.add('is-drag'); wake(); activity(); }
+    tc.style.cssText = `position:fixed;z-index:40;left:${e.clientX - td.dx}px;top:${e.clientY - td.dy}px;width:${td.w}px;height:${td.h}px`;
+    const r = el.getBoundingClientRect(); s.lx = e.clientX < r.left ? -1 : e.clientX > r.right ? 1 : 0; s.ly = e.clientY > r.bottom ? 1 : 0; draw();
+  });
+  // Звезда, оставленная на экране, не должна выходить за его границы (в том числе при изменении размера окна)
+  function clampStar() {
+    if (!treat.classList.contains('is-placed')) return;
+    const w = parseFloat(tc.style.width) || 63, h = parseFloat(tc.style.height) || 63;
+    tc.style.left = Math.max(8, Math.min(innerWidth - w - 8, parseFloat(tc.style.left) || 0)) + 'px';
+    tc.style.top = Math.max(8, Math.min(innerHeight - h - 8, parseFloat(tc.style.top) || 0)) + 'px';
+  }
+  addEventListener('resize', clampStar);
+  const treatUp = (e) => {
+    if (!td) return;
+    const moved = td.moved; td = null;
+    if (!moved) { // клик: облачко подбегает и съедаёт
+      if (feeding) return;
+      const r = tc.getBoundingClientRect();
+      feeding = true; wake(); activity();
+      s.lx = 0; s.ly = 0; el.classList.add('is-run'); hop();
+      place(r.left - el.offsetWidth - 8, r.top + r.height - el.offsetHeight);
+      setTimeout(() => { el.classList.remove('is-run'); feeding = false; feed(); }, 1100);
+      return;
+    }
+    treat.classList.remove('is-drag');
+    if (nearPet(e.clientX, e.clientY)) { feed(); return; }
+    // мимо облачка: звезда остаётся висеть в этой точке экрана, пока облачко не покормят
+    treat.classList.add('is-placed');
+    clampStar();
+    s.lx = 0; s.ly = 0; mood('happy', 'smile', 1200); hop();
+  };
+  treat.addEventListener('pointerup', treatUp);
+  treat.addEventListener('pointercancel', treatUp);
 
   // клик: прыжок и реплика
   let pokes = 0;

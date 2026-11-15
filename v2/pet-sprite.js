@@ -26,7 +26,7 @@ function paint(ctx, s) {
     ctx.fillRect(x, y, 1, 1);
   }
   const px = (x, y, col) => { ctx.fillStyle = col; ctx.fillRect(x, y, 1, 1); };
-  const ey = 8 + s.ly;
+  const ey = 6 + s.ly; // глаза подняты, иначе облачко выглядит сердитым
   [7 + s.lx, 12 + s.lx].forEach((x) => {
     if (s.eyes === 'open') { px(x, ey, c.eye); px(x, ey + 1, c.eye); }
     else if (s.eyes === 'blink') { px(x, ey + 1, c.eye); }

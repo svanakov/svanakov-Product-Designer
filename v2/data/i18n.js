@@ -52,7 +52,7 @@ export const dict = {
     'stack.code': 'Код',
     'stack.ai': 'ИИ-инструменты',
 
-    'contact.title': 'Остались вопросы?',
+    'contact.title': 'Связаться со мной',
     'contact.telegram': 'Telegram',
     'contact.email': 'Почта',
     'contact.cv': 'CV',
@@ -116,7 +116,7 @@ export const dict = {
     'stack.code': 'Code',
     'stack.ai': 'AI tools',
 
-    'contact.title': 'Any questions?',
+    'contact.title': 'Contact me',
     'contact.telegram': 'Telegram',
     'contact.email': 'Email',
     'contact.cv': 'CV',

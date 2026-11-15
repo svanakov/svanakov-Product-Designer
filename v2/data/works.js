@@ -9,6 +9,6 @@ export const works = [
     alt: { ru: 'Интерфейсная работа', en: 'Interface work' } },
   { id: 'w4', src: '../uploads/work4.webp', w: 511, h: 1055,
     alt: { ru: 'Интерфейсная работа', en: 'Interface work' } },
-  { id: 'w5', src: '../uploads/vpnmini-cover.webp', w: 1920, h: 1080,
+  { id: 'w5', src: '../uploads/vpn2.webp', w: 1920, h: 1440,
     alt: { ru: 'Telegram Mini App для VPN', en: 'Telegram Mini App for VPN' } },
 ];
