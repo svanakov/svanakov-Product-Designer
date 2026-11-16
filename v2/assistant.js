@@ -263,10 +263,10 @@ const DEMO_FALLBACK = {
   en: 'For now I only answer the suggested questions. Everything else is best asked to Sergei on Telegram.',
 };
 const DEMO_UI = {
-  ru: { title: 'Облачко', badge: 'Бета-версия', tip: 'Количество вопросов ограничено: в сутки можно задать 6', hello: 'Привет, я ИИ-ассистент Сергея. Расскажу про его кейсы и опыт. Напишите свой вопрос или выберите из подсказок.',
+  ru: { title: 'Облачно', badge: 'Бета-версия', tip: 'Количество вопросов ограничено: в сутки можно задать 6', hello: 'Привет, я ИИ-ассистент Сергея. Расскажу про его кейсы и опыт. Напишите свой вопрос или выберите из подсказок.',
         surprise: 'Удиви меня', send: 'Отправить', stop: 'Стоп', left: 'вопросов осталось', limit: 'На сегодня вопросов достаточно. Остальное лучше обсудить с Сергеем.', resets: 'Новые вопросы можно будет задать через {h} ч.',
         tg: 'Написать в Telegram', placeholder: 'Ваш вопрос' },
-  en: { title: 'Little Cloud', badge: 'Beta', tip: 'The number of questions is limited: 6 per day', hello: 'Hi, I am Sergei’s AI assistant. I can tell you about his cases and experience. Type your own question or pick a suggestion.',
+  en: { title: 'Cloudy', badge: 'Beta', tip: 'The number of questions is limited: 6 per day', hello: 'Hi, I am Sergei’s AI assistant. I can tell you about his cases and experience. Type your own question or pick a suggestion.',
         surprise: 'Surprise me', send: 'Send', stop: 'Stop', left: 'questions left', limit: 'That is enough questions for today. The rest is better discussed with Sergei.', resets: 'You can ask again in {h} h.',
         tg: 'Write on Telegram', placeholder: 'Your question' },
 };
