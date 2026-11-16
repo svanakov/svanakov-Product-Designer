@@ -4,7 +4,7 @@ import { getLang, pick, ASSISTANT_KEY, PUBLIC } from './site.js';
 import { createSprite } from './pet-sprite.js';
 
 const API = '/api/chat';
-const TG = 'https://t.me/svanakov';
+const TG = 'https://t.me/babyoslik';
 const MAX_QUESTIONS = 6;
 
 // Дневной лимит вопросов: счётчик лежит в localStorage и переживает перезагрузку страницы.
@@ -302,7 +302,6 @@ export function mountAssistantPreview(root, opts = {}) {
           <header class="ai__head">
             <canvas class="ai__pet" aria-hidden="true" title="…"></canvas>
             <div class="ai__titles"><h3 id="ai-title">${u.title}</h3></div>
-            <span class="ai__badge">${u.badge}</span>
           </header>
           <div class="ai__body">
             <div class="ai__log" role="log" aria-live="polite"></div>
@@ -326,7 +325,7 @@ export function mountAssistantPreview(root, opts = {}) {
     const addBot = (html) => { const row = document.createElement('div'); row.className = 'ai__row'; row.innerHTML = `${miniPet}<div class="ai__bubble">${html}</div>`; log.appendChild(row); createSprite(row.querySelector('canvas')); scroll(); return row.querySelector('.ai__bubble'); };
     const addUser = (text) => { const m = document.createElement('div'); m.className = 'ai__user'; m.textContent = text; log.appendChild(m); scroll(); };
     const caseCard = (id) => { const c = CASES[id]; return `<a class="ai__case" href="${c.href}"><img src="${c.cover}" alt="" width="64" height="44" loading="lazy"><span class="ai__case-t"><b>${pick(c.title, lang)}</b><small>${pick(c.sub, lang)}</small></span><span class="ai__case-go">${ARROW_R}</span></a>`; };
-    const tgCard = () => `<a class="ai__case ai__case--tg" href="${TG}" target="_blank" rel="noopener"><span class="ai__case-t"><b>${u.tg}</b><small>@svanakov</small></span><span class="ai__case-go">${ARROW_R}</span></a>`;
+    const tgCard = () => `<a class="ai__case ai__case--tg" href="${TG}" target="_blank" rel="noopener"><span class="ai__case-t"><b>${u.tg}</b><small>@babyoslik</small></span><span class="ai__case-go">${ARROW_R}</span></a>`;
     // Питомец в чате: думает (смотрит в сторону, рот чёрточкой), говорит (рот открывается), ждёт (улыбка, моргает)
     let talk = 0;
     const setState = (st) => {
@@ -357,6 +356,8 @@ export function mountAssistantPreview(root, opts = {}) {
     }
     function updateCounter() {
       const left = MAXQ - count, badge = $('.ai__count');
+      badge.style.display = count > 0 ? '' : 'none'; // счётчик появляется только после первого вопроса
+      if (count === 0) return;
       // «Осталось 10» / «Остался 1»; подсказка при наведении объясняет, что количество вопросов ограничено
       badge.textContent = lang === 'en' ? `${left} left` : `${left === 1 ? 'Остался' : 'Осталось'} ${left}`;
       badge.dataset.tip = u.tip;

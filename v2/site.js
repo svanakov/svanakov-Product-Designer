@@ -2,7 +2,7 @@
 import { dict } from './data/i18n.js';
 
 export const CV_URL = 'https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing';
-export const TG_URL = 'https://t.me/svanakov';
+export const TG_URL = 'https://t.me/babyoslik';
 export const MAIL = 'vanakovsergey2004@yandex.ru';
 
 // Закрытый режим ассистента (как в v1): пока PUBLIC = false, блок виден только тому, кто открыл сайт с ?assistant=<ключ>.
@@ -67,15 +67,32 @@ function mountControls() {
 
 // Страницы кейсов: кнопка «вернуться» слева сверху, которая исчезает у конца страницы, и статичная ссылка «вернуться»
 // внизу, в одной строке со ссылкой «Смотреть …» (оформлена так же, как она).
+// Куда вести «назад»: откуда пользователь пришёл на кейс. С главной возвращаем на главную, со страницы кейсов на страницу кейсов.
+// Переходы между самими кейсами («Смотреть …») источник не меняют, поэтому он запоминается на время вкладки.
+function backHref() {
+  let origin = null;
+  try { origin = sessionStorage.getItem('case_origin'); } catch { /* ок */ }
+  try {
+    const ref = document.referrer ? new URL(document.referrer) : null;
+    if (ref && ref.origin === location.origin) {
+      if (/\/cases\.html$/.test(ref.pathname)) origin = 'cases';
+      else if (/\/(index\.html)?$/.test(ref.pathname)) origin = 'home';
+    }
+  } catch { /* ок */ }
+  try { if (origin) sessionStorage.setItem('case_origin', origin); } catch { /* ок */ }
+  return origin === 'home' ? { href: './#cases', key: 'case.backHome' } : { href: './cases.html', key: 'case.back' };
+}
+
 function mountBackButtons() {
-  const label = '<span aria-hidden="true">←</span><span data-i18n="case.back"></span>';
-  document.body.insertAdjacentHTML('afterbegin', `<a class="back-btn" id="back-btn" href="./#cases">${label}</a>`);
-  document.body.insertAdjacentHTML('beforeend', `<a class="back-link" id="back-link" href="./#cases">${label}</a>`);
+  const { href, key } = backHref();
+  const label = `<span aria-hidden="true">←</span><span data-i18n="${key}"></span>`;
+  document.body.insertAdjacentHTML('afterbegin', `<a class="back-btn" id="back-btn" href="${href}">${label}</a>`);
+  document.body.insertAdjacentHTML('beforeend', `<a class="back-link" id="back-link" href="${href}">${label}</a>`);
   const btn = document.getElementById('back-btn'), bottom = document.getElementById('back-link');
 
   // Страница кейса рисуется старым рантаймом и может перерисовываться, поэтому в её разметку ничего не вставляем:
   // нижняя ссылка лежит в body и ставится по координатам строки со ссылкой «Смотреть …».
-  const findLink = () => document.querySelector('article a[href="campus.html"], article a[href="dispatch.html"], article a[href="rytmo.html"]');
+  const findLink = () => document.querySelector('article a[href="campus.html"], article a[href="dispatch.html"], article a[href="rytmo.html"], article a[href="vpnmini.html"]');
 
   function update() {
     const link = findLink();
@@ -138,8 +155,8 @@ function setupClickSound() {
 }
 setupClickSound();
 
-// Далёкие облака на заднем плане верха страницы (кроме страниц кейсов).
-if (document.body.dataset.page !== 'case') {
+// Далёкие облака на заднем плане верха страницы (кроме страниц кейсов и страницы работ: там только цвета темы).
+if (document.body.dataset.page !== 'case' && document.body.dataset.page !== 'all-cases') {
   // Звёзды: мерцающие точки, видны только в тёмной теме. Генератор с фиксированным зерном, чтобы небо не менялось при каждой загрузке.
   let seed = 7;
   const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };

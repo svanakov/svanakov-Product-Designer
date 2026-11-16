@@ -18,6 +18,7 @@ export const experience = [
     results: [
       { ru: 'Поднял конверсию в покупку на 20% и сократил время поиска товара на 27%', en: 'Raised purchase conversion by 20% and cut product search time by 27%' },
       { ru: 'Сократил путь от поиска до заказа на два шага', en: 'Cut the path from search to order by two steps' },
+      { ru: 'Перестроил каталог вокруг автомобиля пользователя: запчасти подбираются проще', en: 'Rebuilt the catalog around the user’s car, so parts are easier to find' },
     ],
   },
   {
@@ -28,6 +29,7 @@ export const experience = [
     results: [
       { ru: 'Вместе с командой поднял конверсию в заявку с 1,2% до 3,8%', en: 'With the team raised lead conversion from 1.2% to 3.8%' },
       { ru: 'Сократил форму записи с восьми полей до двух', en: 'Cut the booking form from eight fields to two' },
+      { ru: 'Спроектировал калькулятор стоимости, страницы врачей и онлайн-запись с интеграцией в CRM клиники', en: 'Designed a price calculator, doctor pages and online booking integrated with the clinic’s CRM' },
     ],
   },
 ];

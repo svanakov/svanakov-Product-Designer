@@ -1,6 +1,7 @@
 // Пиксельный питомец-облачко в углу экрана: рисуется точками на канвасе (20x13 «пикселей»).
 // Моргает, следит за курсором, комментирует разделы, подпрыгивает по клику, засыпает без активности.
-// Питомца можно брать и перетаскивать по странице (он комментирует это). Скрыть его нельзя.
+// Питомца можно брать и перетаскивать по странице (он комментирует это). Кнопка-крестик при наведении убирает его со страницы
+// вместе со звездой внизу, но только до перезагрузки: при следующей загрузке облачко появляется снова.
 // Только десктоп, при prefers-reduced-motion без движений.
 import { getLang } from './site.js';
 import { createSprite, W, H, isDark } from './pet-sprite.js';
@@ -8,6 +9,7 @@ import { createSprite, W, H, isDark } from './pet-sprite.js';
 const SCALE = 5;
 
 const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+try { localStorage.removeItem('pet_off'); } catch { /* storage недоступен */ } // старый флаг из прошлой версии: облачко возвращается при каждой загрузке
 if (matchMedia('(min-width: 1100px) and (hover: hover) and (pointer: fine)').matches) start();
 
 function start() {
@@ -16,19 +18,20 @@ function start() {
   // ---------- DOM ----------
   const el = document.createElement('div');
   el.className = 'pet';
-  el.innerHTML = '<div class="pet__say" hidden><span class="pet__t"></span></div><canvas class="pet__c" width="' + W + '" height="' + H + '" aria-hidden="true"></canvas><span class="pet__z" aria-hidden="true" hidden>z z z</span>';
+  el.innerHTML = '<div class="pet__say" hidden><span class="pet__t"></span></div><span class="pet__b"><canvas class="pet__c" width="' + W + '" height="' + H + '" aria-hidden="true"></canvas><span class="pet__flare" aria-hidden="true"></span></span><button type="button" class="pet__x" aria-label="' + (getLang() === 'en' ? 'Hide the little cloud' : 'Убрать облачко') + '"><svg width="14" height="14" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true"><path fill="currentColor" d="M0 0h1v1H0zM6 0h1v1H6zM1 1h1v1H1zM5 1h1v1H5zM2 2h1v1H2zM4 2h1v1H4zM3 3h1v1H3zM2 4h1v1H2zM4 4h1v1H4zM1 5h1v1H1zM5 5h1v1H5zM0 6h1v1H0zM6 6h1v1H6z"/></svg></button><span class="pet__z" aria-hidden="true" hidden>z z z</span>';
   document.body.appendChild(el);
+  el.classList.add('is-right'); // стоит справа внизу: пузырь прижат к правому краю
   const canvas = el.querySelector('canvas');
   const sprite = createSprite(canvas); const s = sprite.s; const draw = () => sprite.draw();
   const bubble = el.querySelector('.pet__say'), text = el.querySelector('.pet__t'), zzz = el.querySelector('.pet__z');
   canvas.style.width = W * SCALE + 'px'; canvas.style.height = H * SCALE + 'px';
 
   const L = {
-    ru: { hero: 'Привет! Листай вниз ↓', works: 'Наведи на ленту: она остановится',
+    ru: { hero: 'Привет! Листай вниз ↓',
           poke: ['Да?', 'Я здесь', 'Привет', 'Слушаю'], enough: 'Достаточно', sulk: 'Пойду отдохну', night: 'Ночь. Смотри, звёзды', day: 'Снова день', wake: 'Я не спал!', back: 'Я вернулся!', hint: 'Меня можно перетаскивать', treatCap: 'Покорми облачко', treatNudge: 'Перетащи звезду ко мне', nyam: 'Вкусно', treatBeg: 'Звезда ещё здесь', treatHint: 'Звезда для облачка', thanks: 'Спасибо', thanks2: 'Хорошая звезда', welcomeBack: 'С возвращением', walk: ['Прогуляюсь', 'Разомнусь'],
           pick: ['Меня подняли', 'Летим'], carry: ['Осторожно', 'Тут высоко', 'Вид неплохой'],
           drop: ['Хорошее место', 'Тут нормально', 'Спасибо'], top: 'Тут высоко', home: 'Дома', dock: 'Тут навигация, я отойду', again: 'Опять перемещаемся' },
-    en: { hero: 'Hi! Scroll down ↓', works: 'Hover the strip: it will stop',
+    en: { hero: 'Hi! Scroll down ↓',
           poke: ['Yes?', 'I am here', 'Hello', 'Listening'], enough: 'That is enough', sulk: 'I will rest a bit', night: 'Night. Look, stars', day: 'Day again', wake: 'I was not sleeping!', back: 'I am back!', hint: 'You can drag me around', treatCap: 'Feed the little cloud', treatNudge: 'Drag the star to me', nyam: 'Tasty', treatBeg: 'The star is still here', treatHint: 'A star for the little cloud', thanks: 'Thank you', thanks2: 'A good star', welcomeBack: 'Welcome back', walk: ['Going for a walk', 'Stretching my legs'],
           pick: ['Picked up', 'Flying'], carry: ['Careful', 'It is high up here', 'Nice view'],
           drop: ['Good spot', 'This is fine', 'Thanks'], top: 'It is high up here', home: 'Home', dock: 'The navigation is here, I will move', again: 'Moving again' },
@@ -88,7 +91,7 @@ function start() {
   addEventListener('keydown', () => { activity(); wake(); }, { passive: true });
 
   // реплики при входе в раздел
-  const SECTIONS = [['top', 'hero'], ['cases', 'cases'], ['works', 'works'], ['workflow', 'workflow'], ['experience', 'experience'], ['contact', 'contact']];
+  const SECTIONS = [['top', 'hero'], ['cases', 'cases'], ['workflow', 'workflow'], ['experience', 'experience'], ['contact', 'contact']];
   const said = new Set(); let current = '', greeted = false;
   const onScroll = () => {
     activity(); wake();
@@ -146,9 +149,9 @@ function start() {
   const place = (x, y, save, loose) => {
     [x, y] = clamp(x, y);
     if (!loose) [x, y] = avoid(x, y);
-    el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.bottom = 'auto';
-    // пузырь не должен вылезать за экран: у верхнего края он ниже питомца, у правого прижат вправо
-    el.classList.toggle('is-top', y < 90); el.classList.toggle('is-right', x > innerWidth - 290);
+    el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.bottom = 'auto'; el.style.right = 'auto';
+    // пузырь не должен вылезать за экран: у верхнего края он ниже питомца, слева он идёт влево от тела облачка
+    el.classList.toggle('is-top', y < 90); el.classList.toggle('is-right', x > 260); // реплика тянется влево от левой части тела; вправо только когда слева не хватает места
     if (save) { try { sessionStorage.setItem(POS_KEY, JSON.stringify({ x, y })); } catch {} }
   };
   try { const p = JSON.parse(sessionStorage.getItem(POS_KEY) || 'null'); if (p) place(p.x, p.y); } catch {}
@@ -183,7 +186,7 @@ function start() {
     place(r.left, r.top, true);
     suppressClick = true; setTimeout(() => { suppressClick = false; }, 0);
     // реплика зависит от места, куда его поставили
-    const nearHome = r.left < 120 && innerHeight - r.bottom < 120;
+    const nearHome = innerWidth - r.right < 120 && innerHeight - r.bottom < 120;
     const nearDock = innerHeight - r.bottom < 110 && Math.abs(r.left + r.width / 2 - innerWidth / 2) < 340;
     say(r.top < 90 ? t().top : nearHome ? t().home : nearDock ? t().dock : rnd(t().drop), true);
   };
@@ -228,6 +231,14 @@ function start() {
   const tc = treat.querySelector('canvas'), cap = treat.querySelector('.treat__cap');
   const treatText = () => { cap.textContent = t().treatCap; };
   treatText();
+
+  // Крестик убирает облачко со страницы, а вместе с ним и звезду внизу
+  el.querySelector('.pet__x').addEventListener('click', (e) => {
+    e.stopPropagation();
+    el.classList.add('is-gone'); bubble.hidden = true;
+    treat.remove();
+    setTimeout(() => el.remove(), 400);
+  });
   document.addEventListener('langchange', treatText);
   (function paintStar() { // пиксельная звезда 9x9: B контур, Y заливка, W блик
     const g = ['....B....', '...BYB...', '...BYB...', 'BBBBYBBBB', 'BYYYWYYYB', '.BYYYYYB.', '..BYYYB..', '.BYYBYYB.', '.BB...BB.'];
@@ -279,10 +290,8 @@ function start() {
     }, 6500);
     nudge2 = setTimeout(() => {
       if (treatGone || feeding || td) return;
-      const r = tc.getBoundingClientRect();
-      anchorX = null; el.classList.add('is-run'); hop();
-      place(r.left - el.offsetWidth - 8, r.top + r.height - el.offsetHeight);
-      setTimeout(() => { el.classList.remove('is-run'); if (!treatGone && !td) { say(t().treatBeg, true); mood('happy', 'o', 1200); } }, 1100);
+      // Облачко остаётся на своём месте и только напоминает про звезду (по экрану оно не бегает)
+      hop(); say(t().treatBeg, true); mood('happy', 'o', 1200);
     }, 17000);
   }
   // Награда появляется, когда долистали до конца страницы
@@ -323,13 +332,10 @@ function start() {
   const treatUp = (e) => {
     if (!td) return;
     const moved = td.moved; td = null;
-    if (!moved) { // клик: облачко подбегает и съедаёт
+    if (!moved) { // клик: звезда сама летит к облачку, оно остаётся на месте
       if (feeding) return;
-      const r = tc.getBoundingClientRect();
-      feeding = true; wake(); activity();
-      s.lx = 0; s.ly = 0; el.classList.add('is-run'); hop();
-      place(r.left - el.offsetWidth - 8, r.top + r.height - el.offsetHeight);
-      setTimeout(() => { el.classList.remove('is-run'); feeding = false; feed(); }, 1100);
+      wake(); activity(); s.lx = 0; s.ly = 0;
+      feed();
       return;
     }
     treat.classList.remove('is-drag');
@@ -351,7 +357,27 @@ function start() {
     if (pokes === 5) { say(t().enough, true); mood('happy', 'o', 1100); }
     else if (pokes === 9) { say(t().sulk, true); mood('open', 'flat', 1500); setTimeout(sleep, 1600); }
     else { const p = t().poke; say(p[Math.floor(Math.random() * p.length)], true); mood('happy', 'smile', 900); }
+    if (pokes === 4) rain(); // на четвёртый клик из облачка идёт дождь, три секунды
   });
+
+  // Дождь: капли падают из-под облачка три секунды и прекращаются
+  let raining = false;
+  function rain() {
+    if (raining || reduce()) return;
+    raining = true;
+    const box = document.createElement('div');
+    box.className = 'pet__rain'; box.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 16; i++) {
+      const d = document.createElement('i');
+      d.style.left = (4 + Math.random() * 92).toFixed(1) + '%';
+      d.style.animationDelay = (Math.random() * 0.7).toFixed(2) + 's';
+      d.style.animationDuration = (0.55 + Math.random() * 0.35).toFixed(2) + 's';
+      box.appendChild(d);
+    }
+    el.appendChild(box);
+    mood('open', 'flat', 3000); // пока идёт дождь, облачко грустит
+    setTimeout(() => { box.classList.add('is-off'); setTimeout(() => { box.remove(); raining = false; }, 450); }, 3000);
+  }
 
   // смена темы: рисует общий модуль, питомец только комментирует
   new MutationObserver(() => { say(isDark() ? t().night : t().day, true); mood('happy', 'smile', 1000); })

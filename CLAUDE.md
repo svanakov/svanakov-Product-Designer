@@ -38,7 +38,7 @@
 
 ## Личные данные
 
-- Telegram: t.me/svanakov
+- Telegram: t.me/babyoslik
 - Email: vanakovsergey2004@yandex.ru
 - Локация: Тула, удалённо
 - Статус: ищет full-time работу

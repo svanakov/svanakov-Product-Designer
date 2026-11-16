@@ -9,6 +9,7 @@ export const dict = {
     'nav.cv': 'CV',
     'nav.menu': 'Меню',
     'nav.top': 'Наверх',
+    'nav.scroll': 'Листать вниз',
     'nav.assistant': 'Мой ассистент',
     'assistant.title': 'ИИ-ассистент',
     'nav.close': 'Закрыть',
@@ -17,7 +18,7 @@ export const dict = {
 
     'hero.thesis': 'Продуктовый дизайнер. Проектирую понятные интерфейсы и довожу идеи от исследования до выпуска в продукт.',
     'hero.fio': 'Сергей Ванаков',
-    'hero.age': '22 года',
+    'hero.age': '4 года в дизайне и IT',
     'hero.avatarAlt': 'Сергей Ванаков',
     'hero.chipVideo': 'Figma → код с ИИ',
     'hero.chipAssistant': 'Спросить ассистента',
@@ -26,6 +27,7 @@ export const dict = {
 
     'cases.title': 'Кейсы',
     'cases.more': 'Подробнее',
+    'cases.all': 'Все кейсы',
     'cases.problem': 'Проблема',
     'cases.result': 'Результат',
     'cases.kind.concept': 'Личный проект',
@@ -36,6 +38,7 @@ export const dict = {
     'works.next': 'Следующие работы',
     'works.carousel': 'Карусель с работами',
     'works.close': 'Закрыть',
+    'works.home': 'На главную',
 
     'workflow.title': 'Как я оптимизирую свою работу с помощью ИИ',
     'workflow.video': 'Скоро...',
@@ -55,14 +58,18 @@ export const dict = {
     'contact.title': 'Связаться со мной',
     'contact.telegram': 'Telegram',
     'contact.email': 'Почта',
+    'contact.phone': 'Телефон',
     'contact.cv': 'CV',
     'contact.copy.telegram': 'Скопировать Telegram',
     'contact.copy.email': 'Скопировать почту',
+    'contact.copy.phone': 'Скопировать номер',
     'contact.copied.telegram': 'Telegram скопирован',
     'contact.copied.email': 'Почта скопирована',
+    'contact.copied.phone': 'Номер скопирован',
 
 
     'case.back': 'Назад к кейсам',
+    'case.backHome': 'На главную',
   },
   en: {
     'site.name': 'Sergei Vanakov',
@@ -73,6 +80,7 @@ export const dict = {
     'nav.cv': 'CV',
     'nav.menu': 'Menu',
     'nav.top': 'Back to top',
+    'nav.scroll': 'Scroll down',
     'nav.assistant': 'My assistant',
     'assistant.title': 'AI assistant',
     'nav.close': 'Close',
@@ -81,7 +89,7 @@ export const dict = {
 
     'hero.thesis': 'Product designer. I design clear interfaces and take ideas from research to a shipped product.',
     'hero.fio': 'Sergei Vanakov',
-    'hero.age': '22 years old',
+    'hero.age': '4 years in design and IT',
     'hero.avatarAlt': 'Sergei Vanakov',
     'hero.chipVideo': 'Figma → code with AI',
     'hero.chipAssistant': 'Ask the assistant',
@@ -90,6 +98,7 @@ export const dict = {
 
     'cases.title': 'Case studies',
     'cases.more': 'Read case',
+    'cases.all': 'All case studies',
     'cases.problem': 'Problem',
     'cases.result': 'Result',
     'cases.kind.concept': 'Personal project',
@@ -100,6 +109,7 @@ export const dict = {
     'works.next': 'Next works',
     'works.carousel': 'Works carousel',
     'works.close': 'Close',
+    'works.home': 'Home',
 
     'workflow.title': 'How I optimize my work with AI',
     'workflow.video': 'Coming soon...',
@@ -119,13 +129,17 @@ export const dict = {
     'contact.title': 'Contact me',
     'contact.telegram': 'Telegram',
     'contact.email': 'Email',
+    'contact.phone': 'Phone',
     'contact.cv': 'CV',
     'contact.copy.telegram': 'Copy Telegram',
     'contact.copy.email': 'Copy email',
+    'contact.copy.phone': 'Copy number',
     'contact.copied.telegram': 'Telegram copied',
     'contact.copied.email': 'Email copied',
+    'contact.copied.phone': 'Number copied',
 
 
     'case.back': 'Back to cases',
+    'case.backHome': 'Back to home',
   },
 };

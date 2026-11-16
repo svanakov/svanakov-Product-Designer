@@ -9,13 +9,13 @@ html { -webkit-text-size-adjust: 100%; scrollbar-gutter: stable; }
 :root { --cloud-chip: #ffffff; --cloud: #ffffff; --cloud-a: 0.8; --sky-1: #9cc7f0; --sky-2: #c4def6; --sky-3: #e3eefa; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --cloud-chip: #232c40; --cloud: #3b4c74; --cloud-a: 0.34; --sky-1: oklch(0.34 0.08 250); --sky-2: oklch(0.26 0.05 250); --sky-3: oklch(0.2 0.025 250); } }
 :root[data-theme="dark"] { --cloud-chip: #232c40; --cloud: #3b4c74; --cloud-a: 0.34; --sky-1: oklch(0.34 0.08 250); --sky-2: oklch(0.26 0.05 250); --sky-3: oklch(0.2 0.025 250); }
-html:has(body:not([data-page="case"])) {
+html:has(body:not([data-page="case"]):not([data-page="all-cases"])) {
   background:
     radial-gradient(90% 60% at 50% -8%, var(--sky-1) 0%, transparent 70%) top / 100% 820px no-repeat,
     linear-gradient(180deg, var(--sky-2) 0%, var(--sky-3) 35%, transparent 100%) top / 100% 820px no-repeat,
     var(--bg);
 }
-body:not([data-page="case"]) { background: transparent; }
+body:not([data-page="case"]):not([data-page="all-cases"]) { background: transparent; } /* на страницах кейсов и работ фон ровный: градиента, облаков и звёзд нет */
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
   margin: 0; background: var(--bg); color: var(--text-ui);
@@ -94,8 +94,7 @@ html.lb-open { overflow: hidden; }
 .case-card__link { display: grid; grid-template-columns: 1.55fr 1fr; height: 100%; text-decoration: none; color: inherit; }
 .case-card__cover { position: relative; overflow: hidden; min-height: 300px; background: var(--placeholder); }
 .case-card__cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 350ms ease-out; }
-.case-card__link:hover .case-card__cover img { transform: scale(1.07) translate(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -8px)); }
-.case-card__body { padding: 28px 30px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.case-card__body { padding: 28px 30px 88px; /* снизу запас под бывшую кнопку «Подробнее»: высота карточки прежняя */ display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .case-card__meta { display: flex; flex-direction: column; gap: 10px; }
 .case-card__platform { font-size: 16px; font-weight: 400; color: var(--muted); }
 .case-card__stack { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
@@ -106,8 +105,6 @@ html.lb-open { overflow: hidden; }
 .case-card__list { margin: 0; padding-left: 18px; font-size: 16px; line-height: 1.5; color: var(--text); }
 .case-card__list li + li { margin-top: 4px; }
 .case-card__note { display: block; margin-top: 4px; font-size: 14px; font-weight: 400; color: var(--muted); }
-.case-card__btn { margin-top: auto; align-self: flex-start; display: inline-flex; gap: 8px; align-items: center; padding: 11px 20px; border-radius: 999px; border: 1px solid var(--border-strong); font-size: 16px; font-weight: 500; transition: background .4s ease; }
-.case-card__link:hover .case-card__btn { background: var(--inverse-bg); color: var(--inverse-text); border-color: var(--inverse-bg); }
 @media (max-width: 860px) {
   .case-card { max-height: 85vh; overflow-y: auto; }
   .case-card__link { grid-template-columns: 1fr; }
@@ -136,8 +133,11 @@ html.lb-open { overflow: hidden; }
   .cases-dots { display: block; position: absolute; top: 0; bottom: 0; right: -22px; width: 8px; }
   /* Рейка точек стоит на уровне середины карточки: сразу при входе в блок и дальше, пока карточки сменяют друг друга */
   .cases-dots__rail { position: sticky; top: calc(112px + var(--card-h, 406px) / 2); margin-top: calc(var(--card-h, 406px) / 2); transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; }
-  .cases-dots span { width: 5px; height: 5px; border-radius: 50%; background: var(--border-strong); transition: background .5s cubic-bezier(.22, 1, .36, 1), transform .5s cubic-bezier(.22, 1, .36, 1); }
-  .cases-dots span.is-active { background: var(--text); transform: scale(1.6); }
+  .cases-dots__rail { gap: 1px; }
+  .cases-dots button { position: relative; width: 14px; height: 14px; margin-left: -3px; padding: 0; border: 0; background: none; cursor: pointer; }
+  .cases-dots button::before { content: ''; position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: 50%; background: var(--border-strong); transition: background .5s cubic-bezier(.22, 1, .36, 1), transform .5s cubic-bezier(.22, 1, .36, 1); }
+  .cases-dots button:hover::before { background: var(--muted); }
+  .cases-dots button.is-active::before { background: var(--text); transform: scale(1.6); }
 }
 
 /* Лента работ: бесконечная, края растворяются. Движение считает marquee.js, тут только вид. */
@@ -211,7 +211,9 @@ html.lb-open { overflow: hidden; }
 .big-link__main { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 24px 0; text-decoration: none; font-size: 32px; font-weight: 600; letter-spacing: -0.02em; transition: color .5s cubic-bezier(.22, 1, .36, 1); }
 .big-link__arrow { display: flex; flex: none; align-items: center; justify-content: center; width: 44px; height: 44px; }
 .big-link__arrow svg { display: block; width: 26px; height: 26px; }
-.big-link__label { display: inline-block; }
+.big-link__label { display: inline-flex; align-items: center; gap: 18px; }
+.big-link__ico { flex: none; width: 28px; height: 28px; color: var(--text-2); transition: color .5s cubic-bezier(.22, 1, .36, 1); }
+.big-link__main:hover .big-link__ico { color: var(--accent); }
 .big-link__label, .big-link__arrow { transition: transform .6s cubic-bezier(.22, 1, .36, 1); }
 .big-link__main:hover { color: var(--accent); }
 .big-link__main:hover .big-link__label { transform: translateX(10px); }
@@ -412,9 +414,12 @@ body[data-page="home"] { padding-bottom: 88px; }
 .btn--cv:hover svg { transform: translate(3px, -3px); }
 
 /* Имя и возраст под аватаром: без запятой, ФИО светлее возраста */
-.hero__name { display: flex; justify-content: center; gap: 14px; margin: 28px 0 0; font-size: 18px; font-weight: 600; }
+.hero__name { display: flex; justify-content: center; margin: 28px 0 0; font-size: 18px; font-weight: 600; }
 .hero__fio { color: var(--text); }
-.hero__age { color: color-mix(in oklch, var(--text) 40%, var(--bg)); }
+.hero__meta { margin: 24px auto 0; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.hero__years { margin: 0; font-size: 18px; font-weight: 500; color: color-mix(in oklch, var(--text) 45%, var(--bg)); }
+.hero__areas { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 0; margin: 0; padding: 0; list-style: none; font-size: 16px; font-weight: 400; color: var(--text-2); }
+.hero__areas li + li::before { content: '·'; margin: 0 10px; color: var(--muted); }
 .hero__name + .hero__thesis { margin-top: 44px; }
 .hero [data-hero="2"] { animation-delay: .15s; }
 .exp h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: var(--text); margin: 0 0 16px; }
@@ -484,12 +489,40 @@ body[data-page="home"] { padding-bottom: 88px; }
 @media (max-width: 720px) { .ai { border-radius: 24px; padding: 8px; } .ai__head { padding: 16px; } .ai__log { padding-left: 16px; padding-right: 16px; } .ai__chips, .ai__foot { padding-left: 16px; padding-right: 16px; } .ai__form { padding: 0 8px 12px; } }
 
 /* ---------- Пиксельный питомец-облачко ---------- */
-.pet { position: fixed; left: 24px; bottom: 24px; z-index: 25; width: 100px; }
-.pet::before { content: ''; position: absolute; inset: -16px -22px -8px; z-index: -1; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 1.2s ease;
-  background: radial-gradient(closest-side, rgba(255, 205, 70, .6), rgba(255, 190, 50, .26) 58%, rgba(255, 190, 50, 0) 100%); filter: blur(7px); }
-.pet.is-fed::before { opacity: .65; }
-@media (prefers-reduced-motion: no-preference) { .pet.is-fed::before { animation: pet-glow 3.4s ease-in-out 1.2s infinite; } }
-@keyframes pet-glow { 0%, 100% { transform: scale(1); opacity: .65; } 50% { transform: scale(1.08); opacity: .5; } }
+.pet { position: fixed; right: 24px; bottom: 24px; z-index: 25; width: 100px; }
+.pet__x { position: absolute; top: -10px; right: -10px; z-index: 2; width: 20px; height: 20px; padding: 0; border-radius: 0; border: 2px solid var(--text); background: var(--surface); color: var(--text); box-shadow: 2px 2px 0 rgba(30, 50, 90, .25); display: inline-flex; align-items: center; justify-content: center; opacity: 0; transform: scale(.8); transition: opacity .25s ease, transform .25s steps(3); image-rendering: pixelated; }
+.pet:hover .pet__x, .pet__x:focus-visible { opacity: 1; transform: none; }
+.pet__x:hover { background: var(--inverse-bg); color: var(--inverse-text); border-color: var(--inverse-bg); }
+.pet.is-drag .pet__x { opacity: 0; }
+.pet.is-gone { opacity: 0; pointer-events: none; transition: opacity .35s ease; }
+/* После угощения за облачком блик, как от солнца: тёплое ядро и три набора лучей разной длины
+   (длинные, средние и короткие), все размыты и тают к краям, вращаются с разной скоростью.
+   Цвет и яркость зависят от темы: на светлом фоне лучи насыщенные янтарные, на тёмном приглушённые светло-золотые. */
+:root { --g1: 255, 160, 20; --g2: 255, 178, 40; --g3: 255, 192, 70; --gc: 255, 190, 50; --sun-hi: .95; --sun-lo: .7; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --g1: 255, 214, 95; --g2: 255, 222, 120; --g3: 255, 232, 160; --gc: 255, 244, 190; --sun-hi: .5; --sun-lo: .3; } }
+:root[data-theme="dark"] { --g1: 255, 214, 95; --g2: 255, 222, 120; --g3: 255, 232, 160; --gc: 255, 244, 190; --sun-hi: .5; --sun-lo: .3; }
+.pet__b::before, .pet__b::after, .pet__flare { content: ''; position: absolute; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; filter: blur(4.5px);
+  -webkit-mask-image: radial-gradient(closest-side, #000 12%, transparent 100%); mask-image: radial-gradient(closest-side, #000 12%, transparent 100%); }
+.pet__flare { display: block; }
+.pet__b::before { inset: -62px -45px; /* длинные лучи, четыре по сторонам света, и ядро */
+  background:
+    radial-gradient(closest-side, rgba(var(--gc), .95) 0%, rgba(var(--g2), .5) 24%, rgba(var(--g1), 0) 60%),
+    repeating-conic-gradient(from -3deg, rgba(var(--g1), 0) 0deg, rgba(var(--g1), .85) 3deg, rgba(var(--g1), 0) 6deg, rgba(var(--g1), 0) 90deg); }
+.pet__b::after { inset: -37px -20px; /* средние лучи, восемь */
+  background: repeating-conic-gradient(from 17deg, rgba(var(--g2), 0) 0deg, rgba(var(--g2), .65) 5.5deg, rgba(var(--g2), 0) 11deg, rgba(var(--g2), 0) 45deg); }
+.pet__flare { inset: -19px -2px; /* короткие лучи, много */
+  background: repeating-conic-gradient(from 5deg, rgba(var(--g3), 0) 0deg, rgba(var(--g3), .6) 6.25deg, rgba(var(--g3), 0) 12.5deg, rgba(var(--g3), 0) 22.5deg); }
+.pet.is-fed .pet__b::before { opacity: var(--sun-hi); }
+.pet.is-fed .pet__b::after { opacity: calc(var(--sun-hi) * .85); }
+.pet.is-fed .pet__flare { opacity: calc(var(--sun-hi) * .9); }
+@media (prefers-reduced-motion: no-preference) {
+  .pet.is-fed .pet__b::before { animation: pet-sun 4.5s ease-in-out infinite, pet-rays 90s linear infinite; }
+  .pet.is-fed .pet__b::after { animation: pet-sun 5.5s ease-in-out -2s infinite, pet-rays 70s linear infinite reverse; }
+  .pet.is-fed .pet__flare { animation: pet-sun 3.8s ease-in-out -1s infinite, pet-rays 50s linear infinite; }
+}
+@keyframes pet-sun { 0%, 100% { opacity: var(--sun-hi); } 50% { opacity: var(--sun-lo); } }
+@keyframes pet-rays { to { transform: rotate(360deg); } }
+.pet__b { position: relative; display: block; } /* тело облачка вместе с бликом: прыжки и покачивание двигают их вместе */
 .pet__c { display: block; image-rendering: pixelated; image-rendering: crisp-edges; cursor: grab; touch-action: none; user-select: none; filter: drop-shadow(0 6px 0 rgba(30, 50, 90, .14)); }
 .pet__say { position: absolute; left: 0; bottom: calc(100% + 12px); width: max-content; max-width: 240px; padding: 8px 12px; background: var(--bg); color: var(--text); border: 2px solid var(--text); box-shadow: 3px 3px 0 var(--text);
   font: 600 13px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
@@ -501,8 +534,8 @@ body[data-page="home"] { padding-bottom: 88px; }
 @keyframes pet-say { from { opacity: 0; transform: translateY(6px); } }
 @keyframes pet-z { 0% { opacity: 0; transform: translateY(6px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-8px); } }
 @media (prefers-reduced-motion: no-preference) {
-  .pet__c { animation: pet-bob 1.8s steps(2, jump-none) infinite; }
-  .pet.is-hop .pet__c { animation: pet-hop .6s steps(6) 1; }
+  .pet__b { animation: pet-bob 1.8s steps(2, jump-none) infinite; }
+  .pet.is-hop .pet__b { animation: pet-hop .6s steps(6) 1; }
   .pet__say.is-in { animation: pet-say .25s steps(4) backwards; }
   .pet__z { animation: pet-z 2.4s ease-in-out infinite; }
 }
@@ -511,7 +544,7 @@ body[data-page="home"] { padding-bottom: 88px; }
 .ai__pet { flex: none; width: 80px; height: 52px; image-rendering: pixelated; image-rendering: crisp-edges; cursor: pointer; filter: drop-shadow(0 4px 0 rgba(30, 50, 90, .14)); }
 .ai__mini-pet { flex: none; width: 40px; height: 26px; margin-top: 0; image-rendering: pixelated; image-rendering: crisp-edges; }
 .pet { transition: transform .7s cubic-bezier(.6, 0, .3, 1), opacity .5s ease; }
-.pet.is-away { transform: translateX(-180px); opacity: 0; pointer-events: none; }
+.pet.is-away { transform: translateX(180px); opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
   .ai__pet { animation: pet-bob 1.8s steps(2, jump-none) infinite; }
   .ai.is-thinking .ai__pet { animation-duration: .7s; }
@@ -519,11 +552,12 @@ body[data-page="home"] { padding-bottom: 88px; }
 }
 
 /* Перетаскивание: при подъёме питомец чуть наклоняется, пузырь сам выбирает сторону, чтобы не выйти за экран */
-.pet.is-drag .pet__c { cursor: grabbing; animation: none; transform: rotate(-7deg) translateY(-4px); }
+.pet.is-drag .pet__c { cursor: grabbing; }
+.pet.is-drag .pet__b { animation: none; transform: rotate(-7deg) translateY(-4px); }
 .pet.is-drag { transition: none; }
 .pet.is-top .pet__say { bottom: auto; top: calc(100% + 12px); }
 .pet.is-top .pet__say::after { top: auto; bottom: 100%; transform: translateY(5px) rotate(225deg); }
-.pet.is-right .pet__say { left: auto; right: 0; }
+.pet.is-right .pet__say { left: auto; right: 48px; } /* реплика идёт от левой части тела облачка и тянется влево, хвостик над его левой половиной */
 .pet.is-right .pet__say::after { left: auto; right: 22px; }
 
 /* Проявление текста ответа: слово за словом из размытия, с подъёмом и вспышкой акцентного цвета */
@@ -534,7 +568,7 @@ body[data-page="home"] { padding-bottom: 88px; }
 /* Прогулка: двигается ступеньками по-пиксельному, пока идёт, подпрыгивает чаще */
 @media (prefers-reduced-motion: no-preference) {
   .pet.is-walk { transition: left .9s steps(6, end), transform .7s cubic-bezier(.6, 0, .3, 1), opacity .5s ease; }
-  .pet.is-walk .pet__c { animation-duration: .6s; }
+  .pet.is-walk .pet__b { animation-duration: .6s; }
 }
 
 /* Счётчик вопросов: плашка справа внутри поля ввода */
@@ -542,17 +576,6 @@ body[data-page="home"] { padding-bottom: 88px; }
 @keyframes count-tick { 0% { transform: translateY(-50%) scale(1.25); } 100% { transform: translateY(-50%) scale(1); } }
 @media (prefers-reduced-motion: no-preference) { .ai__count.is-tick { animation: count-tick .5s cubic-bezier(.22, 1, .36, 1); } }
 
-/* «ИИ-ассистент» в навигации: переливающаяся пилюля с искрами, чтобы выделялась */
-.dock a.dock__ai { display: inline-flex; align-items: center; gap: 7px; color: #fff; background: linear-gradient(120deg, #4a86e0, #7a5cf0 55%, #4a86e0); background-size: 200% 100%; box-shadow: 0 6px 18px color-mix(in oklch, #5b6cf0 45%, transparent); }
-.dock a.dock__ai:hover { background-position: 100% 0; background-color: transparent; }
-.dock a.dock__ai[aria-current="true"] { box-shadow: 0 8px 22px color-mix(in oklch, #5b6cf0 55%, transparent); color: #fff; background: linear-gradient(120deg, #4a86e0, #7a5cf0 55%, #4a86e0); background-size: 200% 100%; }
-.dock__spark { flex: none; }
-@keyframes dock-shimmer { to { background-position: 200% 0; } }
-@keyframes dock-twinkle { 0%, 100% { transform: scale(1) rotate(0); opacity: 1; } 50% { transform: scale(.78) rotate(18deg); opacity: .75; } }
-@media (prefers-reduced-motion: no-preference) {
-  .dock a.dock__ai { animation: dock-shimmer 6s linear infinite; }
-  .dock__spark { animation: dock-twinkle 2.4s ease-in-out infinite; }
-}
 
 /* Плашка «Осталось N» в поле ввода: жирнее, с подсказкой при наведении */
 .ai__count { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); padding: 5px 12px; border-radius: 999px; background: var(--hover-bg); color: var(--text-2); font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; cursor: help; transition: background .5s ease, color .5s ease; }
@@ -569,7 +592,7 @@ body[data-page="home"] { padding-bottom: 88px; }
   --cur-ibeam: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='28' viewBox='0 0 7 14' shape-rendering='crispEdges'%3E%3Crect x='0' y='0' width='7' height='1' fill='%23141414'/%3E%3Crect x='0' y='1' width='1' height='1' fill='%23141414'/%3E%3Crect x='1' y='1' width='5' height='1' fill='%23ffffff'/%3E%3Crect x='6' y='1' width='1' height='1' fill='%23141414'/%3E%3Crect x='0' y='2' width='3' height='1' fill='%23141414'/%3E%3Crect x='3' y='2' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='2' width='3' height='1' fill='%23141414'/%3E%3Crect x='2' y='3' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='3' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='3' width='1' height='1' fill='%23141414'/%3E%3Crect x='2' y='4' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='4' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='4' width='1' height='1' fill='%23141414'/%3E%3Crect x='2' y='5' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='5' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='5' width='1' height='1' fill='%23141414'/%3E%3Crect x='2' y='6' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='6' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='6' width='1' height='1' fill='%23141414'/%3E%3Crect x='2' y='7' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='7' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='7' width='1' height='1' fill='%23141414'/%3E%3Crect x='2' y='8' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='8' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='8' width='1' height='1' fill='%23141414'/%3E%3Crect x='2' y='9' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='9' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='9' width='1' height='1' fill='%23141414'/%3E%3Crect x='2' y='10' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='10' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='10' width='1' height='1' fill='%23141414'/%3E%3Crect x='0' y='11' width='3' height='1' fill='%23141414'/%3E%3Crect x='3' y='11' width='1' height='1' fill='%23ffffff'/%3E%3Crect x='4' y='11' width='3' height='1' fill='%23141414'/%3E%3Crect x='0' y='12' width='1' height='1' fill='%23141414'/%3E%3Crect x='1' y='12' width='5' height='1' fill='%23ffffff'/%3E%3Crect x='6' y='12' width='1' height='1' fill='%23141414'/%3E%3Crect x='0' y='13' width='7' height='1' fill='%23141414'/%3E%3C/svg%3E") 7 14, text;
 }
 html, body { cursor: var(--cur-arrow); }
-a, button, [role="button"], label, summary, select, .marquee__item, .pet__c, .ai__count, .ai__chip, .ai__send, .case-card__link, .workflow__media, .copy-btn, .dock__top { cursor: var(--cur-hand) !important; }
+a, button, [role="button"], label, summary, select, .marquee__item, .pet__c, .ai__count, .ai__chip, .ai__send, .workflow__media, .copy-btn, .dock__top, .pet__x, .cases-dots button, .wp-dots button { cursor: var(--cur-hand) !important; }
 button:disabled, input:disabled { cursor: var(--cur-arrow) !important; }
 input[type="text"], input:not([type]), textarea { cursor: var(--cur-ibeam) !important; }
 .lightbox { cursor: var(--cur-arrow) !important; }
@@ -610,7 +633,7 @@ input[type="text"], input:not([type]), textarea { cursor: var(--cur-ibeam) !impo
   .treat.is-in .treat__c { animation: treat-bob 1.8s steps(2, jump-none) infinite; }
   .treat.is-bounce .treat__c { animation: treat-bounce .5s ease; }
   .pet.is-run { transition: left .9s steps(8, end), top .9s steps(8, end), transform .7s cubic-bezier(.6, 0, .3, 1), opacity .5s ease; }
-  .pet.is-run .pet__c { animation-duration: .4s; }
+  .pet.is-run .pet__b { animation-duration: .4s; }
 }
 
 /* Подсказки к угощению: вторая строка, покачивание звезды и стрелка-приглашение */
@@ -630,7 +653,72 @@ input[type="text"], input:not([type]), textarea { cursor: var(--cur-ibeam) !impo
 
 /* Нижний отступ страницы: контакты, звезда и навигация без лишней пустоты */
 #contact { padding-bottom: 32px; }
-body[data-page="home"] { padding-bottom: 80px; }
+body[data-page="home"] { padding-bottom: 128px; }
 
 /* Плавный отъезд облачка от навигации после перетаскивания */
 .pet.is-glide { transition: left .6s cubic-bezier(.22, 1, .36, 1), top .6s cubic-bezier(.22, 1, .36, 1), transform .7s cubic-bezier(.6, 0, .3, 1), opacity .5s ease; }
+
+/* Курсор-надпись над карточками кейсов (вместо кнопки «Подробнее») */
+@media (hover: hover) and (pointer: fine) { .case-card__link, .case-card__link * { cursor: none !important; } }
+.card-cursor { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; padding: 11px 20px; border-radius: 999px; background: var(--inverse-bg); color: var(--inverse-text); font-size: 15px; font-weight: 500; white-space: nowrap; box-shadow: 0 10px 28px var(--shadow); opacity: 0; transition: opacity .25s ease; will-change: transform; }
+.card-cursor.is-on { opacity: 1; }
+
+/* Страница «Кейсы и работы» */
+body[data-page="all-cases"] { padding-bottom: 80px; }
+.wp { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+.wp__sec { padding: 120px 0 24px; scroll-margin-top: 24px; }
+.wp__sec + .wp__sec { padding-top: 96px; }
+.wp .section__title { margin-bottom: 56px; }
+.wp-cases { position: relative; display: flex; flex-direction: column; gap: 88px; }
+.proj { display: block; color: inherit; text-decoration: none; }
+.proj__cover { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 16px; background: var(--placeholder); border: 1px solid var(--border); }
+.proj__cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.proj__head { display: flex; align-items: baseline; gap: 14px; margin-top: 24px; }
+.proj__num { font-size: 15px; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
+.proj__title { margin: 0; font-size: 28px; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; transition: color .4s ease; }
+.proj:hover .proj__title { color: var(--accent); }
+.proj__desc { margin: 12px 0 0; padding-left: 0; font-size: 18px; line-height: 1.5; color: var(--text-2); max-width: 680px; }
+.proj__tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+.proj__tags li { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; background: var(--hover-bg); color: var(--text-2); font-size: 14px; font-weight: 500; transition: background .4s ease, color .4s ease; }
+.tag-ico { flex: none; width: 16px; height: 16px; background: currentColor; -webkit-mask: var(--ico) center / contain no-repeat; mask: var(--ico) center / contain no-repeat; } /* иконка того же цвета, что и текст тега */
+.proj:hover .proj__tags li { background: color-mix(in oklch, var(--hc) 14%, transparent); color: var(--hc); }
+.wp-works__row .back-btn { opacity: 1; }
+.cases__all { margin: 48px 0 0; display: flex; justify-content: center; }
+
+/* Навигация главной: сверху только стрелка вниз, при прокрутке она плавно раскрывается в навигацию (обратно не сворачивается) */
+.dock--intro { --ease: cubic-bezier(.65, 0, .35, 1); transition: gap .9s var(--ease), padding .9s var(--ease), background .7s ease, border-color .7s ease, box-shadow .7s ease; }
+.dock--intro a { max-width: var(--w, 260px); overflow: hidden; transition: max-width .9s var(--ease) calc(var(--i, 0) * 45ms), padding .9s var(--ease) calc(var(--i, 0) * 45ms), opacity .6s ease calc(var(--i, 0) * 45ms + 200ms), background .5s cubic-bezier(.22, 1, .36, 1), color .5s cubic-bezier(.22, 1, .36, 1); }
+.dock--intro:not(.is-open) { gap: 0; padding: 0; background: transparent; border-color: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; } /* пока навигация свёрнута: только тёмный круг со стрелкой, без обводки и подложки */
+.dock--intro:not(.is-open) a { max-width: 0; padding-left: 0; padding-right: 0; opacity: 0; pointer-events: none; transition-delay: 0s; }
+.dock--intro:not(.is-open) .dock__top { max-width: 0; margin-right: 0; opacity: 0; pointer-events: none; }
+.dock__hint { flex: none; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; max-width: 40px; padding: 0; border: 0; border-radius: 999px; background: var(--inverse-bg); color: var(--inverse-text); cursor: pointer; overflow: hidden;
+  transition: max-width .9s var(--ease, cubic-bezier(.65, 0, .35, 1)), margin .9s var(--ease, cubic-bezier(.65, 0, .35, 1)), opacity .45s ease, transform .9s var(--ease, cubic-bezier(.65, 0, .35, 1)); }
+.dock--intro.is-open .dock__hint { max-width: 0; margin-right: -6px; opacity: 0; transform: scale(.4); pointer-events: none; } /* минус отступ перед первым пунктом: нулевая ширина + gap давали лишние 6 px слева */
+@keyframes dock-bob { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
+@keyframes dock-pulse { 0% { box-shadow: 0 10px 30px var(--shadow), 0 0 0 0 color-mix(in oklch, var(--text) 26%, transparent); } 70%, 100% { box-shadow: 0 10px 30px var(--shadow), 0 0 0 18px color-mix(in oklch, var(--text) 0%, transparent); } }
+@media (prefers-reduced-motion: no-preference) {
+  .dock--intro:not(.is-open) { animation: dock-in .8s cubic-bezier(.22, 1, .36, 1) .6s backwards; }
+  .dock__hint svg { animation: dock-bob 1.6s ease-in-out infinite; } /* стрелка плавно покачивается вниз-вверх, кольца вокруг кнопки нет */
+  .dock--intro.is-open { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) { .dock--intro, .dock--intro a, .dock__hint { transition: none; } }
+/* Точки справа от кейсов на странице кейсов (как на главной) */
+.wp-dots { display: none; }
+@media (min-width: 1000px) {
+  .wp-dots { display: block; position: absolute; top: 0; bottom: 0; right: -22px; width: 8px; }
+  .wp-dots__rail { position: sticky; top: 50vh; transform: translateY(-50%); display: flex; flex-direction: column; gap: 1px; }
+  .wp-dots button { position: relative; width: 14px; height: 14px; margin-left: -3px; padding: 0; border: 0; background: none; cursor: pointer; }
+  .wp-dots button::before { content: ''; position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: 50%; background: var(--border-strong); transition: background .5s cubic-bezier(.22, 1, .36, 1), transform .5s cubic-bezier(.22, 1, .36, 1); }
+  .wp-dots button:hover::before { background: var(--muted); }
+  .wp-dots button.is-active::before { background: var(--text); transform: scale(1.6); }
+}
+/* Стрелка и иконка копирования в контактах приглушены, при наведении возвращаются к полной яркости */
+.big-link__arrow, .copy-btn { opacity: .5; }
+.copy-btn { transition: opacity .4s ease, color .5s cubic-bezier(.22, 1, .36, 1), transform .6s cubic-bezier(.22, 1, .36, 1); }
+.big-link__arrow { transition: opacity .4s ease, transform .6s cubic-bezier(.22, 1, .36, 1); }
+.big-link__main:hover .big-link__arrow, .copy-btn:hover, .copy-btn.is-done, .copy-btn:focus-visible { opacity: 1; }
+/* Дождь из облачка (четвёртый клик): пиксельные капли падают из-под тела облачка */
+.pet__rain { position: absolute; left: 6px; right: 6px; top: 62%; height: 90px; z-index: -1; pointer-events: none; transition: opacity .45s ease; }
+.pet__rain.is-off { opacity: 0; }
+.pet__rain i { position: absolute; top: 0; width: 3px; height: 8px; background: #6fa8e8; opacity: 0; animation: pet-drop .7s linear infinite; }
+@keyframes pet-drop { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(78px); opacity: 0; } }

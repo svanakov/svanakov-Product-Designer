@@ -18,6 +18,7 @@ export const cases = [
       { ru: 'Средний SEQ по трём сценариям: 6.2 из 7.', en: 'Average SEQ across the three scenarios: 6.2 out of 7.' },
     ],
     cover: '../uploads/rytmo-cover2.webp?v=3',
+    blurb: { ru: 'Почему люди бросают фитнес-приложения на 2–3 неделе — и как удержать их до появления привычки', en: 'Why people abandon fitness apps in week 2–3 — and how to keep them until the habit sticks' },
   },
   {
     slug: 'campus',
@@ -36,6 +37,7 @@ export const cases = [
       en: 'The schedule works offline, classmates use it.',
     },
     cover: '../uploads/campus-cover2.webp?v=2',
+    blurb: { ru: 'Разработка своего приложения с расписанием пар в виде PWA. Офлайн-доступ вместо вылетающего официального приложения.', en: 'Built my own class-schedule app as a PWA. Offline access instead of a crashing official app.' },
   },
   {
     slug: 'dispatch',
@@ -53,5 +55,17 @@ export const cases = [
       en: '15 calls after a failure become one bulk action.',
     },
     cover: '../uploads/dispatch-cover2.webp?v=2',
+    blurb: { ru: 'B2B-сервис курьерской доставки вырос до 100+ заказов в день — ручное отслеживание в таблице перестало справляться. Проектирую видимость риска по SLA и приоритизацию исключений.', en: 'A B2B courier service grew past 100+ orders a day — manual tracking in a spreadsheet stopped working. Designing SLA risk visibility and exception prioritization.' },
+  },
+  // Показывается только на странице «Кейсы и работы», на главной его нет.
+  {
+    slug: 'vpnmini',
+    worksOnly: true,
+    href: './vpnmini.html',
+    title: { ru: 'Telegram Mini App для VPN-сервиса', en: 'Telegram Mini App for a VPN Service' },
+    stack: ['Mobile', 'UX Research', 'Product Design'],
+    kind: 'concept',
+    blurb: { ru: 'Управление личным VPN и подпиской прямо внутри Telegram.', en: 'Managing a personal VPN and its subscription entirely inside Telegram.' },
+    cover: '../uploads/vpnmini-cover.webp?v=2',
   },
 ];

@@ -1,11 +1,10 @@
 // Главная v2: отрисовка секций из data/*.js и поведение страницы.
-import { cases } from './data/cases.js';
+import { cases as allCases } from './data/cases.js';
+const cases = allCases.filter((c) => !c.worksOnly); // кейсы только для страницы «Все кейсы» на главной не нужны
 import { experience, stack } from './data/experience.js';
 import { t, pick, getLang, applyI18n, FLAGS, CV_URL, TG_URL, MAIL } from './site.js';
 import { video } from './data/video.js';
 import { mountAssistant, mountAssistantPreview } from './assistant.js';
-import { mountMarquee } from './marquee.js';
-import { works } from './data/works.js';
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const $ = (id) => document.getElementById(id);
@@ -18,14 +17,12 @@ function renderCases(lang) {
         <div class="case-card__body">
           <h3 class="case-card__title">${esc(pick(c.title, lang))}</h3>
           <div class="case-card__meta">
-            <span class="case-card__platform">${esc(c.platform ? pick(c.platform, lang) : '')}</span>
             <ul class="case-card__stack">${(c.stack || []).map((s) => `<li>${esc(pick(s, lang))}</li>`).join('')}</ul>
           </div>
           <div><p class="case-card__label">${esc(t('cases.problem', lang))}</p><p class="case-card__text">${esc(pick(c.problem, lang))}</p></div>
           <div><p class="case-card__label">${esc(t('cases.result', lang))}</p>${[].concat(c.result).length > 1
             ? `<ul class="case-card__list">${[].concat(c.result).map((r) => `<li>${esc(pick(r, lang))}</li>`).join('')}</ul>`
             : `<p class="case-card__text">${esc(pick([].concat(c.result)[0], lang))}</p>`}</div>
-          <span class="case-card__btn">${esc(t('cases.more', lang))} <span aria-hidden="true">→</span></span>
         </div>
       </a>
     </article>`).join('');
@@ -48,19 +45,27 @@ function renderExperience(lang) {
 }
 
 const COPY_ICON = '<svg class="ic-copy" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></svg><svg class="ic-done" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const CONTACT_ICONS = {
+  telegram: '<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>',
+  email: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  phone: '<path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>',
+  cv: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+};
+const contactIcon = (k) => `<svg class="big-link__ico" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CONTACT_ICONS[k]}</svg>`;
 function renderContact(lang) {
   const arrow = '<span class="big-link__arrow" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M8.5 6H18v9.5"/></svg></span>';
-  const row = (href, label, kind, value, ext) => `
+  const row = (href, label, kind, value, ext, icon) => `
     <div class="big-link">
-      <a class="big-link__main" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}><span class="big-link__label">${esc(label)}</span>${arrow}</a>
+      <a class="big-link__main" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}><span class="big-link__label">${contactIcon(icon)}<span>${esc(label)}</span></span>${arrow}</a>
       ${kind
         ? `<span class="copy-wrap"><button type="button" class="copy-btn" data-copy="${esc(value)}" data-kind="${kind}" aria-label="${esc(t('contact.copy.' + kind, lang))}" title="${esc(t('contact.copy.' + kind, lang))}">${COPY_ICON}</button><span class="copy-tip" aria-hidden="true"></span></span>`
         : '<span class="copy-wrap copy-wrap--empty" aria-hidden="true"></span>'}
     </div>`;
   $('big-links').innerHTML =
-    row(TG_URL, t('contact.telegram', lang), 'telegram', '@svanakov', true) +
-    row(`mailto:${MAIL}`, t('contact.email', lang), 'email', MAIL, false) +
-    row(CV_URL, t('contact.cv', lang), null, '', true);
+    row(TG_URL, t('contact.telegram', lang), 'telegram', '@babyoslik', true, 'telegram') +
+    row(`mailto:${MAIL}`, t('contact.email', lang), 'email', MAIL, false, 'email') +
+    row('tel:+79065327822', t('contact.phone', lang), 'phone', '+7 (906) 532 78-22', false, 'phone') +
+    row(CV_URL, t('contact.cv', lang), null, '', true, 'cv');
 }
 
 // Копирование контакта: клик по самой строке открывает контакт, кнопка справа копирует и показывает подсказку.
@@ -90,21 +95,32 @@ function setupCopy() {
 }
 
 // Нижняя навигация: плавающие «таблетки», подсвечивается раздел, в котором сейчас страница.
-const DOCK = [['cases', 'nav.cases'], ['works', 'nav.works'], ['workflow', 'nav.workflow'], ['experience', 'nav.experience'], ['assistant', 'nav.assistant'], ['contact', 'hero.chipContacts']];
+const DOCK = [['cases', 'nav.cases'], ['workflow', 'nav.workflow'], ['experience', 'nav.experience'], ['assistant', 'nav.assistant'], ['contact', 'hero.chipContacts']];
 function renderDock(lang) {
   const dock = $('dock');
   dock.setAttribute('aria-label', t('nav.main', lang));
   const up = `<button type="button" class="dock__top" id="dock-top" aria-label="${esc(t('nav.top', lang))}" title="${esc(t('nav.top', lang))}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg></button>`;
-  const spark = '<svg class="dock__spark" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9L12 2zM19 15l.9 2.6L22.5 18.5l-2.6.9L19 22l-.9-2.6-2.6-.9 2.6-.9L19 15z"/></svg>';
-  dock.innerHTML = up + DOCK.map(([id, key]) => id === 'assistant'
-    ? `<a href="#${id}" data-dock="${id}" class="dock__ai">${spark}<span>${esc(t(key, lang))}</span></a>`
-    : `<a href="#${id}" data-dock="${id}">${esc(t(key, lang))}</a>`).join('');
+  const hint = `<button type="button" class="dock__hint" id="dock-hint" aria-label="${esc(t('nav.scroll', lang))}" title="${esc(t('nav.scroll', lang))}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5.5 12.5L12 19l6.5-6.5"/></svg></button>`;
+  dock.classList.add('dock--intro');
+  dock.innerHTML = hint + up + DOCK.map(([id, key], i) => `<a href="#${id}" data-dock="${id}" style="--i:${i}">${esc(t(key, lang))}</a>`).join('');
+  // Точная ширина каждого пункта (текст + отступы 18+18): раскрытие идёт ровно до неё, без «пустого» хвоста анимации
+  const measure = () => dock.querySelectorAll('a').forEach((a) => a.style.setProperty('--w', `${a.scrollWidth + 36}px`));
+  measure(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
   updateDock();
 }
 function updateDock() {
-  // Кнопка «наверх» слева от навигации появляется, только когда долистали до конца раздела контактов
+  // Сверху страницы навигации не видно: только пульсирующая стрелка вниз. Начали листать: стрелка раскрывается в навигацию.
+  const dockEl = $('dock');
+  if (dockEl) {
+    const y = window.scrollY, open = dockEl.classList.contains('is-open');
+    const next = open || y > 40; // однажды раскрывшись, навигация обратно в стрелку не сворачивается
+    if (next !== open) dockEl.classList.toggle('is-open', next);
+    dockEl.querySelectorAll('a').forEach((a) => { a.tabIndex = next ? 0 : -1; }); // скрытые пункты не попадают в фокус клавиатуры
+    const hintBtn = $('dock-hint'); if (hintBtn) { hintBtn.tabIndex = next ? -1 : 0; hintBtn.setAttribute('aria-hidden', next ? 'true' : 'false'); }
+  }
+  // Кнопка «наверх» слева от навигации появляется, когда долистали до раздела контактов
   const top = $('dock-top'), contact = $('contact');
-  if (top && contact) top.classList.toggle('is-visible', contact.getBoundingClientRect().bottom <= window.innerHeight + 60);
+  if (top && contact) top.classList.toggle('is-visible', contact.getBoundingClientRect().top <= window.innerHeight * 0.6); // стрелка «наверх» появляется, как только долистали до контактов
   // Текущий раздел: тот, чей верх ниже всех, но уже выше 40% экрана.
   let current = '', best = -Infinity;
   for (const [id] of DOCK) {
@@ -113,10 +129,24 @@ function updateDock() {
     const top = el.getBoundingClientRect().top;
     if (top <= window.innerHeight * 0.4 && top > best) { best = top; current = id; }
   }
+  // Начали листать, но до кейсов ещё не доехали: «Кейсы» уже горят. Вернулись в самый верх: подсветки нет.
+  if (!current && window.scrollY > 40) current = DOCK[0][0];
   document.querySelectorAll('#dock a').forEach((a) => {
     if (a.dataset.dock === current) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
   });
 }
+
+// Клик по точке плавно прокручивает к кейсу: карточка встаёт на своё место в стопке
+function scrollToCase(i) {
+  const card = document.querySelectorAll('.case-card')[i]; if (!card) return;
+  let top;
+  if (getComputedStyle(card).position === 'sticky') {
+    const wrap = document.querySelector('.cases-wrap');
+    top = wrap.getBoundingClientRect().top + window.scrollY + i * (card.offsetHeight + STACK_GAP) - STACK_TOP + 2;
+  } else top = card.getBoundingClientRect().top + window.scrollY - STACK_TOP;
+  window.scrollTo({ top, behavior: reduceMotion() ? 'auto' : 'smooth' });
+}
+$('cases-dots').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) scrollToCase(Number(b.dataset.i)); });
 
 // ---- Все карточки кейсов одной высоты: берём высоту самой высокой ----
 function equalizeCards() {
@@ -149,7 +179,11 @@ function updateStack() {
   });
   const dots = $('cases-dots');
   if (dots) {
-    if (dots.children.length !== cards.length) dots.innerHTML = cards.map(() => '<span></span>').join('');
+    const lang = getLang();
+    if (dots.children.length !== cards.length || dots.dataset.lang !== lang) {
+      dots.innerHTML = cards.map((c, i) => `<button type="button" data-i="${i}" aria-label="${esc(pick(cases[i].title, lang))}"></button>`).join('');
+      dots.dataset.lang = lang;
+    }
     [...dots.children].forEach((d, i) => d.classList.toggle('is-active', i === active));
   }
 }
@@ -248,23 +282,6 @@ function setupReveal() {
   window.__revealReady = true;
 }
 
-// ---- Лёгкий параллакс обложек при наведении (только мышь) ----
-function setupParallax() {
-  const list = $('cases-list');
-  if (!list || !matchMedia('(hover: hover) and (pointer: fine)').matches || reduceMotion()) return;
-  list.addEventListener('pointermove', (e) => {
-    if (e.pointerType !== 'mouse') return;
-    const cover = e.target.closest('.case-card__cover'); if (!cover) return;
-    const r = cover.getBoundingClientRect();
-    cover.style.setProperty('--mx', (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
-    cover.style.setProperty('--my', (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
-  });
-  list.addEventListener('pointerout', (e) => {
-    const cover = e.target.closest && e.target.closest('.case-card__cover');
-    if (cover && !(e.relatedTarget && cover.contains(e.relatedTarget))) { cover.style.removeProperty('--mx'); cover.style.removeProperty('--my'); }
-  });
-}
-
 function renderAll() {
   const lang = getLang();
   renderCases(lang); equalizeCards(); renderExperience(lang); renderContact(lang); renderDock(lang);
@@ -274,8 +291,7 @@ function renderAll() {
 }
 
 renderAll();
-$('dock').addEventListener('click', (e) => { if (e.target.closest('#dock-top')) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' }); });
-mountMarquee($('works-marquee'), works, 1); // одна лента, порядок задаёт data/works.js
+$('dock').addEventListener('click', (e) => { if (e.target.closest('#dock-hint')) { const n = document.getElementById('cases'); if (n) n.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' }); return; } if (e.target.closest('#dock-top')) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' }); });
 setupCopy();
 setupStack();
 window.addEventListener('scroll', updateDock, { passive: true });
@@ -287,5 +303,32 @@ setupScrollRestore();
 setupVideo();
 setupAssistant();
 setupReveal();
-setupParallax();
+
+// ---- Вместо кнопки «Подробнее» курсор над карточкой кейса превращается в надпись ----
+function setupCardCursor() {
+  const list = $('cases-list');
+  if (!list || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const tag = document.createElement('div');
+  tag.className = 'card-cursor'; tag.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(tag);
+  const label = () => { tag.textContent = t('cases.more', getLang()); };
+  label(); document.addEventListener('langchange', label);
+  let tx = 0, ty = 0, x = 0, y = 0, on = false, raf = 0;
+  const tick = () => {
+    const k = reduceMotion() ? 1 : 0.28;
+    x += (tx - x) * k; y += (ty - y) * k;
+    tag.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) translate(-50%, -50%)`;
+    raf = on || Math.hypot(tx - x, ty - y) > 0.5 ? requestAnimationFrame(tick) : 0;
+  };
+  const show = (e) => {
+    tx = e.clientX; ty = e.clientY;
+    if (!on) { on = true; x = tx; y = ty; tag.classList.add('is-on'); }
+    if (!raf) raf = requestAnimationFrame(tick);
+  };
+  const hide = () => { on = false; tag.classList.remove('is-on'); };
+  list.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' && e.target.closest('.case-card__link')) show(e); else if (on) hide(); });
+  list.addEventListener('pointerleave', hide);
+  addEventListener('blur', hide);
+}
+setupCardCursor();
 document.addEventListener('langchange', renderAll);

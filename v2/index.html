@@ -42,9 +42,12 @@
       <div class="hero__stage">
         <img class="hero__avatar" data-hero="0" src="../uploads/white.webp" width="148" height="148" data-i18n-alt="hero.avatarAlt" alt="">
       </div>
-      <p class="hero__name" data-hero="2"><span class="hero__fio" data-i18n="hero.fio"></span><span class="hero__age" data-i18n="hero.age"></span></p>
+      <p class="hero__name" data-hero="2"><span class="hero__fio" data-i18n="hero.fio"></span></p>
       <h1 class="hero__thesis" data-hero="3" id="hero-title" data-i18n="hero.thesis"></h1>
-      <div class="hero__cta" data-hero="5"><a class="btn" href="#cases"><span data-i18n="hero.cta"></span><span aria-hidden="true">↓</span></a><a class="btn btn--ghost" href="#contact"><span data-i18n="hero.chipContacts"></span></a></div>
+      <div class="hero__meta" data-hero="4">
+        <p class="hero__years" data-i18n="hero.age"></p>
+        <ul class="hero__areas" aria-label="Области работы"><li>EdTech</li><li>E-commerce</li><li>MedTech</li><li>B2B</li><li>B2C</li></ul>
+      </div>
     </div>
   </section>
 
@@ -54,20 +57,9 @@
       <h2 class="section__title" data-reveal id="cases-title" data-i18n="cases.title"></h2>
       <div class="cases-wrap">
         <div class="cases" id="cases-list"></div>
-        <div class="cases-dots" aria-hidden="true"><div class="cases-dots__rail" id="cases-dots"></div></div>
+        <div class="cases-dots"><div class="cases-dots__rail" id="cases-dots"></div></div>
       </div>
-    </div>
-  </section>
-
-  <!-- Лента работ -->
-  <section class="section section--works" id="works" aria-labelledby="works-title">
-    <div class="container">
-      <div class="section__head" data-reveal>
-        <h2 class="section__title" id="works-title" data-i18n="works.title"></h2>
-      </div>
-      <div class="marquee" id="works-marquee" data-reveal style="--d:1" role="region" data-i18n-aria="works.carousel">
-        <div class="marquee__track"></div>
-      </div>
+      <p class="cases__all"><a class="btn btn--cv" href="./cases.html"><span data-i18n="cases.all"></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8.5 7H17v8.5"/></svg></a></p>
     </div>
   </section>
 
