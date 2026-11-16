@@ -524,7 +524,7 @@ body[data-page="home"] { padding-bottom: 88px; }
 @keyframes pet-rays { to { transform: rotate(360deg); } }
 .pet__b { position: relative; display: block; } /* тело облачка вместе с бликом: прыжки и покачивание двигают их вместе */
 .pet__c { display: block; image-rendering: pixelated; image-rendering: crisp-edges; cursor: grab; touch-action: none; user-select: none; filter: drop-shadow(0 6px 0 rgba(30, 50, 90, .14)); }
-.pet__say { position: absolute; left: 0; bottom: calc(100% + 12px); width: max-content; max-width: 240px; padding: 8px 12px; background: var(--bg); color: var(--text); border: 2px solid var(--text); box-shadow: 3px 3px 0 var(--text);
+.pet__say { position: absolute; left: 48px; bottom: calc(100% + 12px); width: max-content; max-width: 240px; padding: 8px 12px; background: var(--bg); color: var(--text); border: 2px solid var(--text); box-shadow: 3px 3px 0 var(--text);
   font: 600 13px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 .pet__say::after { content: ''; position: absolute; left: 22px; top: 100%; width: 8px; height: 8px; background: var(--bg); border-right: 2px solid var(--text); border-bottom: 2px solid var(--text); transform: translateY(-5px) rotate(45deg); }
 .pet__say[hidden] { display: none; }
@@ -557,7 +557,7 @@ body[data-page="home"] { padding-bottom: 88px; }
 .pet.is-drag { transition: none; }
 .pet.is-top .pet__say { bottom: auto; top: calc(100% + 12px); }
 .pet.is-top .pet__say::after { top: auto; bottom: 100%; transform: translateY(5px) rotate(225deg); }
-.pet.is-right .pet__say { left: auto; right: 48px; } /* реплика идёт от левой части тела облачка и тянется влево, хвостик над его левой половиной */
+.pet.is-right .pet__say { left: auto; right: 48px; } /* облачко справа: реплика идёт от левой части тела и тянется влево (в левой половине экрана наоборот: от правой части вправо) */
 .pet.is-right .pet__say::after { left: auto; right: 22px; }
 
 /* Проявление текста ответа: слово за словом из размытия, с подъёмом и вспышкой акцентного цвета */

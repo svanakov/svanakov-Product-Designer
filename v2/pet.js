@@ -151,7 +151,7 @@ function start() {
     if (!loose) [x, y] = avoid(x, y);
     el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.bottom = 'auto'; el.style.right = 'auto';
     // пузырь не должен вылезать за экран: у верхнего края он ниже питомца, слева он идёт влево от тела облачка
-    el.classList.toggle('is-top', y < 90); el.classList.toggle('is-right', x > 260); // реплика тянется влево от левой части тела; вправо только когда слева не хватает места
+    el.classList.toggle('is-top', y < 90); el.classList.toggle('is-right', x + el.offsetWidth / 2 > innerWidth / 2); // облачко в правой половине экрана: реплика слева; в левой половине: реплика справа
     if (save) { try { sessionStorage.setItem(POS_KEY, JSON.stringify({ x, y })); } catch {} }
   };
   try { const p = JSON.parse(sessionStorage.getItem(POS_KEY) || 'null'); if (p) place(p.x, p.y); } catch {}
