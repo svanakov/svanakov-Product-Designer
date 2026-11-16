@@ -24,14 +24,14 @@ function start() {
   canvas.style.width = W * SCALE + 'px'; canvas.style.height = H * SCALE + 'px';
 
   const L = {
-    ru: { hero: 'Привет! Листай вниз ↓', cases: 'Три кейса. Кликни карточку', works: 'Наведи на ленту: она остановится', workflow: 'Нажми на видео!', experience: 'Тут опыт и навыки', contact: 'Есть вопросы? Спроси ассистента или напиши в Telegram',
-          poke: ['Эй!', 'Я просто облачко', 'Хи-хи', 'Привет-привет', 'Ой'], enough: 'Хватит щекотать!', sulk: 'Всё, я обиделся...', night: 'Ночь. Смотри, звёзды', day: 'Снова день', wake: 'Я не спал!', back: 'Я вернулся!', hint: 'Меня можно перетаскивать!', treatCap: 'Покорми облачко', treatNudge: 'Перетащи звезду ко мне!', nyam: 'О, ням-ням!', treatBeg: 'Ну покорми меня, пожалуйста!', treatHint: 'Смотри, звезда! Хочу!', thanks: 'О, спасибо! Я так счастлив!', thanks2: 'Самая вкусная звезда в моей жизни', welcomeBack: 'Ура, ты вернулся! Я скучал', walk: ['Пойду прогуляюсь', 'Туда-сюда', 'Разомнусь'],
-          pick: ['Ой! Ты меня несёшь!', 'Меня подняли!', 'Куда мы?', 'Ух, я лечу'], carry: ['Уиии!', 'Не урони!', 'Тут высоко', 'Красивый вид', 'Ещё немного...'],
-          drop: ['Приземлился', 'Тут уютно', 'Хорошее место', 'Ладно, тут останусь', 'Спасибо!'], top: 'Тут высоко! Я боюсь', home: 'Дома!', dock: 'Тут навигация. Я не мешаю?', again: 'Опять? Мне нравится!' },
-    en: { hero: 'Hi! Scroll down ↓', cases: 'Three cases. Click a card', works: 'Hover the strip: it will stop', workflow: 'Click the video!', experience: 'Experience and skills here', contact: 'Questions? Ask the assistant or write on Telegram',
-          poke: ['Hey!', 'Just a little cloud', 'Hehe', 'Hello hello', 'Oops'], enough: 'Stop tickling me!', sulk: 'That is it, I am sulking...', night: 'Night. Look, stars', day: 'Day again', wake: 'I was not sleeping!', back: 'I am back!', hint: 'You can drag me around!', treatCap: 'Feed the little cloud', treatNudge: 'Drag the star to me!', nyam: 'Oh, yum-yum!', treatBeg: 'Come on, feed me, please!', treatHint: 'Look, a star! I want it!', thanks: 'Oh, thank you! I am so happy!', thanks2: 'The tastiest star of my life', welcomeBack: 'Yay, you are back! I missed you', walk: ['Going for a walk', 'Back and forth', 'Stretching my legs'],
-          pick: ['Oh! You are carrying me!', 'Picked up!', 'Where are we going?', 'Wow, I am flying'], carry: ['Wheee!', 'Do not drop me!', 'It is high up here', 'Nice view', 'Just a bit more...'],
-          drop: ['Landed', 'Cozy here', 'Nice spot', 'OK, I will stay here', 'Thanks!'], top: 'It is high up here! I am scared', home: 'Home!', dock: 'The navigation is here. Am I in the way?', again: 'Again? I like it!' },
+    ru: { hero: 'Привет! Листай вниз ↓', works: 'Наведи на ленту: она остановится',
+          poke: ['Да?', 'Я здесь', 'Привет', 'Слушаю'], enough: 'Достаточно', sulk: 'Пойду отдохну', night: 'Ночь. Смотри, звёзды', day: 'Снова день', wake: 'Я не спал!', back: 'Я вернулся!', hint: 'Меня можно перетаскивать', treatCap: 'Покорми облачко', treatNudge: 'Перетащи звезду ко мне', nyam: 'Вкусно', treatBeg: 'Звезда ещё здесь', treatHint: 'Звезда для облачка', thanks: 'Спасибо', thanks2: 'Хорошая звезда', welcomeBack: 'С возвращением', walk: ['Прогуляюсь', 'Разомнусь'],
+          pick: ['Меня подняли', 'Летим'], carry: ['Осторожно', 'Тут высоко', 'Вид неплохой'],
+          drop: ['Хорошее место', 'Тут нормально', 'Спасибо'], top: 'Тут высоко', home: 'Дома', dock: 'Тут навигация, я отойду', again: 'Опять перемещаемся' },
+    en: { hero: 'Hi! Scroll down ↓', works: 'Hover the strip: it will stop',
+          poke: ['Yes?', 'I am here', 'Hello', 'Listening'], enough: 'That is enough', sulk: 'I will rest a bit', night: 'Night. Look, stars', day: 'Day again', wake: 'I was not sleeping!', back: 'I am back!', hint: 'You can drag me around', treatCap: 'Feed the little cloud', treatNudge: 'Drag the star to me', nyam: 'Tasty', treatBeg: 'The star is still here', treatHint: 'A star for the little cloud', thanks: 'Thank you', thanks2: 'A good star', welcomeBack: 'Welcome back', walk: ['Going for a walk', 'Stretching my legs'],
+          pick: ['Picked up', 'Flying'], carry: ['Careful', 'It is high up here', 'Nice view'],
+          drop: ['Good spot', 'This is fine', 'Thanks'], top: 'It is high up here', home: 'Home', dock: 'The navigation is here, I will move', again: 'Moving again' },
   };
   const t = () => L[getLang()];
 
@@ -94,8 +94,8 @@ function start() {
     activity(); wake();
     let cur = '';
     for (const [id, key] of SECTIONS) { const n = document.getElementById(id); if (n && n.getBoundingClientRect().top <= innerHeight * 0.5) cur = key; }
-    // Пока не прозвучало приветствие, раздел только запоминаем: иначе при перезагрузке реплика раздела перебьёт приветствие
-    if (cur && cur !== current) { current = cur; if (greeted && !said.has(cur)) { said.add(cur); say(t()[cur]); mood('happy', 'smile', 900); } }
+    // Реагирует только на ленту работ (для остальных разделов реплик нет). Пока не прозвучало приветствие, раздел только запоминаем: иначе при перезагрузке реплика раздела перебьёт приветствие
+    if (cur && cur !== current) { current = cur; if (greeted && t()[cur] && !said.has(cur)) { said.add(cur); say(t()[cur]); mood('happy', 'smile', 900); } }
   };
   // Когда долистали до ассистента, питомец «переезжает» в чат: прыгает и уезжает за край, а в чате его двойник здоровается
   let away = false, awayTimer = 0;
@@ -260,6 +260,7 @@ function start() {
     setTimeout(() => {
       clearInterval(chew);
       mood('happy', 'smile', 4200); hop(); setTimeout(hop, 420); hearts();
+      el.classList.add('is-fed'); // после угощения у облачка за спиной появляется золотое свечение
       say(t().thanks, true);
       setTimeout(() => say(t().thanks2, true), 3300);
       setTimeout(() => { feeding = false; }, 4200);
