@@ -11,11 +11,15 @@ const MAX_QUESTIONS = 6;
 // Окно 24 часа считается от первого вопроса; по истечении счётчик обнуляется. (Это защита от случайного «перезагрузил и спросил снова»,
 // настоящий лимит всё равно считает сервер: у клиентского счётчика обход тривиален.)
 const QUOTA_KEY = 'ai_quota', DAY_MS = 24 * 60 * 60 * 1000;
+// У владельца (открыл сайт с ключом) лимита и счётчика нет.
+const OWNER = !!ASSISTANT_KEY;
 function quotaRead() {
+  if (OWNER) return { count: 0, since: Date.now() };
   try { const q = JSON.parse(localStorage.getItem(QUOTA_KEY) || 'null'); if (q && typeof q.count === 'number' && Date.now() - q.since < DAY_MS) return q; } catch {}
   return { count: 0, since: Date.now() };
 }
 function quotaBump() {
+  if (OWNER) return { count: 0, since: Date.now() };
   const q = quotaRead(); if (q.count === 0) q.since = Date.now(); q.count++;
   try { localStorage.setItem(QUOTA_KEY, JSON.stringify(q)); } catch {}
   return q;
@@ -228,9 +232,9 @@ export function mountAssistant(root) {
 // ---------- Демо-ассистент: полноценный интерфейс на заготовленных ответах (без запросов к серверу) ----------
 // Тексты ответов взяты только из кейсов и CV. Настоящий ассистент включается флагом ASSISTANT_LIVE в home.js.
 const CASES = {
-  rytmo: { href: './rytmo.html', cover: '../uploads/rytmo-cover2.webp?v=3', title: { ru: 'Rytmo', en: 'Rytmo' }, sub: { ru: 'Мобильное приложение', en: 'Mobile app' } },
-  campus: { href: './campus.html', cover: '../uploads/campus-cover2.webp?v=2', title: { ru: 'Campus', en: 'Campus' }, sub: { ru: 'Веб, PWA', en: 'Web, PWA' } },
-  dispatch: { href: './dispatch.html', cover: '../uploads/dispatch-cover2.webp?v=2', title: { ru: 'Диспетчерская консоль', en: 'Dispatcher Console' }, sub: { ru: 'Веб, B2B', en: 'Web, B2B' } },
+  rytmo: { href: './rytmo.html', cover: '../uploads/rytmo-cover5.webp', title: { ru: 'Rytmo', en: 'Rytmo' }, sub: { ru: 'Мобильное приложение', en: 'Mobile app' } },
+  campus: { href: './campus.html', cover: '../uploads/campus-cover5.webp', title: { ru: 'Campus', en: 'Campus' }, sub: { ru: 'Веб, PWA', en: 'Web, PWA' } },
+  dispatch: { href: './dispatch.html', cover: '../uploads/dispatch-cover5.webp', title: { ru: 'Диспетчерская консоль', en: 'Dispatcher Console' }, sub: { ru: 'Веб, B2B', en: 'Web, B2B' } },
 };
 const DEMO = {
   edtech: { q: { ru: 'Какой опыт в EdTech?', en: 'What is his EdTech experience?' }, card: 'campus', follow: ['metrics', 'campus', 'tools'], keys: /edtech|образован|дэш|dash|учител|teacher/i,
@@ -249,8 +253,8 @@ const DEMO = {
     a: { ru: 'В магазине автозапчастей «Би-Би» он поднял конверсию в покупку на 20% и сократил время поиска товара на 27%. В «Правильной стоматологии» вместе с командой поднял конверсию в заявку с 1,2% до 3,8%, сократив форму записи с восьми полей до двух.',
          en: 'At the auto parts store “Bi-Bi” he raised purchase conversion by 20% and cut product search time by 27%. At “Pravilnaya Stomatologiya” he and the team raised lead conversion from 1.2% to 3.8% by cutting the booking form from eight fields to two.' } },
   tools: { q: { ru: 'Какие инструменты использует?', en: 'Which tools does he use?' }, card: null, follow: ['research', 'campus', 'remote'], keys: /инструмент|figma|стек|tools|stack/i,
-    a: { ru: 'Figma и Figma AI, Tilda, HTML/CSS. Этот сайт он написал вручную без фреймворков, так что вёрстку понимает. Из методов: глубинные интервью, юзабилити-тесты, A/B, CJM, JTBD, анализ конкурентов и Яндекс Метрика.',
-         en: 'Figma and Figma AI, Tilda, HTML/CSS. He wrote this site by hand without frameworks, so he understands markup. Methods: in-depth interviews, usability tests, A/B, CJM, JTBD, competitor analysis and Yandex Metrika.' } },
+    a: { ru: 'Figma и Figma AI, Tilda, HTML/CSS. Сайт портфолио собран с Claude. Из методов: глубинные интервью, юзабилити-тесты, A/B, CJM, JTBD, анализ конкурентов и Яндекс Метрика.',
+         en: 'Figma and Figma AI, Tilda, HTML/CSS. The portfolio site was built with Claude. Methods: in-depth interviews, usability tests, A/B, CJM, JTBD, competitor analysis and Yandex Metrika.' } },
   rytmo: { q: { ru: 'Расскажи про Rytmo', en: 'Tell me about Rytmo' }, card: 'rytmo', follow: ['research', 'hardest', 'tools'], keys: /rytmo|ритмо|фитнес|fitness/i,
     a: { ru: 'Rytmo — мобильное фитнес-приложение. Люди бросают тренировки на 2–3 неделе, до появления привычки, и Сергей искал, как удержать их в этот период: провёл интервью, собрал JTBD, проверил кликабельный прототип на 12 людях.',
          en: 'Rytmo is a mobile fitness app. People quit working out in week 2–3, before the habit forms, and Sergei looked for ways to keep them through that period: he ran interviews, built JTBD and tested a clickable prototype with 12 people.' } },

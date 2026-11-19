@@ -28,13 +28,13 @@ function start() {
 
   const L = {
     ru: { hero: 'Привет! Листай вниз ↓',
-          poke: ['Да?', 'Я здесь', 'Привет', 'Слушаю'], enough: 'Достаточно', sulk: 'Пойду отдохну', night: 'Ночь. Смотри, звёзды', day: 'Снова день', wake: 'Я не спал!', back: 'Я вернулся!', hint: 'Меня можно перетаскивать', treatCap: 'Покорми облачко', treatNudge: 'Перетащи звезду ко мне', nyam: 'Вкусно', treatBeg: 'Звезда ещё здесь', treatHint: 'Звезда для облачка', thanks: 'Спасибо', thanks2: 'Хорошая звезда', welcomeBack: 'С возвращением', walk: ['Прогуляюсь', 'Разомнусь'],
-          pick: ['Меня подняли', 'Летим'], carry: ['Осторожно', 'Тут высоко', 'Вид неплохой'],
-          drop: ['Хорошее место', 'Тут нормально', 'Спасибо'], top: 'Тут высоко', home: 'Дома', dock: 'Тут навигация, я отойду', again: 'Опять перемещаемся' },
+          poke: ['Да?', 'Я здесь', 'Заметил', 'Слушаю внимательно', 'Щёлк', 'Чем могу помочь?', 'Там, кстати, кейсы'], enough: 'Ладно-ладно, достаточно', sulk: 'Всё, ухожу в спящий режим', rainSay: 'Облачно, возможны осадки', night: 'Ночь. Смотри, звёзды', day: 'Снова день', wake: 'Я не спал!', back: 'Я вернулся!', hint: 'Меня можно перетаскивать', treatCap: 'Покорми облачко', treatNudge: 'Перетащи звезду ко мне', nyam: 'Вкусно', treatBeg: 'Звезда ещё ждёт', treatHint: 'Звезда для облачка', thanks: 'Спасибо, это было вкусно', thanks2: 'Теперь я сияю', welcomeBack: 'С возвращением', walk: ['Разомну пиксели', 'Небольшая прогулка', 'Осматриваюсь'],
+          pick: ['Меня подняли', 'Летим', 'Куда едем?'], carry: ['Осторожно', 'Тут высоко', 'Вид неплохой', 'Главное, не уронить', 'Держим курс'],
+          drop: ['Хорошее место', 'Отсюда видно лучше', 'Тут нормально', 'Спасибо, дальше сам'], top: 'Потолок. Выше только небо', home: 'Вернулся на своё место', dock: 'Тут навигация, я отойду', again: 'Мы так до утра' },
     en: { hero: 'Hi! Scroll down ↓',
-          poke: ['Yes?', 'I am here', 'Hello', 'Listening'], enough: 'That is enough', sulk: 'I will rest a bit', night: 'Night. Look, stars', day: 'Day again', wake: 'I was not sleeping!', back: 'I am back!', hint: 'You can drag me around', treatCap: 'Feed the little cloud', treatNudge: 'Drag the star to me', nyam: 'Tasty', treatBeg: 'The star is still here', treatHint: 'A star for the little cloud', thanks: 'Thank you', thanks2: 'A good star', welcomeBack: 'Welcome back', walk: ['Going for a walk', 'Stretching my legs'],
-          pick: ['Picked up', 'Flying'], carry: ['Careful', 'It is high up here', 'Nice view'],
-          drop: ['Good spot', 'This is fine', 'Thanks'], top: 'It is high up here', home: 'Home', dock: 'The navigation is here, I will move', again: 'Moving again' },
+          poke: ['Yes?', 'I am here', 'Noticed that', 'Listening closely', 'Click', 'How can I help?', 'By the way, the cases are down there'], enough: 'Okay, okay, that is enough', sulk: 'That is it, going to sleep mode', rainSay: 'Cloudy, chance of showers', night: 'Night. Look, stars', day: 'Day again', wake: 'I was not sleeping!', back: 'I am back!', hint: 'You can drag me around', treatCap: 'Feed the little cloud', treatNudge: 'Drag the star to me', nyam: 'Tasty', treatBeg: 'The star is still waiting', treatHint: 'A star for the little cloud', thanks: 'Thank you, that was tasty', thanks2: 'Now I am shining', welcomeBack: 'Welcome back', walk: ['Stretching my pixels', 'A short walk', 'Looking around'],
+          pick: ['Picked up', 'Flying', 'Where are we going?'], carry: ['Careful', 'It is high up here', 'Nice view', 'Just do not drop me', 'Holding course'],
+          drop: ['Good spot', 'The view is better from here', 'This is fine', 'Thanks, I will take it from here'], top: 'The ceiling. Only sky above', home: 'Back in my spot', dock: 'The navigation is here, I will move', again: 'We could do this until morning' },
   };
   const t = () => L[getLang()];
 
@@ -357,7 +357,7 @@ function start() {
     if (pokes === 5) { say(t().enough, true); mood('happy', 'o', 1100); }
     else if (pokes === 9) { say(t().sulk, true); mood('open', 'flat', 1500); setTimeout(sleep, 1600); }
     else { const p = t().poke; say(p[Math.floor(Math.random() * p.length)], true); mood('happy', 'smile', 900); }
-    if (pokes === 4) rain(); // на четвёртый клик из облачка идёт дождь, три секунды
+    if (pokes === 4) { say(t().rainSay, true); rain(); } // на четвёртый клик из облачка идёт дождь, три секунды
   });
 
   // Дождь: капли падают из-под облачка три секунды и прекращаются

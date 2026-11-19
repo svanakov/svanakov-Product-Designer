@@ -61,13 +61,11 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return send(res, 405, 'method_not_allowed');
   if (!originAllowed(req.headers.origin)) return send(res, 403, 'forbidden');
 
-  // Закрытый режим: пока задан ASSISTANT_KEY, роут отвечает только тому, кто его знает.
-  // Чтобы открыть ассистента всем, удали переменную ASSISTANT_KEY в Vercel.
-  if (process.env.ASSISTANT_KEY) {
+  // Ассистент открыт всем. Верный ключ ASSISTANT_KEY нужен только владельцу: с ним лимиты запросов не применяются.
+  let owner = false;
+  if (process.env.ASSISTANT_KEY && req.headers['x-assistant-key']) {
     const h = (v) => crypto.createHash('sha256').update(String(v || '')).digest();
-    if (!crypto.timingSafeEqual(h(req.headers['x-assistant-key']), h(process.env.ASSISTANT_KEY))) {
-      return send(res, 403, 'forbidden');
-    }
+    owner = crypto.timingSafeEqual(h(req.headers['x-assistant-key']), h(process.env.ASSISTANT_KEY));
   }
 
   let body;
@@ -81,7 +79,7 @@ module.exports = async (req, res) => {
   if (!clean.length || clean[clean.length - 1].role !== 'user') return send(res, 400, 'bad_request');
   const page = PAGES.includes(body.page) ? body.page : undefined;
 
-  try {
+  if (!owner) try {
     const fwd = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
     const ipHash = crypto.createHash('sha256').update(fwd + (process.env.LLM_API_KEY || '')).digest('hex').slice(0, 16);
     const okIp = await hit(`rl:ip:${ipHash}`, IP_LIMIT);

@@ -16,7 +16,7 @@ export const dict = {
     'nav.theme': 'Сменить тему',
     'nav.main': 'Основная навигация',
 
-    'hero.thesis': 'Продуктовый дизайнер. Проектирую понятные интерфейсы и довожу идеи от исследования до выпуска в продукт.',
+    'hero.thesis': 'Продуктовый дизайнер.\nПроектирую понятные интерфейсы и довожу идеи от исследования до выпуска в продукт.',
     'hero.fio': 'Сергей Ванаков',
     'hero.age': '4 года в дизайне и IT',
     'hero.avatarAlt': 'Сергей Ванаков',
@@ -41,15 +41,14 @@ export const dict = {
     'works.home': 'На главную',
 
     'workflow.title': 'Как я оптимизирую свою работу с помощью ИИ',
-    'workflow.video': 'Скоро...',
+    'workflow.video': 'Скоро',
     'workflow.play': 'Смотреть видео «Figma → код с ИИ»',
     'workflow.min': 'мин',
 
 
-    'experience.title': 'Опыт и стек',
-    'experience.work': 'Опыт',
-    'experience.stack': 'Навыки',
+    'experience.title': 'Опыт работы',
     'experience.cv': 'Смотреть CV',
+    'contact.download': 'Скачать CV',
     'stack.design': 'Дизайн',
     'stack.research': 'Исследования',
     'stack.code': 'Код',
@@ -87,7 +86,7 @@ export const dict = {
     'nav.theme': 'Toggle theme',
     'nav.main': 'Main navigation',
 
-    'hero.thesis': 'Product designer. I design clear interfaces and take ideas from research to a shipped product.',
+    'hero.thesis': 'Product designer.\nI design clear interfaces and take ideas from research to a shipped product.',
     'hero.fio': 'Sergei Vanakov',
     'hero.age': '4 years in design and IT',
     'hero.avatarAlt': 'Sergei Vanakov',
@@ -112,15 +111,14 @@ export const dict = {
     'works.home': 'Home',
 
     'workflow.title': 'How I optimize my work with AI',
-    'workflow.video': 'Coming soon...',
+    'workflow.video': 'Soon',
     'workflow.play': 'Watch the “Figma → code with AI” video',
     'workflow.min': 'min',
 
 
-    'experience.title': 'Experience and stack',
-    'experience.work': 'Experience',
-    'experience.stack': 'Skills',
+    'experience.title': 'Work experience',
     'experience.cv': 'View CV',
+    'contact.download': 'Download CV',
     'stack.design': 'Design',
     'stack.research': 'Research',
     'stack.code': 'Code',

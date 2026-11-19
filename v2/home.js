@@ -1,7 +1,7 @@
 // Главная v2: отрисовка секций из data/*.js и поведение страницы.
 import { cases as allCases } from './data/cases.js';
 const cases = allCases.filter((c) => !c.worksOnly); // кейсы только для страницы «Все кейсы» на главной не нужны
-import { experience, stack } from './data/experience.js';
+import { experience } from './data/experience.js';
 import { t, pick, getLang, applyI18n, FLAGS, CV_URL, TG_URL, MAIL } from './site.js';
 import { video } from './data/video.js';
 import { mountAssistant, mountAssistantPreview } from './assistant.js';
@@ -15,34 +15,53 @@ function renderCases(lang) {
       <a class="case-card__link" href="${esc(c.href)}" data-case="${esc(c.slug)}">
         <div class="case-card__cover"><img src="${esc(c.cover)}" alt="" loading="lazy"></div>
         <div class="case-card__body">
-          <h3 class="case-card__title">${esc(pick(c.title, lang))}</h3>
-          <div class="case-card__meta">
-            <ul class="case-card__stack">${(c.stack || []).map((s) => `<li>${esc(pick(s, lang))}</li>`).join('')}</ul>
+          <div class="case-card__head">
+            <h3 class="case-card__title">${esc(pick(c.title, lang))}</h3>
+            ${c.year ? `<span class="case-card__year">${esc(c.year)}</span>` : ''}
           </div>
-          <div><p class="case-card__label">${esc(t('cases.problem', lang))}</p><p class="case-card__text">${esc(pick(c.problem, lang))}</p></div>
-          <div><p class="case-card__label">${esc(t('cases.result', lang))}</p>${[].concat(c.result).length > 1
-            ? `<ul class="case-card__list">${[].concat(c.result).map((r) => `<li>${esc(pick(r, lang))}</li>`).join('')}</ul>`
-            : `<p class="case-card__text">${esc(pick([].concat(c.result)[0], lang))}</p>`}</div>
+          <p class="case-card__text">${esc(pick(c.tagline, lang))}</p>
+          <ul class="case-card__stack">${(c.stack || []).map((s) => `<li>${esc(pick(s, lang))}</li>`).join('')}</ul>
         </div>
       </a>
     </article>`).join('');
 }
 
+// Lucide (lucide.dev, ISC): иконки сфер
+const JOB_ICONS = {
+  cap: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /> <path d="M22 10v6" /> <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />',
+  cart: '<circle cx="8" cy="21" r="1" /> <circle cx="19" cy="21" r="1" /> <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />',
+  tooth: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /> <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27" />',
+  globe: '<circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" />',
+};
+
 function renderExperience(lang) {
-  $('timeline').innerHTML = experience.map((e) => `
-    <li class="job">
-      <div class="job__head"><span class="job__company">${esc(pick(e.company, lang))}</span><span class="job__period">${esc(pick(e.period, lang))}</span></div>
-      <div class="job__role">${esc(pick(e.role, lang))}</div>
-      <div class="job__domain">${esc(pick(e.domain, lang))}</div>
-      <ul class="job__results">${e.results.map((r) => `<li>${esc(pick(r, lang))}</li>`).join('')}</ul>
-    </li>`).join('');
-  $('stack').innerHTML = stack.map((g) => `
-    <div class="stack__group"><h4>${esc(pick(g.title, lang))}</h4>
-      ${g.plain
-        ? `<ul class="stack__plain">${g.items.map((i) => `<li>${esc(pick(i, lang))}</li>`).join('')}</ul>`
-        : `<ul class="stack__items">${g.items.map((i) => `<li>${esc(pick(i, lang))}</li>`).join('')}</ul>`}
-    </div>`).join('');
+  const open = new Set([...document.querySelectorAll('.job.is-open')].map((j) => j.dataset.i));
+  $('timeline').innerHTML = experience.map((e, i) => {
+    const company = pick(e.company, lang);
+    const isOpen = open.has(String(i));
+    return `
+    <li class="job${isOpen ? ' is-open' : ''}" data-i="${i}">
+      <button type="button" class="job__toggle" aria-expanded="${isOpen}" aria-controls="job-${i}">
+        <span class="job__logo" style="--h:${e.hue || 260}" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${JOB_ICONS[e.icon] || JOB_ICONS.globe}</svg></span>
+        <span class="job__main">
+          <span class="job__title">${esc(company)}</span>
+          <span class="job__role">${esc(pick(e.role, lang))}</span>
+        </span>
+        <span class="job__period">${esc(pick(e.period, lang))}</span>
+        <svg class="job__chev" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="job__panel" id="job-${i}"><div class="job__panel-in">
+        <div class="job__domain">${esc(pick(e.domain, lang))}</div>
+        <ul class="job__results">${e.results.map((r) => `<li>${esc(pick(r, lang))}</li>`).join('')}</ul>
+      </div></div>
+    </li>`;
+  }).join('');
 }
+$('timeline').addEventListener('click', (e) => {
+  const b = e.target.closest('.job__toggle'); if (!b) return;
+  const job = b.closest('.job'), on = job.classList.toggle('is-open');
+  b.setAttribute('aria-expanded', String(on));
+});
 
 const COPY_ICON = '<svg class="ic-copy" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></svg><svg class="ic-done" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const CONTACT_ICONS = {
@@ -52,20 +71,22 @@ const CONTACT_ICONS = {
   cv: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
 };
 const contactIcon = (k) => `<svg class="big-link__ico" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CONTACT_ICONS[k]}</svg>`;
+const DOWNLOAD_ICON = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>';
 function renderContact(lang) {
   const arrow = '<span class="big-link__arrow" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M8.5 6H18v9.5"/></svg></span>';
-  const row = (href, label, kind, value, ext, icon) => `
+  const row = (href, label, kind, value, ext, icon, dl) => `
     <div class="big-link">
       <a class="big-link__main" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''}><span class="big-link__label">${contactIcon(icon)}<span>${esc(label)}</span></span>${arrow}</a>
       ${kind
         ? `<span class="copy-wrap"><button type="button" class="copy-btn" data-copy="${esc(value)}" data-kind="${kind}" aria-label="${esc(t('contact.copy.' + kind, lang))}" title="${esc(t('contact.copy.' + kind, lang))}">${COPY_ICON}</button><span class="copy-tip" aria-hidden="true"></span></span>`
+        : dl ? `<span class="copy-wrap"><a class="dl-btn" href="${dl}" download="Sergei_Vanakov_CV.pdf" aria-label="${esc(t('contact.download', lang))}" title="${esc(t('contact.download', lang))}">${DOWNLOAD_ICON}</a></span>`
         : '<span class="copy-wrap copy-wrap--empty" aria-hidden="true"></span>'}
     </div>`;
   $('big-links').innerHTML =
     row(TG_URL, t('contact.telegram', lang), 'telegram', '@babyoslik', true, 'telegram') +
     row(`mailto:${MAIL}`, t('contact.email', lang), 'email', MAIL, false, 'email') +
     row('tel:+79065327822', t('contact.phone', lang), 'phone', '+7 (906) 532 78-22', false, 'phone') +
-    row(CV_URL, t('contact.cv', lang), null, '', true, 'cv');
+    row(CV_URL, t('contact.cv', lang), null, '', true, 'cv', '../uploads/Sergei_Vanakov_CV.pdf');
 }
 
 // Копирование контакта: клик по самой строке открывает контакт, кнопка справа копирует и показывает подсказку.
@@ -160,7 +181,7 @@ function equalizeCards() {
 }
 
 // ---- Стопка карточек: прогресс --p и счётчик ----
-const STACK_TOP = 112, STACK_STEP = 0, STACK_GAP = 32; // совпадают с site.css
+const STACK_TOP = 112, STACK_STEP = 0, STACK_GAP = 48; // совпадают с site.css
 const stackMQ = matchMedia('(prefers-reduced-motion: no-preference) and (min-height: 701px)');
 function updateStack() {
   const cards = [...document.querySelectorAll('.case-card')];
@@ -237,7 +258,7 @@ function setupVideo() {
         body.textContent = ''; body.appendChild(v);
       }
     } else {
-      body.innerHTML = `<div class="modal__ph"><span class="todo">${esc(t('workflow.video', lang))}</span></div>`;
+      body.innerHTML = video.poster ? `<div class="modal__soon" data-label="${esc(t('workflow.video', lang))}"><img class="modal__poster" src="${esc(video.poster)}" alt=""></div>` : `<div class="modal__ph"><span class="todo">${esc(t('workflow.video', lang))}</span></div>`;
     }
     modal.showModal();
     const v = body.querySelector('video'); if (v) v.play().catch(() => {});
@@ -246,6 +267,14 @@ function setupVideo() {
   modal.addEventListener('click', (e) => { if (e.target === modal || e.target.closest('#video-close')) modal.close(); });
   modal.addEventListener('close', () => { const v = body.querySelector('video'); if (v) v.pause(); });
   media.addEventListener('click', open);
+
+  // Пока видео нет, блок показывает обложку (постер).
+  if (video.poster && !video.previewSrc) {
+    media.classList.add('has-video');
+    const img = document.createElement('img');
+    img.src = video.poster; img.alt = ''; img.decoding = 'async';
+    media.prepend(img);
+  }
 
   // Беззвучный фрагмент на повторе, загружается только когда блок близко к экрану.
   if (video.previewSrc) {
@@ -266,7 +295,7 @@ function setupVideo() {
 // (и он по-прежнему виден только владельцу с ключом, пока PUBLIC = false в site.js).
 // Пока настоящий ответ только на localhost (там прокси на боевой бэкенд). На сайте у всех демо с подсказками.
 // Включить на сайте: поставить true.
-const ASSISTANT_LIVE = ['localhost', '127.0.0.1'].includes(location.hostname);
+const ASSISTANT_LIVE = true; // настоящий ассистент для всех посетителей
 let assistant = null;
 function setupAssistant() {
   assistant = mountAssistantPreview($('assistant-slot'), { live: ASSISTANT_LIVE && FLAGS.ASSISTANT_ENABLED }); // тот же интерфейс; живой режим только с ключом

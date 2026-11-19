@@ -3,11 +3,11 @@ import { dict } from './data/i18n.js';
 
 export const CV_URL = 'https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing';
 export const TG_URL = 'https://t.me/babyoslik';
-export const MAIL = 'vanakovsergey2004@yandex.ru';
+export const MAIL = 'vanakovsergey4@yandex.ru';
 
-// Закрытый режим ассистента (как в v1): пока PUBLIC = false, блок виден только тому, кто открыл сайт с ?assistant=<ключ>.
+// Ассистент открыт всем (PUBLIC = true). Закрыть снова: PUBLIC = false, тогда блок виден только тому, кто открыл сайт с ?assistant=<ключ>.
 // Выключить у себя: ?assistant=off. Открыть всем: PUBLIC = true и удалить ASSISTANT_KEY в Vercel.
-export const PUBLIC = false;
+export const PUBLIC = true;
 export let ASSISTANT_KEY = null;
 try {
   const params = new URLSearchParams(location.search);
@@ -146,7 +146,7 @@ function setupClickSound() {
     sound.currentTime = 0;
     sound.play().catch(() => {});
     const href = link.getAttribute('href');
-    const stays = !href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http') || link.target === '_blank' || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey;
+    const stays = !href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http') || link.target === '_blank' || link.hasAttribute('download') || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey;
     if (!stays) {
       e.preventDefault();
       setTimeout(() => { window.location.href = link.href; }, 150);
@@ -165,4 +165,32 @@ if (document.body.dataset.page !== 'case' && document.body.dataset.page !== 'all
     return `<i style="left:${(rnd() * 100).toFixed(1)}%;top:${(rnd() * 88).toFixed(1)}%;--s:${size}px;--d:${(2.4 + rnd() * 4).toFixed(1)}s;--t:${(-rnd() * 6).toFixed(1)}s"></i>`;
   }).join('');
   document.body.insertAdjacentHTML('afterbegin', `<div class="sky" aria-hidden="true"><div class="stars">${stars}</div><span class="bg-cloud c1"></span><span class="bg-cloud c2"></span><span class="bg-cloud c3"></span><span class="bg-cloud c4"></span><span class="bg-cloud c5"></span></div>`);
+}
+
+// Висячие предлоги: после коротких слов (в, на, и, to, of...) и чисел ставим неразрывный пробел, перед тире тоже.
+// Обрабатываем весь текст страницы и всё, что скрипты дорисовывают позже. Только обычные пробелы, поэтому повторный прогон ничего не меняет.
+{
+  const NB = ' ';
+  const SHORT = /(?<![\p{L}\p{N}])(?:[\p{L}]{1,2}|для|без|при|над|под|про|или|что|как|the)[ ]+(?=[\p{L}\p{N}«"(])/giu;
+  const fix = (s) => s.replace(SHORT, (m) => m.replace(/[ ]+$/, NB)).replace(/(\d)[ ]+(?=[\p{L}])/gu, '$1' + NB).replace(/[ ]+(?=[—–])/g, NB);
+  const SKIP = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT', 'CODE', 'PRE', 'NOSCRIPT']);
+  const walk = (root) => {
+    if (!root) return;
+    if (root.nodeType === 3) { const v = fix(root.nodeValue); if (v !== root.nodeValue) root.nodeValue = v; return; }
+    if (root.nodeType !== 1 || SKIP.has(root.tagName)) return;
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: (n) => (n.parentElement && SKIP.has(n.parentElement.tagName)) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+    const list = []; while (w.nextNode()) list.push(w.currentNode);
+    list.forEach((n) => { const v = fix(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v; });
+  };
+  let queue = new Set(), raf = 0;
+  const flush = () => { raf = 0; const q = queue; queue = new Set(); q.forEach((n) => { if (n.isConnected) walk(n); }); };
+  const mo = new MutationObserver((muts) => {
+    for (const m of muts) {
+      if (m.type === 'characterData') queue.add(m.target);
+      else m.addedNodes.forEach((n) => queue.add(n));
+    }
+    if (!raf) raf = requestAnimationFrame(flush);
+  });
+  const start = () => { walk(document.body); mo.observe(document.body, { childList: true, subtree: true, characterData: true }); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 }
