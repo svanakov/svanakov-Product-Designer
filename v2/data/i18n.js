@@ -27,6 +27,7 @@ export const dict = {
 
     'cases.title': 'Кейсы',
     'cases.more': 'Подробнее',
+    'cases.soon': 'Скоро',
     'cases.all': 'Все кейсы',
     'cases.problem': 'Проблема',
     'cases.result': 'Результат',
@@ -97,6 +98,7 @@ export const dict = {
 
     'cases.title': 'Case studies',
     'cases.more': 'Read case',
+    'cases.soon': 'Soon',
     'cases.all': 'All case studies',
     'cases.problem': 'Problem',
     'cases.result': 'Result',

@@ -675,6 +675,14 @@ body[data-page="all-cases"] .wp-cases .case-card { position: relative; top: auto
 body[data-page="all-cases"] .case-card__link, body[data-page="all-cases"] .case-card__link * { cursor: pointer !important; }
 body[data-page="all-cases"] .case-card__cover img { transition: transform .6s cubic-bezier(.22, 1, .36, 1); }
 body[data-page="all-cases"] .case-card__link:hover .case-card__cover img { transform: scale(1.03); }
+.case-card__logo { position: absolute; inset: 0; display: grid; place-items: center; }
+.case-card__logo img { position: static; width: 17%; max-width: 132px; height: auto; object-fit: contain; }
+.case-card__soon { position: absolute; left: 50%; top: 50%; z-index: 2; transform: translate(-50%, -50%) scale(.9); padding: 11px 22px; border-radius: 999px; background: var(--inverse-bg); color: var(--inverse-text); font-size: 14px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .35s ease, transform .5s cubic-bezier(.22, 1, .36, 1); }
+.case-card.is-soon .case-card__link, .case-card.is-soon .case-card__link * { cursor: default !important; }
+.case-card.is-soon .case-card__link:hover .case-card__cover img { transform: none; }
+.case-card.is-soon:hover .case-card__soon { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.case-card.is-soon:hover .case-card__cover::after { opacity: 1; }
+.case-card.is-soon .case-card__cover::after { content: ''; position: absolute; inset: 0; background: color-mix(in oklch, #000 22%, transparent); opacity: 0; transition: opacity .35s ease; }
 @media (min-width: 861px) {
   body[data-page="all-cases"] .wp { max-width: 1040px; }
   .wp-cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 16px; align-items: stretch; }

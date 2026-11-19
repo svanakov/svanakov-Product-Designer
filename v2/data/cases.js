@@ -63,10 +63,10 @@ export const cases = [
     // year: '2025', // год проекта: покажется рядом с названием
     blurb: { ru: 'B2B-сервис курьерской доставки вырос до 100+ заказов в день — ручное отслеживание в таблице перестало справляться. Проектирую видимость риска по SLA и приоритизацию исключений.', en: 'A B2B courier service grew past 100+ orders a day — manual tracking in a spreadsheet stopped working. Designing SLA risk visibility and exception prioritization.' },
   },
-  // Показывается только на странице «Кейсы и работы», на главной его нет.
   {
     slug: 'vpnmini',
     worksOnly: true,
+    soon: true, // кейс пока не готов: карточка не кликается, при наведении метка «Скоро»
     href: './vpnmini.html',
     title: { ru: 'Telegram Mini App для VPN-сервиса', en: 'Telegram Mini App for a VPN Service' },
     stack: ['Mobile', 'UX Research', 'Product Design'],
@@ -76,4 +76,26 @@ export const cases = [
     blurb: { ru: 'Управление личным VPN и подпиской прямо внутри Telegram.', en: 'Managing a personal VPN and its subscription entirely inside Telegram.' },
     cover: '../uploads/vpnmini-cover5.webp',
   },
+  {
+    slug: 'jobs-screen',
+    worksOnly: true, // показывается только на странице «Все кейсы», на главной нет
+    href: './jobs-screen.html',
+    soon: true, // страницы кейса пока нет: карточка не кликается, при наведении метка «Скоро»
+    title: { ru: 'Редизайн главного экрана вакансий платформы объявлений', en: 'Redesign of a Classifieds Platform’s Jobs Home Screen' },
+    platform: { ru: 'Мобильное приложение, iOS', en: 'Mobile app, iOS' },
+    stack: ['Mobile', 'UX Research', 'Product Design', 'Prototyping'],
+    kind: 'concept',
+    problem: {
+      ru: 'Главный экран вакансий одинаков для новичка и для того, кто ищет месяцами: ключевые действия теряются, причины вернуться нет.',
+      en: 'The jobs home screen looks the same for a newcomer and for someone searching for months: key actions get lost and there is no reason to come back.',
+    },
+    result: {
+      ru: 'Три решения из четырёх на проверке с тремя респондентами понятны без доработок.',
+      en: 'Three of four solutions were clear without rework when checked with three respondents.',
+    },
+    // cover: '../uploads/jobs-cover.webp', // положить обложку 16:9 в uploads и раскомментировать
+    tagline: { ru: 'Разобрал главный экран вакансий платформы объявлений и предложил, как быстрее вести к отклику и возвращать соискателей: 3 из 4 решений понятны без доработок', en: 'Analyzed the jobs home screen of a classifieds platform and proposed how to lead to an application faster and bring job seekers back: 3 of 4 solutions were clear without rework' },
+    blurb: { ru: 'Разбор аудитории и главного экрана вакансий платформы объявлений: сегменты, интервью, гипотезы, прототипы и проверка на трёх респондентах.', en: 'A study of the audience and the jobs home screen of a classifieds platform: segments, interviews, hypotheses, prototypes and a check with three respondents.' },
+  },
+  // Показывается только на странице «Кейсы и работы», на главной его нет.
 ];

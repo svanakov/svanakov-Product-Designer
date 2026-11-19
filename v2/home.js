@@ -10,10 +10,9 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&
 const $ = (id) => document.getElementById(id);
 
 function renderCases(lang) {
-  $('cases-list').innerHTML = cases.map((c, i) => `
-    <article class="case-card" id="case-${esc(c.slug)}" style="--i:${i}">
-      <a class="case-card__link" href="${esc(c.href)}" data-case="${esc(c.slug)}">
-        <div class="case-card__cover"><img src="${esc(c.cover)}" alt="" loading="lazy"></div>
+  $('cases-list').innerHTML = cases.map((c, i) => {
+    const inner = `
+        <div class="case-card__cover">${c.cover ? `<img src="${esc(c.cover)}" alt="" loading="lazy">` : ''}${c.logo ? `<span class="case-card__logo"><img src="${esc(c.logo)}" alt=""></span>` : ''}${c.soon ? `<span class="case-card__soon">${esc(t('cases.soon', lang))}</span>` : ''}</div>
         <div class="case-card__body">
           <div class="case-card__head">
             <h3 class="case-card__title">${esc(pick(c.title, lang))}</h3>
@@ -21,9 +20,11 @@ function renderCases(lang) {
           </div>
           <p class="case-card__text">${esc(pick(c.tagline, lang))}</p>
           <ul class="case-card__stack">${(c.stack || []).map((s) => `<li>${esc(pick(s, lang))}</li>`).join('')}</ul>
-        </div>
-      </a>
-    </article>`).join('');
+        </div>`;
+    return c.soon
+      ? `<article class="case-card is-soon" id="case-${esc(c.slug)}" style="--i:${i}"><div class="case-card__link">${inner}</div></article>`
+      : `<article class="case-card" id="case-${esc(c.slug)}" style="--i:${i}"><a class="case-card__link" href="${esc(c.href)}" data-case="${esc(c.slug)}">${inner}</a></article>`;
+  }).join('');
 }
 
 // Lucide (lucide.dev, ISC): иконки сфер
@@ -355,7 +356,7 @@ function setupCardCursor() {
     if (!raf) raf = requestAnimationFrame(tick);
   };
   const hide = () => { on = false; tag.classList.remove('is-on'); };
-  list.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' && e.target.closest('.case-card__link')) show(e); else if (on) hide(); });
+  list.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' && e.target.closest('a.case-card__link')) show(e); else if (on) hide(); });
   list.addEventListener('pointerleave', hide);
   addEventListener('blur', hide);
 }

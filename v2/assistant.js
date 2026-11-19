@@ -50,28 +50,6 @@ const stripMarkers = (t) => t.replace(/\[\[[^\]]*\]\]/g, '').replace(/\[\[[^\]]*
 const markers = (t) => { const out = []; t.replace(/\[\[([^\]]+)\]\]/g, (m, k) => { if (!out.includes(k)) out.push(k); return m; }); return out; };
 function el(tag, cls, text) { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
 
-// Лёгкий «звоночек» при получении ответа: синтезируется на лету (без аудиофайла), две мягкие колокольные ноты.
-// Не тот звук, что щелчок по ссылкам. Контекст создаём в момент нажатия «Отправить» (жест пользователя), иначе браузер заблокирует звук.
-let audioCtx = null;
-const canSound = () => matchMedia('(hover: hover) and (pointer: fine)').matches;
-function primeAudio() {
-  try { const AC = window.AudioContext || window.webkitAudioContext; if (!AC || !canSound()) return; audioCtx = audioCtx || new AC(); if (audioCtx.state === 'suspended') audioCtx.resume(); } catch {}
-}
-function chime() {
-  try {
-    if (!audioCtx || !canSound()) return;
-    const t0 = audioCtx.currentTime;
-    [[880, 0], [1318.5, 0.12]].forEach(([f, d]) => {
-      [[1, 0.06], [2.76, 0.012]].forEach(([mul, vol]) => { // основной тон и колокольный обертон
-        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-        o.type = 'sine'; o.frequency.value = f * mul;
-        g.gain.setValueAtTime(0, t0 + d); g.gain.linearRampToValueAtTime(vol, t0 + d + 0.015); g.gain.exponentialRampToValueAtTime(0.0001, t0 + d + 0.6);
-        o.connect(g); g.connect(audioCtx.destination); o.start(t0 + d); o.stop(t0 + d + 0.65);
-      });
-    });
-  } catch {}
-}
-
 // Потоковый вывод текста «как в ChatGPT»: куски ответа складываются в очередь, слова выходят ровным темпом,
 // каждое проявляется из размытия (анимация .ai__w), в конце текста мигает курсор.
 // update(текст целиком, final): незавершённое последнее слово придерживается до пробела; onDone: всё выведено; skip: показать остаток сразу.
@@ -190,7 +168,7 @@ export function mountAssistant(root) {
     bot.setAttribute('aria-label', L().thinking);
     bot.innerHTML = `<span class="ai__think">${L().thinking}</span>`;
     log.appendChild(bot); scrollDown(); setBusy(true);
-    ctrl = new AbortController(); primeAudio();
+    ctrl = new AbortController();
     let answer = '', stream = null;
     const ensureStream = () => { if (!stream) { bot.classList.remove('is-pending'); bot.textContent = ''; stream = createWordStream(bot, scrollDown); } return stream; };
     try {
@@ -213,8 +191,7 @@ export function mountAssistant(root) {
     if (answer) {
       // дожидаемся, пока очередь слов выведется до конца, и только потом добавляем кнопки-ссылки
       await new Promise((res) => { const s = ensureStream(); s.onDone(res); s.update(stripMarkers(answer), true); });
-      chime(); // текст допечатался
-      const a = actionLinks(answer); if (a) bot.appendChild(a);
+            const a = actionLinks(answer); if (a) bot.appendChild(a);
       history.push({ role: 'assistant', content: answer });
     } else { bot.remove(); history.pop(); }
     save(); setBusy(false);
@@ -374,7 +351,7 @@ export function mountAssistantPreview(root, opts = {}) {
     async function askLive(id, free) {
       const question = (free || (id ? pick(DEMO[id].q, lang) : '')).trim();
       if (!question || busy || count >= MAXQ) return;
-      busy = true; primeAudio(); ai.classList.add('is-asked');
+      busy = true; ai.classList.add('is-asked');
       if (id) asked.add(id);
       addUser(question); input.value = ''; chips.classList.add('is-hidden');
       send.innerHTML = '<span class="ai__stop"></span>'; send.setAttribute('aria-label', u.stop);
@@ -423,13 +400,13 @@ export function mountAssistantPreview(root, opts = {}) {
         else if (m.startsWith('case:') && CASES[m.slice(5)]) { bubble.insertAdjacentHTML('beforeend', caseCard(m.slice(5))); extra++; }
       });
       history.push({ role: 'assistant', content: answer });
-      chime(); finish();
+      finish();
     }
 
     function ask(id, free) {
       if (live) return askLive(id, free);
       if (busy || count >= MAXQ) return;
-      busy = true; count = quotaBump().count; updateCounter(); primeAudio(); ai.classList.add('is-asked');
+      busy = true; count = quotaBump().count; updateCounter(); ai.classList.add('is-asked');
       const item = id ? DEMO[id] : null;
       if (id) asked.add(id);
       addUser(free || pick(item.q, lang));
@@ -442,7 +419,7 @@ export function mountAssistantPreview(root, opts = {}) {
         if (!bubble.querySelector('.ai__w')) bubble.textContent = text;
         const card = item ? item.card : 'contact';
         if (card) bubble.insertAdjacentHTML('beforeend', card === 'contact' ? tgCard() : caseCard(card));
-        setState(''); busy = false; chime(); scroll(); // звоночек, когда ответ допечатался
+        setState(''); busy = false; scroll();
         send.innerHTML = ARROW_UP; send.setAttribute('aria-label', u.send);
         if (count >= MAXQ) lockDemo();
         else { chips.classList.remove('is-hidden'); renderChips([], true); }
