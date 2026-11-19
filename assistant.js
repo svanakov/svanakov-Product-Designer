@@ -209,9 +209,9 @@ export function mountAssistant(root) {
 // ---------- Демо-ассистент: полноценный интерфейс на заготовленных ответах (без запросов к серверу) ----------
 // Тексты ответов взяты только из кейсов и CV. Настоящий ассистент включается флагом ASSISTANT_LIVE в home.js.
 const CASES = {
-  rytmo: { href: './rytmo.html', cover: '../uploads/rytmo-cover5.webp', title: { ru: 'Rytmo', en: 'Rytmo' }, sub: { ru: 'Мобильное приложение', en: 'Mobile app' } },
-  campus: { href: './campus.html', cover: '../uploads/campus-cover5.webp', title: { ru: 'Campus', en: 'Campus' }, sub: { ru: 'Веб, PWA', en: 'Web, PWA' } },
-  dispatch: { href: './dispatch.html', cover: '../uploads/dispatch-cover5.webp', title: { ru: 'Диспетчерская консоль', en: 'Dispatcher Console' }, sub: { ru: 'Веб, B2B', en: 'Web, B2B' } },
+  rytmo: { href: './rytmo.html', cover: './uploads/rytmo-cover5.webp', title: { ru: 'Rytmo', en: 'Rytmo' }, sub: { ru: 'Мобильное приложение', en: 'Mobile app' } },
+  campus: { href: './campus.html', cover: './uploads/campus-cover5.webp', title: { ru: 'Campus', en: 'Campus' }, sub: { ru: 'Веб, PWA', en: 'Web, PWA' } },
+  dispatch: { href: './dispatch.html', cover: './uploads/dispatch-cover5.webp', title: { ru: 'Диспетчерская консоль', en: 'Dispatcher Console' }, sub: { ru: 'Веб, B2B', en: 'Web, B2B' } },
 };
 const DEMO = {
   edtech: { q: { ru: 'Какой опыт в EdTech?', en: 'What is his EdTech experience?' }, card: 'campus', follow: ['metrics', 'campus', 'tools'], keys: /edtech|образован|дэш|dash|учител|teacher/i,
@@ -264,7 +264,7 @@ export function mountAssistantPreview(root, opts = {}) {
   const history = []; // переписка для сервера (только в live-режиме)
   let ctrl = null;
   let sound = null;
-  if (matchMedia('(hover: hover) and (pointer: fine)').matches) { sound = new Audio('../sounds/liecio-menu_beep_short_snap-533778.mp3'); sound.volume = 0.12; }
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) { sound = new Audio('./sounds/liecio-menu_beep_short_snap-533778.mp3'); sound.volume = 0.12; }
   const plink = () => { if (sound) { sound.currentTime = 0; sound.play().catch(() => {}); } };
 
   let asked = new Set(), count = 0, busy = false, timers = [], typeTimer = 0;

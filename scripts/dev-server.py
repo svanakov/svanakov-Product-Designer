@@ -60,5 +60,5 @@ if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 5511
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # корень проекта, откуда бы ни запустили
     handler = partial(NoCacheHandler, directory=root)
-    print(f"http://localhost:{port}/v2/index.html  (кэш выключен, Ctrl+C для остановки)")
+    print(f"http://localhost:{port}/  (кэш выключен, Ctrl+C для остановки)")
     ThreadingHTTPServer(("", port), handler).serve_forever()

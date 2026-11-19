@@ -138,7 +138,7 @@ setupLang();
 function setupClickSound() {
   if (document.body.dataset.page === 'case') return;
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  const sound = new Audio('../sounds/liecio-menu_beep_short_snap-533778.mp3');
+  const sound = new Audio('./sounds/liecio-menu_beep_short_snap-533778.mp3');
   sound.volume = 0.15;
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a');

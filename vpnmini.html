@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="../theme.css">
-<script src="../theme.js"></script>
+<link rel="stylesheet" href="./theme.css">
+<script src="./theme.js"></script>
 <link rel="stylesheet" href="./site.css">
-<meta name="robots" content="noindex, nofollow">
 <title>Telegram Mini App для VPN-сервиса — Сергей Ванаков</title>
-<script src="../support.js"></script>
+<script src="./support.js"></script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
@@ -62,7 +61,7 @@
       </header>
 
       <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
-        <img class="zoom-img" src="../uploads/vpnmini-cover5.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <img class="zoom-img" src="./uploads/vpnmini-cover5.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
       </div>
     </div>
 
@@ -220,7 +219,7 @@ class Component extends DCLogic {
 <script type="module">
   const isTouchDevice = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (!isTouchDevice) {
-    const clickSound = new Audio('../sounds/liecio-menu_beep_short_snap-533778.mp3');
+    const clickSound = new Audio('./sounds/liecio-menu_beep_short_snap-533778.mp3');
     clickSound.volume = 0.15;
     document.addEventListener('click', (e) => {
       const link = e.target.closest('a');

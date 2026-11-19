@@ -87,7 +87,7 @@ function renderContact(lang) {
     row(TG_URL, t('contact.telegram', lang), 'telegram', '@babyoslik', true, 'telegram') +
     row(`mailto:${MAIL}`, t('contact.email', lang), 'email', MAIL, false, 'email') +
     row('tel:+79065327822', t('contact.phone', lang), 'phone', '+7 (906) 532 78-22', false, 'phone') +
-    row(CV_URL, t('contact.cv', lang), null, '', true, 'cv', '../uploads/Sergei_Vanakov_CV.pdf');
+    row(CV_URL, t('contact.cv', lang), null, '', true, 'cv', './uploads/Sergei_Vanakov_CV.pdf');
 }
 
 // Копирование контакта: клик по самой строке открывает контакт, кнопка справа копирует и показывает подсказку.

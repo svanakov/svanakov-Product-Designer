@@ -1,9 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<title>Сергей Ванаков — продуктовый дизайнер</title>
+<meta name="description" content="Портфолио продуктового дизайнера Сергея Ванакова: кейсы, работы, опыт.">
+<link rel="stylesheet" href="./theme.css">
+<script src="./theme.js"></script>
+<link rel="stylesheet" href="./site.css">
+<script>
+  // Анимации появления включаем только если пользователь не просил меньше движения.
+  (function () {
+    var d = document.documentElement;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    d.classList.add('anim');
+    setTimeout(function () { if (!window.__revealReady) d.classList.remove('anim'); }, 3000);
+  })();
+</script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
@@ -18,265 +31,85 @@
 <noscript><div><img src="https://mc.yandex.ru/watch/114133229" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 </head>
-<body>
-<x-dc>
+<body data-page="home">
+<div id="site-header"></div>
 
-<helmet>
-  <style>
-    body { margin: 0; -webkit-tap-highlight-color: transparent; }
-    * { -webkit-tap-highlight-color: transparent; }
-    html { scroll-behavior: smooth; }
-    ::selection { background: oklch(0.58 0.19 264 / 0.25); }
-    @media (max-width: 720px) {
-      .proj-title { font-size: 22px !important; }
-      .hero-name { font-size: 24px !important; }
-      .header-wrap { padding-bottom: 56px !important; }
-      .proj-meta { flex-direction: column !important; gap: 12px !important; }
-      .proj-desc { max-width: none !important; }
-      main { gap: 56px !important; }
-      .works-tile-row img { width: auto !important; flex: 1 1 0 !important; min-width: 0 !important; height: auto !important; }
-      .work-img { border-radius: 16px !important; }
-      .tag-pill { background: var(--hover-bg) !important; border-color: transparent !important; color: var(--hover-color) !important; }
-      nav { display: none !important; }
-      #mobile-menu-btn { display: flex !important; }
-    }
-
-
-    .cover-img { transition: transform 400ms ease; }
-    .cover-wrap:hover .cover-img { transform: scale(1.04); }
-
-    .contacts-dropdown {
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-4px);
-      transition: opacity 150ms ease, transform 150ms ease, visibility 150ms;
-      pointer-events: none;
-      z-index: 20;
-    }
-    .contacts-wrap:hover .contacts-dropdown {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .project-link:hover .tag-pill {
-      background: var(--hover-bg) !important;
-      border-color: transparent !important;
-      color: var(--hover-color) !important;
-    }
-  </style>
-</helmet>
-
-<div style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Helvetica, Arial, sans-serif; background: #FFFFFF; color: oklch(0.19 0.006 80); min-height: 100vh;">
-
-  <div style="position: sticky; top: 0; z-index: 10; background: #FFFFFF;">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; border-bottom: 1px solid oklch(0.9 0.004 80);">
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="./uploads/avatar.jpg" alt="{{ t.name }}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-        <span style="font-size: 17px; font-weight: 500; letter-spacing: -0.01em;">{{ t.name }}</span>
+<main>
+  <!-- 1. Hero -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="hero__stage">
+        <img class="hero__avatar" data-hero="0" src="./uploads/white.webp" width="148" height="148" data-i18n-alt="hero.avatarAlt" alt="">
       </div>
-      <nav style="display: flex; align-items: center; gap: 28px;">
-        <a href="#projects" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">{{ t.navProjects }}</a>
-        <a href="#works" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">{{ t.navWorks }}</a>
-        <a href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 16px; transition: color 200ms ease;" style-hover="color: oklch(0.58 0.19 264);">CV</a>
-        <div class="contacts-wrap" style="position: relative; padding-bottom: 14px; margin-bottom: -14px;">
-          <span style="color: oklch(0.19 0.006 80); font-size: 16px; cursor: default;">{{ t.navContacts }}</span>
-          <div class="contacts-dropdown" style="position: absolute; top: 100%; right: 0; background: #ffffff; border: 1px solid rgb(230, 230, 228); border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 2px; min-width: 140px; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);">
-            <a href="https://t.me/babyoslik" target="_blank" rel="noopener" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 15px; padding: 8px 10px; border-radius: 8px; transition: background 150ms ease;" style-hover="background: oklch(0.96 0.004 80);">Telegram</a>
-            <a href="mailto:vanakovsergey4@yandex.ru" style="color: oklch(0.19 0.006 80); text-decoration: none; font-size: 15px; padding: 8px 10px; border-radius: 8px; transition: background 150ms ease;" style-hover="background: oklch(0.96 0.004 80);">{{ t.navEmail }}</a>
-          </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600;">
-          <button data-lang="ru" style="background: none; border: none; padding: 2px 4px; cursor: pointer; color: {{ t.ruColor }};">RU</button>
-          <span style="color: oklch(0.8 0.004 80);">/</span>
-          <button data-lang="en" style="background: none; border: none; padding: 2px 4px; cursor: pointer; color: {{ t.enColor }};">EN</button>
-        </div>
-      </nav>
-      <button id="mobile-menu-btn" aria-label="Menu" style="display: none; background: none; border: none; padding: 4px; cursor: pointer; align-items: center; justify-content: center;">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6H19M3 11H19M3 16H19" stroke="rgb(12,12,12)" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </button>
+      <p class="hero__name" data-hero="2"><span class="hero__fio" data-i18n="hero.fio"></span></p>
+      <h1 class="hero__thesis" data-hero="3" id="hero-title" data-i18n="hero.thesis"></h1>
+      <div class="hero__meta" data-hero="4">
+        <p class="hero__years" data-i18n="hero.age"></p>
+        <ul class="hero__areas" aria-label="Области работы"><li>EdTech</li><li>E-commerce</li><li>MedTech</li><li>B2B</li><li>B2C</li></ul>
+      </div>
     </div>
-  </div>
-  <div id="mobile-menu-popup" style="display: none; position: fixed; inset: 0; z-index: 30; background: rgba(0, 0, 0, 0.4);">
-    <div style="position: absolute; inset: 16px; background: #ffffff; border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;">
-      <button id="mobile-menu-close" aria-label="Close" style="position: absolute; top: 16px; right: 16px; background: none; border: none; padding: 6px; cursor: pointer;">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L18 18M18 4L4 18" stroke="rgb(12,12,12)" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </button>
-      <div style="position: absolute; top: 16px; left: 16px; display: flex; align-items: center; gap: 6px; font-size: 22px; font-weight: 500;">
-        <button data-lang="ru" style="background: none; border: none; padding: 8px 10px; cursor: pointer; color: {{ t.ruColor }};">RU</button>
-        <span style="color: oklch(0.8 0.004 80);">/</span>
-        <button data-lang="en" style="background: none; border: none; padding: 8px 10px; cursor: pointer; color: {{ t.enColor }};">EN</button>
+  </section>
+
+  <!-- 2. Кейсы -->
+  <section class="section" id="cases" aria-labelledby="cases-title">
+    <div class="container">
+      <h2 class="section__title" data-reveal id="cases-title" data-i18n="cases.title"></h2>
+      <div class="cases-wrap">
+        <div class="cases" id="cases-list"></div>
+        <div class="cases-dots"><div class="cases-dots__rail" id="cases-dots"></div></div>
       </div>
-      <a href="#projects" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">{{ t.navProjects }}</a>
-      <a href="#works" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">{{ t.navWorks }}</a>
-      <a href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">CV</a>
-      <a href="https://t.me/babyoslik" target="_blank" rel="noopener" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">Telegram</a>
-      <a href="mailto:vanakovsergey4@yandex.ru" style="color: rgb(12,12,12); text-decoration: none; font-size: 22px; font-weight: 500;">{{ t.navEmail }}</a>
+      <p class="cases__all"><a class="btn btn--cv" href="./cases.html"><span data-i18n="cases.all"></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8.5 7H17v8.5"/></svg></a></p>
     </div>
-  </div>
+  </section>
 
-  <div style="max-width: 800px; margin: 0 auto; padding: 56px 32px 120px;">
-
-    <header class="header-wrap" style="display: flex; flex-direction: column; gap: 48px; padding-bottom: 96px;">
-      <h1 class="hero-name" style="font-size: 30px; line-height: 1.35; font-weight: 430; letter-spacing: -0.015em; margin: 0; max-width: 920px; text-wrap: pretty;"> {{ t.heroPrefix }} <span style="color: oklch(0.5 0.008 80);">{{ t.heroRest }}</span></h1>
-    </header>
-
-    <main id="projects" style="display: flex; flex-direction: column; gap: 88px;">
-      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
-        <a href="{{ p.href }}" class="project-link" style="text-decoration: none; color: inherit; display: block;">
-          <article>
-            <div class="cover-wrap" style="position: relative; width: 100%;">
-              <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 16px;">
-                <sc-if value="{{ p.comingSoon }}">
-                  <div style="position: absolute; inset: 0; background: oklch(0.87 0.004 80); display: flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 18px; font-weight: 500; letter-spacing: 0.02em; color: oklch(0.55 0.006 80);">Coming soon</span>
-                  </div>
-                </sc-if>
-                <sc-if value="{{ !p.comingSoon }}">
-                  <img class="cover-img" src="{{ p.cover }}" alt="{{ p.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
-                </sc-if>
-              </div>
-            </div>
-            <div class="proj-meta" style="display: flex; flex-direction: column; gap: 14px; margin-top: 28px;">
-              <div style="display: flex; align-items: baseline; gap: 16px;">
-                <span style="font-size: 14px; color: oklch(0.6 0.01 80);">{{ p.num }}</span>
-                <h2 class="proj-title" style="font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0;">{{ p.title }}</h2>
-              </div>
-              <p class="proj-desc" style="font-size: 17px; line-height: 1.6; color: oklch(0.42 0.006 80); margin: 0; max-width: 620px;">{{ p.description }}</p>
-            </div>
-            <div style="display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap;" class="tags-row">
-              <sc-for list="{{ p.tags }}" as="tag" hint-placeholder-count="1">
-                <span key="{{ tag.id }}" class="tag-pill" style="--hover-bg: {{ tag.hoverBg }}; --hover-color: {{ tag.hoverColor }}; display: inline-flex; box-sizing: border-box; padding: 6px 10px; flex-direction: row; justify-content: center; align-items: center; gap: 5px; border-radius: 8px; border: 1px solid rgb(230, 230, 228); background: rgb(247, 247, 246); font-size: 12px; font-weight: 500; color: rgb(66, 67, 61); transition: background 200ms ease, border-color 200ms ease, color 200ms ease;">
-                  <sc-if value="{{ tag.icon }}">
-                    <span style="display: inline-block; width: 11px; height: 11px; flex-shrink: 0; background-color: currentColor; -webkit-mask-image: url('{{ tag.icon }}'); mask-image: url('{{ tag.icon }}'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;"></span>
-                  </sc-if>{{ tag.label }}</span>
-              </sc-for>
-            </div>
-          </article>
-        </a>
-      </sc-for>
-    </main>
-
-    <section id="works" style="margin-top: 88px;">
-      <h2 class="proj-title" style="font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 28px;">{{ t.worksHeading }}</h2>
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        <img class="work-img" src="{{ workRow2.src }}" alt="{{ workRow2.alt }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
-        <div class="works-tile-row" style="display: flex; gap: 16px;">
-          <sc-for list="{{ workTiles }}" as="work" hint-placeholder-count="3">
-            <img class="work-img" src="{{ work.src }}" alt="{{ work.alt }}" style="width: 256px; max-width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
-          </sc-for>
-        </div>
-        <img class="work-img" src="{{ workRow3.src }}" alt="{{ workRow3.alt }}" style="width: 100%; height: auto; display: block; border-radius: 20px; border: 1px solid rgb(230, 230, 228);">
+  <!-- 3. Как я работаю -->
+  <section class="section" id="workflow" aria-labelledby="workflow-title">
+    <div class="container">
+      <h2 class="section__title" data-reveal id="workflow-title" data-i18n="workflow.title"></h2>
+      <div class="workflow">
+        <button type="button" class="workflow__media" id="workflow-media" data-reveal aria-haspopup="dialog" data-i18n-aria="workflow.play">
+          <span class="workflow__ph" id="workflow-ph"><span class="play" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><span data-i18n="workflow.video"></span></span>
+        </button>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </div>
-</div>
+  <!-- 5. Опыт и стек -->
+  <section class="section" id="experience" aria-labelledby="experience-title">
+    <div class="container">
+      <h2 class="section__title" data-reveal id="experience-title" data-i18n="experience.title"></h2>
+      <ol class="timeline" id="timeline" data-reveal-group></ol>
+      <p class="exp__cv"><a class="btn btn--cv" href="https://docs.google.com/document/d/1lS1M_EPvBqCf02c1Itqb2-nbwyS-jOtRtXmlW8Z_R6E/edit?usp=sharing" target="_blank" rel="noopener"><span data-i18n="experience.cv"></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8.5 7H17v8.5"/></svg></a></p>
+    </div>
+  </section>
 
-</x-dc>
-<script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {
-  renderVals() {
-    const lang = localStorage.getItem('lang') || 'ru';
-    const isEn = lang === 'en';
-    const t = isEn ? {
-      name: 'Sergei Vanakov',
-      navProjects: 'Projects', navWorks: 'Works', navContacts: 'Contacts', navEmail: 'Email',
-      heroPrefix: 'Product designer.',
-      heroRest: '3+ years designing clear interfaces and taking ideas from research to shipped product.',
-      worksHeading: 'Works',
-      ruColor: 'oklch(0.7 0.004 80)', enColor: 'rgb(12,12,12)',
-    } : {
-      name: 'Сергей Ванаков',
-      navProjects: 'Проекты', navWorks: 'Работы', navContacts: 'Контакты', navEmail: 'Почта',
-      heroPrefix: 'Продуктовый дизайнер.',
-      heroRest: '3+ года проектирую понятные интерфейсы и довожу идеи от исследования до выпуска в продукт.',
-      worksHeading: 'Работы',
-      ruColor: 'rgb(12,12,12)', enColor: 'oklch(0.7 0.004 80)',
-    };
-    const tagIcons = {
-      'Mobile': './icons/mobile.svg',
-      'UX Research': './icons/ux.svg',
-      'Product Design': './icons/product.svg',
-      'Prototyping': './icons/prototyping.svg',
-      'PWA': './icons/PWA.svg',
-      'EdTech': './icons/Edtech.svg',
-      'UI Design': './icons/ui.svg',
-      'Анализ конкурентов': './icons/CompetitorsAnalysis.svg',
-    };
-    const tagHoverPalette = [
-      { bg: '#E8F3FD', color: '#0080CF' },
-      { bg: '#F5ECFA', color: '#A268BA' },
-      { bg: '#FFEAEA', color: '#E04541' },
-      { bg: '#EAF1ED', color: '#31976B' },
-    ];
-    const mkTags = (prefix, labels) => labels.map((label, i) => {
-      const hover = tagHoverPalette[i % tagHoverPalette.length];
-      return { id: prefix + '-' + i, label, icon: tagIcons[label] || '', hoverBg: hover.bg, hoverColor: hover.color };
-    });
-    const projects = [
-      { num: '01', title: 'Rytmo', href: 'rytmo.html', cover: './uploads/rytmo-cover.webp', comingSoon: false, description: isEn ? 'Why people abandon fitness apps in week 2–3 — and how to keep them until the habit sticks' : 'Почему люди бросают фитнес-приложения на 2–3 неделе — и как удержать их до появления привычки', tags: mkTags('p1', ['Mobile', 'UX Research', 'Product Design', 'Prototyping']) },
-      { num: '02', title: 'Campus', href: 'campus.html', cover: './uploads/campus-cover.webp', comingSoon: false, description: isEn ? 'Built my own class-schedule app as a PWA. Offline access instead of a crashing official app.' : 'Разработка своего приложения с расписаниашем пар в виде PWA. Офлайн-доступ вместо вылетающего официального приложения.', tags: mkTags('p2', ['PWA', 'UI Design', 'EdTech']) },
-      { num: '03', title: isEn ? 'Dispatcher Console for a Courier Company' : 'Диспетчерская консоль курьерской компании', href: 'dispatch.html', cover: './uploads/dispatch-cover.webp', comingSoon: false, description: isEn ? 'A B2B courier service grew past 100+ orders a day — manual tracking in a spreadsheet stopped working. Designing SLA risk visibility and exception prioritization.' : 'B2B-сервис курьерской доставки вырос до 100+ заказов в день — ручное отслеживание в таблице перестало справляться. Проектирую видимость риска по SLA и приоритизацию исключений.', tags: mkTags('p3', ['UX Research', 'Product Design']) },
-    ];
-    const workRow2 = { src: './uploads/work2.webp', alt: 'Work 2' };
-    const workRow3 = { src: './uploads/vpnmini-cover.webp', alt: 'Telegram Mini App for VPN' };
-    const workTiles = [
-      { src: './uploads/work1.webp', alt: 'Midnight Screening' },
-      { src: './uploads/work3.webp', alt: 'Work 3' },
-      { src: './uploads/work4.webp', alt: 'Work 4' },
-    ];
-    return { t, projects, workTiles, workRow2, workRow3 };
-  }
-}
-</script>
-<script type="module">
-  const isTouchDevice = !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (!isTouchDevice) {
-    const clickSound = new Audio('./sounds/liecio-menu_beep_short_snap-533778.mp3');
-    clickSound.volume = 0.15;
-    document.addEventListener('click', (e) => {
-      const link = e.target.closest('a');
-      if (!link) return;
-      clickSound.currentTime = 0;
-      clickSound.play().catch(() => {});
+  <!-- 6. ИИ-ассистент: отдельный раздел перед контактами -->
+  <section class="section section--assistant" id="assistant" aria-labelledby="assistant-title">
+    <div class="container">
+      <h2 class="section__title" data-reveal id="assistant-title" data-i18n="assistant.title"></h2>
+      <div class="assistant-slot" id="assistant-slot" hidden></div>
+    </div>
+  </section>
 
-      const href = link.getAttribute('href');
-      const isSamePageJump = !href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http');
-      if (!isSamePageJump && link.target !== '_blank') {
-        e.preventDefault();
-        setTimeout(() => { window.location.href = href; }, 150);
-      }
-    });
-  }
+  <!-- 7. Контакты -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <h2 class="section__title" data-reveal id="contact-title" data-i18n="contact.title"></h2>
+      <div class="sr-only" id="copy-status" role="status" aria-live="polite"></div>
+      <div class="big-links" id="big-links" data-reveal-group></div>
+    </div>
+  </section>
+</main>
 
-  document.addEventListener('click', (e) => {
-    const popup = document.getElementById('mobile-menu-popup');
-    if (!popup) return;
-    const btn = document.getElementById('mobile-menu-btn');
-    const closeBtn = document.getElementById('mobile-menu-close');
-    const isOpen = popup.style.display !== 'none';
+<nav class="dock" id="dock"></nav>
 
-    if (btn && btn.contains(e.target)) {
-      const willOpen = !isOpen;
-      popup.style.display = willOpen ? 'flex' : 'none';
-      document.body.style.overflow = willOpen ? 'hidden' : '';
-      return;
-    }
-    if (!isOpen) return;
-    if (e.target === popup || (closeBtn && closeBtn.contains(e.target)) || e.target.closest('a')) {
-      popup.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  });
+<dialog class="modal" id="video-modal" data-i18n-aria="workflow.play">
+  <button type="button" class="modal__close" id="video-close" data-i18n-aria="works.close"><svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M4 4L18 18M18 4L4 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  <div class="modal__body" id="video-body"></div>
+</dialog>
 
-  document.addEventListener('click', (e) => {
-    const langBtn = e.target.closest('[data-lang]');
-    if (!langBtn) return;
-    localStorage.setItem('lang', langBtn.dataset.lang);
-    location.reload();
-  });
-</script>
+<script type="module" src="./site.js"></script>
+<script type="module" src="./home.js"></script>
+<script type="module" src="./pet.js"></script>
 </body>
 </html>

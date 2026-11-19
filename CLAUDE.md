@@ -4,12 +4,17 @@
 
 ## Структура файлов
 
+Сайт лежит в корне репозитория и открывается по адресу svanakov.vercel.app. Прежняя первая версия сохранена в git-теге `v1-final`; старые адреса `/v2/...` перенаправляются на корень.
+
 | Файл | Назначение |
 |---|---|
 | `index.html` | Главная страница |
-| `rytmo.html` | Кейс 01 — фитнес-приложение Rytmo |
-| `dash.html` | Кейс 02 — EdTech-сервис Дэш |
-| `styles.css` | Единый CSS для всех страниц |
+| `cases.html` + `cases-page.js` | Страница «Все кейсы» |
+| `rytmo.html`, `campus.html`, `dispatch.html`, `vpnmini.html` | Страницы кейсов |
+| `site.css`, `site.js`, `home.js`, `assistant.js`, `pet.js`, `pet-sprite.js` | Общие стили и скрипты |
+| `data/` | Данные: кейсы, опыт, тексты (i18n), видео |
+| `api/` | Серверный роут ассистента (Vercel) |
+| `content/assistant/` | База знаний ассистента (собирается в `api/_knowledge.js` скриптом `scripts/build-knowledge.mjs`) |
 | `my-info.txt` | Текстовый черновик контента (не отображается на сайте) |
 
 ## Визуальные и UX-детали
