@@ -34,9 +34,9 @@
     html { scroll-behavior: smooth; }
     .sec { scroll-margin-top: 40px; }
     .comp-table-row { display: grid; grid-template-columns: 1fr 1.4fr 1.4fr 1.6fr; gap: 24px; padding: 16px 0; border-top: 1px solid var(--border); align-items: start; }
-    .comp-table-head { display: grid; grid-template-columns: 1fr 1.4fr 1.4fr 1.6fr; gap: 24px; padding-bottom: 12px; font-size: 13px; font-weight: 500; color: var(--muted); }
+    .comp-table-head { display: grid; grid-template-columns: 1fr 1.4fr 1.4fr 1.6fr; gap: 24px; padding-bottom: 12px; font-size: 14px; font-weight: 500; color: var(--muted); }
     .finding-row { display: flex; flex-direction: column; gap: 6px; padding: 20px 0; border-top: 1px solid var(--border); }
-    .finding-tag { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 6px; font-size: 12px; font-weight: 500; width: fit-content; }
+    .finding-tag { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: 999px; background: var(--hover-bg); color: var(--text-2); font-size: 14px; font-weight: 500; width: fit-content; }
     .zoom-wrap { display: block; overflow: hidden; cursor: zoom-in; }
     .zoom-img { transition: transform 400ms ease; display: block; }
     .zoom-wrap:hover .zoom-img { transform: scale(1.04); }
@@ -55,52 +55,53 @@
 
     <div>
       <header style="margin-bottom: 48px;">
-        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 12px;">{{ project.title }}</h1>
-        <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0 0 20px;">{{ project.role }}</p>
-        <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="font-size: 15px; color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);">↗ {{ t.openFigma }}</a>
+        <h1 class="case-title" style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 12px;">{{ project.title }}</h1>
+        <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0 0 20px;">{{ project.role }}</p>
       </header>
 
-      <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
+      <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 32px;">
         <img class="zoom-img" src="./uploads/vpnmini-cover5.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
       </div>
+
+      <div style="display: flex; justify-content: center; margin-top: 32px;"><a class="btn btn--cv" href="{{ project.figmaLink }}" target="_blank" rel="noopener"><span>{{ t.openFigma }}</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8.5 7H17v8.5"/></svg></a></div>
     </div>
 
     <section class="sec" id="sec-context">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.contextHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;">{{ contextText }}</p>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.contextHeading }}</h2>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0;">{{ contextText }}</p>
     </section>
 
     <section class="sec" id="sec-task">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.taskHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;">{{ taskText }}</p>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.taskHeading }}</h2>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0;">{{ taskText }}</p>
     </section>
 
     <section class="sec" id="sec-competitors">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 12px;">{{ t.competitorsHeading }}</h2>
-      <p style="font-size: 15px; font-weight: 500; color: var(--muted); margin: 0 0 24px;">{{ t.competitorsCaveat }}</p>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 12px;">{{ t.competitorsHeading }}</h2>
+      <p style="font-size: 14px; font-weight: 500; color: var(--muted); margin: 0 0 24px;">{{ t.competitorsCaveat }}</p>
       <div style="margin-bottom: 32px;">
         <div class="comp-table-head">
           <span>{{ t.compColCriteria }}</span><span>{{ t.compColA }}</span><span>{{ t.compColB }}</span><span>{{ t.compColConclusion }}</span>
         </div>
         <sc-for list="{{ competitors }}" as="row" hint-placeholder-count="7">
           <div class="comp-table-row">
-            <span style="font-size: 15px; font-weight: 600; color: var(--text);">{{ row.criteria }}</span>
-            <span style="font-size: 15px; line-height: 1.45; color: var(--text-2);">{{ row.a }}</span>
-            <span style="font-size: 15px; line-height: 1.45; color: var(--text-2);">{{ row.b }}</span>
-            <span style="font-size: 15px; line-height: 1.45; color: var(--text-2);">{{ row.conclusion }}</span>
+            <span style="font-size: 14px; font-weight: 600; color: var(--text);">{{ row.criteria }}</span>
+            <span style="font-size: 14px; line-height: 1.5; color: var(--text-2);">{{ row.a }}</span>
+            <span style="font-size: 14px; line-height: 1.5; color: var(--text-2);">{{ row.b }}</span>
+            <span style="font-size: 14px; line-height: 1.5; color: var(--text-2);">{{ row.conclusion }}</span>
           </div>
         </sc-for>
       </div>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0;">{{ competitorsConclusionText }}</p>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0;">{{ competitorsConclusionText }}</p>
     </section>
 
     <section class="sec" id="sec-findings">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.findingsHeading }}</h2>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.findingsHeading }}</h2>
       <div>
         <sc-for list="{{ findings }}" as="f" hint-placeholder-count="5">
           <div class="finding-row">
-            <span class="finding-tag" style="background: {{ f.tagBg }}; color: {{ f.tagColor }};">{{ f.tag }}</span>
-            <span style="font-size: 17px; font-weight: 500; color: var(--text);">{{ f.decision }}</span>
+            <span class="finding-tag">{{ f.tag }}</span>
+            <span style="font-size: 16px; font-weight: 600; color: var(--text);">{{ f.decision }}</span>
             <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0;">{{ f.explanation }}</p>
           </div>
         </sc-for>
@@ -108,15 +109,10 @@
     </section>
 
     <section class="sec" id="sec-conclusion">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.conclusionHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0;">{{ conclusionText }}</p>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.conclusionHeading }}</h2>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0;">{{ conclusionText }}</p>
     </section>
 
-    <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid var(--border);">
-      <a href="rytmo.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: var(--accent);">
-        {{ t.viewRytmo }} <span aria-hidden="true">→</span>
-      </a>
-    </div>
 
   </article>
 </div>
@@ -125,7 +121,7 @@
   <button id="lightbox-close" aria-label="Закрыть" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; border-radius: 50%; width: 40px; height: 40px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
     <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L18 18M18 4L4 18" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/></svg>
   </button>
-  <img id="lightbox-img" src="" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;">
+  <img id="lightbox-img" src="" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 32px;">
 </div>
 
 </x-dc>

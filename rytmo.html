@@ -35,19 +35,19 @@
     .stage { position: relative; display: flex; flex-direction: column; gap: 96px; }
     .stage-rail { position: absolute; left: -112px; top: 0; bottom: 0; width: 88px; }
     .stage-label { position: sticky; top: 96px; }
-    .stage-num { font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--muted); }
+    .stage-num { font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--muted); }
     .stage-name { font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 2px; }
     @media (max-width: 1000px) {
       .stage-rail { position: static; width: auto; margin-bottom: -56px; }
       .stage-label { position: static; display: flex; align-items: baseline; gap: 12px; }
-      .stage-name { font-size: 15px; margin-top: 0; }
+      .stage-name { font-size: 14px; margin-top: 0; }
     }
     .jtbd-table-row { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding: 16px 0; border-top: 1px solid var(--border); align-items: start; }
-    .jtbd-table-head { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding-bottom: 12px; font-size: 13px; font-weight: 500; color: var(--muted); }
+    .jtbd-table-head { display: grid; grid-template-columns: 2.3fr 2.3fr 0.5fr; gap: 24px; padding-bottom: 12px; font-size: 14px; font-weight: 500; color: var(--muted); }
     .about-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 24px 0; border-top: 1px solid var(--border); align-items: start; }
     .about-row:first-child { border-top: none; padding-top: 40px; }
-    .about-label { font-size: 15px; font-weight: 500; color: var(--muted); }
-    .about-text { font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); }
+    .about-label { font-size: 14px; font-weight: 500; color: var(--muted); }
+    .about-text { font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); }
     .zoom-wrap { display: block; overflow: hidden; cursor: zoom-in; }
     .zoom-img { transition: transform 400ms ease; display: block; }
     .zoom-wrap:hover .zoom-img { transform: scale(1.04); }
@@ -69,19 +69,19 @@
 
     <div>
       <header style="margin-bottom: 48px;">
-        <h1 class="case-title" style="font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0;">{{ project.title }}</h1>
+        <h1 class="case-title" style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0;">{{ project.title }}</h1>
       </header>
 
-      <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 20px;">
+      <div class="zoom-wrap" style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 32px;">
         <img class="zoom-img" src="./uploads/rytmo-cover5.webp" alt="{{ project.title }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
       </div>
 
-      <a href="{{ project.figmaLink }}" target="_blank" rel="noopener" style="display: inline-block; margin-top: 20px; font-size: 15px; color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in oklch, var(--accent) 40%, transparent);">↗ {{ t.openFigma }}</a>
+      <div style="display: flex; justify-content: center; margin-top: 32px;"><a class="btn btn--cv" href="{{ project.figmaLink }}" target="_blank" rel="noopener"><span>{{ t.openFigma }}</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8.5 7H17v8.5"/></svg></a></div>
     </div>
 
     <section class="sec" id="sec-about">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.aboutHeading }}</h2>
-      <p style="font-size: 20px; font-weight: 400; line-height: 1.45; color: var(--text); margin: 0;">{{ about.lead }}</p>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.aboutHeading }}</h2>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text); margin: 0;">{{ about.lead }}</p>
       <div style="height: 32px;"></div>
       <div>
         <div class="about-row">
@@ -136,14 +136,14 @@
     </section>
 
     <section class="sec" id="sec-process">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 32px;">{{ t.processHeading }}</h2>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 32px;">{{ t.processHeading }}</h2>
       <div class="process-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px 40px;">
         <sc-for list="{{ processSteps }}" as="step" hint-placeholder-count="4">
           <div style="display: flex; align-items: flex-start; gap: 12px;">
-            <span style="font-size: 17px; color: var(--muted); flex-shrink: 0;">{{ step.num }}</span>
+            <span style="font-size: 16px; color: var(--muted); flex-shrink: 0;">{{ step.num }}</span>
             <div>
-              <span style="display: block; font-size: 17px; font-weight: 500; color: var(--text); margin-bottom: 6px;">{{ step.label }}</span>
-              <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;">{{ step.desc }}</p>
+              <span style="display: block; font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px;">{{ step.label }}</span>
+              <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0;">{{ step.desc }}</p>
             </div>
           </div>
         </sc-for>
@@ -153,38 +153,38 @@
     <div class="stage" id="stage-01">
       <div class="stage-rail"><div class="stage-label"><div class="stage-num">01</div><div class="stage-name">Discover</div></div></div>
     <section class="sec" id="sec-competitors">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.competitorsHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0 0 20px;">{{ competitorsText }}</p>
-      <!-- <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">Вывод:</b> {{ competitorsConclusion }}</p> -->
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.competitorsHeading }}</h2>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0 0 20px;">{{ competitorsText }}</p>
+      <!-- <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">Вывод:</b> {{ competitorsConclusion }}</p> -->
     </section>
 
     <section class="sec" id="sec-interviews">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.interviewsHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0 0 20px;">{{ interviewsMethod }}</p>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">{{ t.keyFindingsLabel }}</b> {{ interviewsFindings }}</p>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.interviewsHeading }}</h2>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0 0 20px;">{{ interviewsMethod }}</p>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">{{ t.keyFindingsLabel }}</b> {{ interviewsFindings }}</p>
     </section>
     </div>
 
     <div class="stage" id="stage-02">
       <div class="stage-rail"><div class="stage-label"><div class="stage-num">02</div><div class="stage-name">Define</div></div></div>
     <section class="sec" id="sec-problem">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.problemHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0 0 20px;">{{ problemText }}</p>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">{{ t.hypothesisLabel }}</b> {{ hypothesisText }}</p>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.problemHeading }}</h2>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0 0 20px;">{{ problemText }}</p>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">{{ t.hypothesisLabel }}</b> {{ hypothesisText }}</p>
     </section>
 
     <section class="sec" id="sec-jtbd">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.jtbdHeading }}</h2>
-      <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0 0 24px;">{{ t.jtbdIntro }}</p>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.jtbdHeading }}</h2>
+      <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0 0 24px;">{{ t.jtbdIntro }}</p>
       <div>
         <div class="jtbd-table-head">
           <span>JTBD</span><span>{{ t.hypothesisCol }}</span><span>ICE</span>
         </div>
         <sc-for list="{{ jtbd }}" as="row" hint-placeholder-count="6">
           <div class="jtbd-table-row">
-            <span style="font-size: 17px; line-height: 1.45; color: var(--text-2);">{{ row.jtbd }}</span>
-            <span style="font-size: 17px; line-height: 1.45; color: var(--text-2);">{{ row.hypothesis }}</span>
-            <span style="font-size: 17px; font-weight: 600; color: var(--text);">{{ row.ice }}</span>
+            <span style="font-size: 16px; line-height: 1.5; color: var(--text-2);">{{ row.jtbd }}</span>
+            <span style="font-size: 16px; line-height: 1.5; color: var(--text-2);">{{ row.hypothesis }}</span>
+            <span style="font-size: 16px; font-weight: 600; color: var(--text);">{{ row.ice }}</span>
           </div>
         </sc-for>
       </div>
@@ -194,10 +194,10 @@
     <div class="stage" id="stage-03">
       <div class="stage-rail"><div class="stage-label"><div class="stage-num">03</div><div class="stage-name">Test</div></div></div>
     <section class="sec" id="sec-test">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 24px;">{{ t.testHeading }}</h2>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.testHeading }}</h2>
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <sc-for list="{{ testBlocks }}" as="blk" hint-placeholder-count="3">
-          <p style="font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">{{ blk.label }}</b> {{ blk.text }}</p>
+          <p style="font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0;"><b style="font-weight: 600; color: var(--text);">{{ blk.label }}</b> {{ blk.text }}</p>
         </sc-for>
       </div>
     </section>
@@ -206,33 +206,30 @@
     <div class="stage" id="stage-04">
       <div class="stage-rail"><div class="stage-label"><div class="stage-num">04</div><div class="stage-name">Develop</div></div></div>
     <section class="sec" id="sec-flow">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 32px;">{{ t.flowHeading }}</h2>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 32px;">{{ t.flowHeading }}</h2>
       <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 40px;">
         <sc-for list="{{ flows }}" as="flow" hint-placeholder-count="3">
           <div>
-            <h3 style="font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 12px;">{{ flow.title }}</h3>
-            <p style="font-size: 17px; font-weight: 500; line-height: 1.45; color: var(--text); margin: 0 0 12px;">{{ flow.goal }}</p>
-            <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0;">{{ flow.steps }}</p>
+            <h3 style="font-size: 20px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 12px;">{{ flow.title }}</h3>
+            <p style="font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--text); margin: 0 0 12px;">{{ flow.goal }}</p>
+            <p style="font-size: 16px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0;">{{ flow.steps }}</p>
           </div>
         </sc-for>
       </div>
-      <div class="zoom-wrap" style="border-radius: 16px; border: 1px solid var(--border);">
+      <div class="zoom-wrap" style="border-radius: 32px; border: 1px solid var(--border);">
         <img class="zoom-img" src="./uploads/user-flow.webp" alt="{{ t.flowHeading }}" style="width: 100%; height: auto; display: block;">
       </div>
     </section>
 
     <section class="sec" id="sec-screens">
-      <h2 style="font-size: 36px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 32px;">{{ t.screensHeading }}</h2>
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 32px;">{{ t.screensHeading }}</h2>
 
-      <div class="zoom-wrap" style="border-radius: 20px; border: 1px solid var(--border); margin-bottom: 48px;">
-        <img class="zoom-img" src="./uploads/prototypes.webp" alt="{{ t.prototypesAlt }}" style="width: 100%; height: auto; display: block;">
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 40px;">
+      <div style="display: flex; flex-direction: column; gap: 64px;">
         <sc-for list="{{ screens }}" as="screen" hint-placeholder-count="3">
           <div>
-            <h3 style="font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.3px; color: var(--text); margin: 0 0 12px;">{{ screen.title }}</h3>
-            <p style="font-size: 17px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0;">{{ screen.text }}</p>
+            <h3 style="font-size: 20px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 12px;">{{ screen.title }}</h3>
+            <p style="font-size: 16px; font-weight: 400; line-height: 1.6; color: var(--text-2); margin: 0 0 24px;">{{ screen.text }}</p>
+            <div data-gallery="{{ screen.gid }}"></div>
           </div>
         </sc-for>
       </div>
@@ -240,11 +237,18 @@
     </section>
     </div>
 
-    <div style="display: flex; justify-content: flex-end; align-items: center; padding-top: 32px; border-top: 1px solid var(--border);">
-      <a href="campus.html" style="font-size: 20px; font-weight: 500; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 10px; transition: color 200ms ease;" style-hover="color: var(--accent);">
-        {{ t.viewCampus }} <span aria-hidden="true">→</span>
-      </a>
-    </div>
+    <section class="sec" id="sec-results">
+      <h2 style="font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0 0 24px;">{{ t.resultsLabel }}</h2>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <sc-for list="{{ about.results }}" as="item" hint-placeholder-count="4">
+          <div style="display: flex; align-items: baseline; gap: 12px;">
+            <span style="color: var(--muted);">•</span>
+            <span class="about-text">{{ item.text }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
 
   </article>
 </div>
@@ -253,7 +257,7 @@
   <button id="lightbox-close" aria-label="Закрыть" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; border-radius: 50%; width: 40px; height: 40px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
     <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4L18 18M18 4L4 18" stroke="var(--bg)" stroke-width="1.6" stroke-linecap="round"/></svg>
   </button>
-  <img id="lightbox-img" src="" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;">
+  <img id="lightbox-img" src="" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 32px;">
 </div>
 
 </x-dc>
@@ -389,27 +393,33 @@ class Component extends DCLogic {
     const screens = isEn ? [
       {
         title: 'First launch',
+        gid: 'rytmo-first',
         text: "The person signs up, goes through onboarding, then lands on a home screen with one curated option. Opens a workout, watches a short technique video, starts training. If they decide to leave early — progress is still saved, not lost. At the end — a screen with first-workout results, with no pressure to continue today specifically.",
       },
       {
         title: 'Return after a miss',
+        gid: 'rytmo-return',
         text: 'A notification brings them back after a missed day. The home screen shows — not an empty space or judgment, but a status: the streak is frozen but can be recovered by training in the next few days. The person picks a short catch-up workout, completes it — and sees the streak restored, not started over.',
       },
       {
         title: 'Repeat visit',
+        gid: 'rytmo-repeat',
         text: "The home screen shows weekly progress and how far the goal is. The person picks a program, completes it — and right at the finish sees not just base numbers, but that the goal was truly achieved. Back on the home screen: streak and progress updated instantly, with no need to go into separate stats. Only after that, once engagement looks real, does the subscription offer appear — with an honest billing date, not a countdown timer and pressure.",
       },
     ] : [
       {
         title: 'Первый запуск',
+        gid: 'rytmo-first',
         text: 'Человек регистрируется, проходит онбординг, затем попадает на главный экран с одним подобранным вариантом. Открывает тренировку, смотрит короткое видео с техникой, начинает заниматься. Если решает выйти раньше — прогресс всё равно засчитывается, а не пропадает. В конце — экран с результатами первой тренировки, без давления продолжать именно сегодня.',
       },
       {
         title: 'Возврат после пропуска',
+        gid: 'rytmo-return',
         text: 'Уведомление возвращает в приложение после пропущенного дня. На главном экране — не пустое место и не осуждение, а статус: серия заморожена, но её можно вернуть, если позаниматься в ближайшие дни. Человек выбирает короткую тренировку-догонялку, проходит её — и видит, что серия восстановлена, а не начата заново.',
       },
       {
         title: 'Повторный визит',
+        gid: 'rytmo-repeat',
         text: 'На главном экране виден прогресс за неделю и сколько осталось до цели. Человек выбирает программу, проходит её до конца — и в момент завершения сразу видит не только базовые цифры, но и то, что цель действительно выполнена. Возвращаясь на главный экран, видит: стрик и прогресс обновились тут же, без перехода в отдельную статистику. Только после этого, когда видно, что вовлечённость реальна, появляется предложение подписки — с честной датой списания, а не таймером и давлением.',
       },
     ];
@@ -543,5 +553,6 @@ class Component extends DCLogic {
   });
 </script>
 <script type="module" src="./site.js"></script>
+<script type="module" src="./gallery.js"></script>
 </body>
 </html>

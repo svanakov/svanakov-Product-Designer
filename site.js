@@ -62,7 +62,11 @@ function mountControls() {
   const slot = document.getElementById('site-header');
   if (!slot) return;
   slot.outerHTML = `<div class="float-controls" id="float-controls">${themeBtn()}<span class="float-sep" aria-hidden="true"></span>${langBtns()}</div>`;
-  if (document.body.dataset.page === 'case') mountBackButtons();
+  if (document.body.dataset.page === 'case') mountCaseNav();
+  // На главной слева сверху кнопка «Смотреть CV»: напротив переключателя темы и языка, в том же оформлении.
+  if (document.body.dataset.page === 'home') {
+    document.body.insertAdjacentHTML('afterbegin', `<a class="back-btn cv-btn" id="cv-btn" href="${CV_URL}" target="_blank" rel="noopener"><span data-i18n="experience.cv">${t('experience.cv')}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8.5 7H17v8.5"/></svg></a>`);
+  }
 }
 
 // Страницы кейсов: кнопка «вернуться» слева сверху, которая исчезает у конца страницы, и статичная ссылка «вернуться»
@@ -83,38 +87,11 @@ function backHref() {
   return origin === 'home' ? { href: './#cases', key: 'case.backHome' } : { href: './cases.html', key: 'case.back' };
 }
 
-function mountBackButtons() {
+// Навигация кейса: правая «линейка» разделов (при наведении раскрывается списком) и нижняя панель «предыдущий / ко всем / следующий».
+// Кнопок «вернуться» и ссылок «Смотреть …» на страницах кейсов больше нет: их заменяет эта навигация.
+function mountCaseNav() {
   const { href, key } = backHref();
-  const label = `<span aria-hidden="true">←</span><span data-i18n="${key}"></span>`;
-  document.body.insertAdjacentHTML('afterbegin', `<a class="back-btn" id="back-btn" href="${href}">${label}</a>`);
-  document.body.insertAdjacentHTML('beforeend', `<a class="back-link" id="back-link" href="${href}">${label}</a>`);
-  const btn = document.getElementById('back-btn'), bottom = document.getElementById('back-link');
-
-  // Страница кейса рисуется старым рантаймом и может перерисовываться, поэтому в её разметку ничего не вставляем:
-  // нижняя ссылка лежит в body и ставится по координатам строки со ссылкой «Смотреть …».
-  const findLink = () => document.querySelector('article a[href="campus.html"], article a[href="dispatch.html"], article a[href="rytmo.html"], article a[href="vpnmini.html"]');
-
-  function update() {
-    const link = findLink();
-    if (!link) return;
-    const r = link.getBoundingClientRect();
-    bottom.style.display = '';
-    bottom.style.left = `${link.parentElement.getBoundingClientRect().left + window.scrollX}px`;
-    bottom.style.top = `${r.top + window.scrollY + (r.height - bottom.offsetHeight) / 2}px`;
-    // Верхняя кнопка тает за 300 px до конца страницы и исчезает совсем, когда внизу видна нижняя ссылка.
-    const vh = window.innerHeight;
-    const restTop = r.top + window.scrollY - (document.documentElement.scrollHeight - vh);
-    const fade = Math.min(1, Math.max(0, (r.top - restTop) / 300));
-    btn.style.opacity = fade.toFixed(3);
-    btn.style.pointerEvents = fade < 0.5 ? 'none' : '';
-    btn.tabIndex = fade < 0.5 ? -1 : 0;
-  }
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  window.addEventListener('load', update);
-  new MutationObserver(update).observe(document.body, { childList: true, subtree: true });
-  bottom.style.display = 'none';
-  update();
+  import('./case-nav.js').then((m) => m.mountCaseNav({ homeHref: href, homeLabel: t(key), lang: getLang() }));
 }
 
 function setupLang() {

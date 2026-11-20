@@ -80,7 +80,6 @@ export const cases = [
     slug: 'jobs-screen',
     worksOnly: true, // показывается только на странице «Все кейсы», на главной нет
     href: './jobs-screen.html',
-    soon: true, // страницы кейса пока нет: карточка не кликается, при наведении метка «Скоро»
     title: { ru: 'Редизайн главного экрана вакансий платформы объявлений', en: 'Redesign of a Classifieds Platform’s Jobs Home Screen' },
     platform: { ru: 'Мобильное приложение, iOS', en: 'Mobile app, iOS' },
     stack: ['Mobile', 'UX Research', 'Product Design', 'Prototyping'],

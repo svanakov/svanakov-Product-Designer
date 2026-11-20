@@ -136,7 +136,14 @@ function updateDock() {
   if (dockEl) {
     const y = window.scrollY, open = dockEl.classList.contains('is-open');
     const next = open || y > 40; // однажды раскрывшись, навигация обратно в стрелку не сворачивается
-    if (next !== open) dockEl.classList.toggle('is-open', next);
+    if (next !== open) {
+      dockEl.classList.toggle('is-open', next);
+      if (next) { // пока навигация раскрывается, размытие фона выключено (оно перерисовывается каждый кадр и тормозит анимацию)
+        dockEl.classList.add('is-opening');
+        clearTimeout(dockEl._opening);
+        dockEl._opening = setTimeout(() => dockEl.classList.remove('is-opening'), 1300);
+      }
+    }
     dockEl.querySelectorAll('a').forEach((a) => { a.tabIndex = next ? 0 : -1; }); // скрытые пункты не попадают в фокус клавиатуры
     const hintBtn = $('dock-hint'); if (hintBtn) { hintBtn.tabIndex = next ? -1 : 0; hintBtn.setAttribute('aria-hidden', next ? 'true' : 'false'); }
   }
@@ -210,7 +217,6 @@ function updateStack() {
   }
 }
 function setupStack() {
-  window.addEventListener('scroll', updateStack, { passive: true });
   window.addEventListener('resize', updateStack);
   stackMQ.addEventListener('change', updateStack);
   updateStack();
@@ -324,7 +330,12 @@ renderAll();
 $('dock').addEventListener('click', (e) => { if (e.target.closest('#dock-hint')) { const n = document.getElementById('cases'); if (n) n.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' }); return; } if (e.target.closest('#dock-top')) window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' }); });
 setupCopy();
 setupStack();
-window.addEventListener('scroll', updateDock, { passive: true });
+// Прокрутка обрабатывается не чаще одного раза за кадр: раньше стопка и навигация считали раскладку на каждое событие и мешали анимации.
+let scrollTick = 0;
+window.addEventListener('scroll', () => {
+  if (scrollTick) return;
+  scrollTick = requestAnimationFrame(() => { scrollTick = 0; updateDock(); updateStack(); });
+}, { passive: true });
 window.addEventListener('resize', updateDock);
 window.addEventListener('resize', () => { equalizeCards(); updateStack(); });
 window.addEventListener('load', () => { equalizeCards(); updateStack(); });

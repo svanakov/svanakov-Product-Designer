@@ -69,6 +69,7 @@ export const dict = {
 
 
     'case.back': 'Назад к кейсам',
+    'case.backTo': 'Назад к {name}',
     'case.backHome': 'На главную',
   },
   en: {
@@ -140,6 +141,7 @@ export const dict = {
 
 
     'case.back': 'Back to cases',
+    'case.backTo': 'Back to {name}',
     'case.backHome': 'Back to home',
   },
 };
