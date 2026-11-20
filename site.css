@@ -45,7 +45,10 @@ body[data-page="home"] .container { max-width: 800px; }
 .lang { display: flex; align-items: center; gap: 2px; font-size: 14px; font-weight: 600; }
 .lang button { background: none; border: 0; padding: 4px; cursor: pointer; color: var(--faint); transition: color .3s ease; }
 .lang button[aria-pressed="true"] { color: var(--text); }
-.lang button:hover { color: var(--text); }
+.lang button:hover { color: var(--text); transform: translateY(-1px); }
+.lang button { transition: color .3s ease, transform .4s cubic-bezier(.22, 1, .36, 1); }
+.float-controls { transition: border-color .4s ease; }
+.float-controls:hover { border-color: var(--border-strong); }
 .lang span { color: var(--faint); }
 
 /* ---------- Секции главной ---------- */
@@ -817,3 +820,6 @@ body[data-page="all-cases"] .case-card__link:hover .case-card__cover img { trans
 :root { --tag-bg: oklch(0.99 0.002 80); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --tag-bg: oklch(0.3 0.004 80); } }
 :root[data-theme="dark"] { --tag-bg: oklch(0.3 0.004 80); }
+
+/* Результат из одного пункта: без маркера, это уже не список */
+.about-row > div > div:only-child > span:first-child:not(.about-text), #sec-results > div > div:only-child > span:first-child:not(.about-text) { display: none; }
