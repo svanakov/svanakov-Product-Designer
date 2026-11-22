@@ -64,19 +64,6 @@ export const cases = [
     blurb: { ru: 'B2B-сервис курьерской доставки вырос до 100+ заказов в день — ручное отслеживание в таблице перестало справляться. Проектирую видимость риска по SLA и приоритизацию исключений.', en: 'A B2B courier service grew past 100+ orders a day — manual tracking in a spreadsheet stopped working. Designing SLA risk visibility and exception prioritization.' },
   },
   {
-    slug: 'vpnmini',
-    worksOnly: true,
-    soon: true, // кейс пока не готов: карточка не кликается, при наведении метка «Скоро»
-    href: './vpnmini.html',
-    title: { ru: 'Telegram Mini App для VPN-сервиса', en: 'Telegram Mini App for a VPN Service' },
-    stack: ['Mobile', 'UX Research', 'Product Design'],
-    kind: 'concept',
-    tagline: { ru: 'Перенёс управление VPN и подпиской внутрь Telegram', en: 'Moved VPN and subscription management inside Telegram' },
-    // year: '2025', // год проекта: покажется рядом с названием
-    blurb: { ru: 'Управление личным VPN и подпиской прямо внутри Telegram.', en: 'Managing a personal VPN and its subscription entirely inside Telegram.' },
-    cover: './uploads/vpnmini-cover5.webp',
-  },
-  {
     slug: 'jobs-screen',
     worksOnly: true, // показывается только на странице «Все кейсы», на главной нет
     href: './jobs-screen.html',
@@ -92,9 +79,21 @@ export const cases = [
       ru: 'Три решения из четырёх на проверке с тремя респондентами понятны без доработок.',
       en: 'Three of four solutions were clear without rework when checked with three respondents.',
     },
-    // cover: './uploads/jobs-cover.webp', // положить обложку 16:9 в uploads и раскомментировать
+    cover: './uploads/jobs-cover.webp',
     tagline: { ru: 'Разобрал главный экран вакансий платформы объявлений и предложил, как быстрее вести к отклику и возвращать соискателей: 3 из 4 решений понятны без доработок', en: 'Analyzed the jobs home screen of a classifieds platform and proposed how to lead to an application faster and bring job seekers back: 3 of 4 solutions were clear without rework' },
     blurb: { ru: 'Разбор аудитории и главного экрана вакансий платформы объявлений: сегменты, интервью, гипотезы, прототипы и проверка на трёх респондентах.', en: 'A study of the audience and the jobs home screen of a classifieds platform: segments, interviews, hypotheses, prototypes and a check with three respondents.' },
   },
-  // Показывается только на странице «Кейсы и работы», на главной его нет.
+  {
+    slug: 'vpnmini',
+    worksOnly: true,
+    soon: true, // кейс пока не готов: карточка не кликается, при наведении метка «Скоро»
+    href: './vpnmini.html',
+    title: { ru: 'Telegram Mini App для VPN-сервиса', en: 'Telegram Mini App for a VPN Service' },
+    stack: ['Mobile', 'UX Research', 'Product Design'],
+    kind: 'concept',
+    tagline: { ru: 'Перенёс управление VPN и подпиской внутрь Telegram', en: 'Moved VPN and subscription management inside Telegram' },
+    // year: '2025', // год проекта: покажется рядом с названием
+    blurb: { ru: 'Управление личным VPN и подпиской прямо внутри Telegram.', en: 'Managing a personal VPN and its subscription entirely inside Telegram.' },
+    cover: './uploads/vpnmini-cover5.webp',
+  },
 ];

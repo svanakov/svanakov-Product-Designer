@@ -823,3 +823,12 @@ body[data-page="all-cases"] .case-card__link:hover .case-card__cover img { trans
 
 /* Результат из одного пункта: без маркера, это уже не список */
 .about-row > div > div:only-child > span:first-child:not(.about-text), #sec-results > div > div:only-child > span:first-child:not(.about-text) { display: none; }
+
+/* Субтитры в плеере: по умолчанию браузер рисует их огромными, делаем аккуратнее */
+.modal__body video::cue { font-family: inherit; font-size: 16px; font-weight: 400; line-height: 1.35; color: #fff; background: rgb(0 0 0 / .62); }
+.modal__body video:fullscreen::cue { font-size: 24px; }
+
+/* Без «висящих» слов: заголовки переносятся ровно, у абзацев не остаётся одного слова на последней строке */
+.section__title, .cs h1, .cs h2, .cs h3, h1, h2, h3 { text-wrap: balance; }
+p, li { text-wrap: pretty; }
+#workflow-title { white-space: pre-line; } /* перенос строки в заголовке задан вручную */

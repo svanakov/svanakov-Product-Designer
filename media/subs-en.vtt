@@ -1,0 +1,137 @@
+WEBVTT
+
+1
+00:00:00.040 --> 00:00:03.080
+Hi everyone. In this video I'll show how I optimize my work
+
+2
+00:00:03.080 --> 00:00:07.080
+on interfaces with the help of artificial intelligence. Using a real example, I'll show
+
+3
+00:00:07.080 --> 00:00:13.480
+how you can integrate an AI agent into your workflow and automate the interaction between
+
+4
+00:00:13.480 --> 00:00:18.400
+tools, and most importantly, cut the time it takes to implement design decisions. For
+
+5
+00:00:18.400 --> 00:00:25.360
+this I have Claude Code running right now, already connected to Figma through a plugin. Also,
+
+6
+00:00:25.360 --> 00:00:33.680
+Figma itself is open with an existing frame, and so is my table, which I'm going to change. In
+
+7
+00:00:33.680 --> 00:00:38.680
+general it does its job, but it looks, to put it mildly, not great. And I found a library
+
+8
+00:00:38.680 --> 00:00:44.040
+of components. I like how it looks, and I want my table to look the same,
+
+9
+00:00:44.040 --> 00:00:50.280
+or to be built on these components altogether. To do that I simply copy the link to this page
+
+10
+00:00:50.280 --> 00:00:58.160
+and paste it. I paste the link into Claude Code and ask it to change my table to use these components.
+
+11
+00:00:59.720 --> 00:01:08.360
+Implement exactly the table block using these components.
+
+12
+00:01:08.360 --> 00:01:16.840
+So. And it starts thinking. The agent has finished. Let's check our table. We can see that it
+
+13
+00:01:16.840 --> 00:01:26.280
+really does look like those components, but there's still something I want to change myself. So
+
+14
+00:01:26.280 --> 00:01:40.160
+now I go to Figma and copy the link to the frame I created. I copy it with the Command L shortcut.
+
+15
+00:01:40.160 --> 00:01:47.040
+I paste it into Claude Code as well and ask it to move the whole design from the page into Figma. Move
+
+16
+00:01:47.040 --> 00:01:54.800
+the whole design from the page you made into this frame, the link to which I just sent you.
+
+17
+00:02:00.600 --> 00:02:05.240
+So, Claude has finished its work and shows
+
+18
+00:02:05.240 --> 00:02:10.160
+what the differences are: it can't show the interactive state. And
+
+19
+00:02:10.160 --> 00:02:15.200
+the file didn't have the design system itself, so the colors were replaced with plain values. So,
+
+20
+00:02:15.200 --> 00:02:21.720
+let's go to Figma and check. Here we see our table. The frame turned out to be too big even for it.
+
+21
+00:02:22.720 --> 00:02:27.000
+Claude built the components and recreated the table itself: all the labels, all the blocks
+
+22
+00:02:27.000 --> 00:02:33.320
+one to one, but I don't like these bottom blocks, so I'll change them.
+
+23
+00:02:53.880 --> 00:03:00.240
+So, here's what we got. I changed these bottom blocks, separated the table from the heading,
+
+24
+00:03:00.240 --> 00:03:08.400
+under the heading, and increased the text size. And now I'll also copy the link to this frame.
+
+25
+00:03:08.400 --> 00:03:13.840
+And I should mention that I have a paid Figma subscription. If you're on the basic plan,
+
+26
+00:03:13.840 --> 00:03:18.560
+you can use the free plugin, which also needs to be set up with Claude Code. It
+
+27
+00:03:18.560 --> 00:03:24.000
+doesn't take long, and everything works the same way as now. I've copied the link to the frame,
+
+28
+00:03:24.000 --> 00:03:31.680
+go back to Claude Code and ask it to recreate the frame on our page.
+
+29
+00:03:33.040 --> 00:03:44.360
+Redo the whole page so it looks the same as the components on my frame.
+
+30
+00:03:44.360 --> 00:03:49.720
+So, Claude is done. Now we check our page, reload it, and we can see
+
+31
+00:03:49.720 --> 00:03:55.000
+that everything has changed, all the changes are applied, and the components look the same. The
+
+32
+00:03:55.000 --> 00:04:03.760
+spacing between blocks and the text font have changed. This is how we went the whole way from our
+
+33
+00:04:03.760 --> 00:04:15.600
+original interface to changing it to the components, moving it to Figma and back.
+
+34
+00:04:15.600 --> 00:04:16.960
+Give it a try.

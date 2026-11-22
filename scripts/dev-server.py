@@ -5,6 +5,7 @@
 Запуск из папки проекта:  python3 scripts/dev-server.py 5511
 """
 import os
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -17,6 +18,8 @@ PROD = "https://svanakov.vercel.app"
 
 
 class NoCacheHandler(SimpleHTTPRequestHandler):
+    extensions_map = {**SimpleHTTPRequestHandler.extensions_map, '.vtt': 'text/vtt', '.mp4': 'video/mp4'}
+
     def do_POST(self):
         if self.path.split("?")[0] != "/api/chat":
             self.send_error(404)
@@ -50,9 +53,42 @@ class NoCacheHandler(SimpleHTTPRequestHandler):
         except (BrokenPipeError, ConnectionResetError):
             pass
 
+    def do_GET(self):
+        # Поддержка Range: без неё браузер не умеет перематывать видео (на Vercel Range работает сам).
+        rng = self.headers.get("Range")
+        path = self.translate_path(self.path.split("?")[0])
+        m = re.match(r"bytes=(\d*)-(\d*)$", rng or "")
+        if m and os.path.isfile(path):
+            size = os.path.getsize(path)
+            if m.group(1):
+                start = int(m.group(1)); end = int(m.group(2)) if m.group(2) else size - 1
+            else:
+                start = max(0, size - int(m.group(2) or 0)); end = size - 1
+            end = min(end, size - 1)
+            if start > end or start >= size:
+                self.send_response(416); self.send_header("Content-Range", f"bytes */{size}"); self.end_headers(); return
+            self.send_response(206)
+            self.send_header("Content-Type", self.guess_type(path))
+            self.send_header("Content-Range", f"bytes {start}-{end}/{size}")
+            self.send_header("Content-Length", str(end - start + 1))
+            self.end_headers()
+            try:
+                with open(path, "rb") as f:
+                    f.seek(start); left = end - start + 1
+                    while left > 0:
+                        chunk = f.read(min(64 * 1024, left))
+                        if not chunk:
+                            break
+                        self.wfile.write(chunk); left -= len(chunk)
+            except (BrokenPipeError, ConnectionResetError):
+                pass
+            return
+        super().do_GET()
+
     def end_headers(self):
         self.send_header("Cache-Control", "no-store, must-revalidate")
         self.send_header("Pragma", "no-cache")
+        self.send_header("Accept-Ranges", "bytes")
         super().end_headers()
 
 

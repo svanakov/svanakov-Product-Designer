@@ -41,7 +41,7 @@ export const dict = {
     'works.close': 'Закрыть',
     'works.home': 'На главную',
 
-    'workflow.title': 'Как я оптимизирую свою работу с помощью ИИ',
+    'workflow.title': 'Как я оптимизирую свою работу\nс помощью ИИ',
     'workflow.video': 'Скоро',
     'workflow.play': 'Смотреть видео «Figma → код с ИИ»',
     'workflow.min': 'мин',

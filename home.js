@@ -246,6 +246,12 @@ function setupScrollRestore() {
 // ---- Видео: чип в Hero, превью в «Как я работаю», модалка ----
 const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Субтитры следуют за языком сайта: английский включён, пока сайт на английском; на русском выключены (CC вручную).
+// Включаем через textTracks, а не атрибутом default: так работает и при смене языка после первого открытия, и в Safari.
+function applySubs(v, lang) {
+  if (!v) return;
+  [...v.textTracks].forEach((t) => { t.mode = (lang === 'en' && t.language === 'en') ? 'showing' : 'disabled'; });
+}
 function setupVideo() {
   const modal = $('video-modal'), body = $('video-body'), media = $('workflow-media');
   const open = () => {
@@ -254,16 +260,21 @@ function setupVideo() {
       if (!body.querySelector('video')) {
         const v = document.createElement('video');
         v.controls = true; v.playsInline = true; v.preload = 'metadata';
+        v.setAttribute('controlsList', 'nodownload'); // убирает пункт «Скачать» из меню плеера
+        v.addEventListener('contextmenu', (e) => e.preventDefault()); // и «Сохранить видео как…» по правому клику
         if (video.poster) v.poster = video.poster;
         v.innerHTML = `<source src="${esc(video.src)}" type="video/mp4">`;
         ['ru', 'en'].forEach((l) => {
           if (!video.subtitles[l]) return;
           const tr = document.createElement('track');
-          tr.kind = 'subtitles'; tr.src = video.subtitles[l]; tr.srclang = l; tr.label = l === 'ru' ? 'Русский' : 'English'; tr.default = l === lang;
+          tr.kind = 'subtitles'; tr.src = video.subtitles[l]; tr.srclang = l; tr.label = l === 'ru' ? 'Русский' : 'English'; 
           v.appendChild(tr);
         });
         body.textContent = ''; body.appendChild(v);
+        v.addEventListener('loadedmetadata', () => applySubs(v, getLang()));
+        if (v.textTracks && v.textTracks.addEventListener) v.textTracks.addEventListener('addtrack', () => applySubs(v, getLang()));
       }
+      applySubs(body.querySelector('video'), lang); // при каждом открытии под текущий язык сайта
     } else {
       body.innerHTML = video.poster ? `<div class="modal__soon" data-label="${esc(t('workflow.video', lang))}"><img class="modal__poster" src="${esc(video.poster)}" alt=""></div>` : `<div class="modal__ph"><span class="todo">${esc(t('workflow.video', lang))}</span></div>`;
     }
@@ -274,6 +285,7 @@ function setupVideo() {
   modal.addEventListener('click', (e) => { if (e.target === modal || e.target.closest('#video-close')) modal.close(); });
   modal.addEventListener('close', () => { const v = body.querySelector('video'); if (v) v.pause(); });
   media.addEventListener('click', open);
+  document.addEventListener('langchange', () => applySubs(body.querySelector('video'), getLang()));
 
   // Пока видео нет, блок показывает обложку (постер).
   if (video.poster && !video.previewSrc) {
@@ -288,6 +300,7 @@ function setupVideo() {
     media.classList.add('has-video');
     const v = document.createElement('video');
     v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none'; v.setAttribute('aria-hidden', 'true');
+    v.addEventListener('contextmenu', (e) => e.preventDefault());
     if (video.poster) v.poster = video.poster;
     v.src = video.previewSrc;
     media.prepend(v);

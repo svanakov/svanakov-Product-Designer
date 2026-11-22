@@ -32,7 +32,18 @@
   .cs__score { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
   .cs__row span.d { font-size: 16px; line-height: 1.5; color: var(--text-2); }
   .cs__note { padding: 18px 22px; border-radius: 24px; background: var(--hover-bg); color: var(--text-2); font-size: 14px; line-height: 1.5; }
-  @media (max-width: 720px) { .cs { padding: 72px 20px 80px; } .cs h1 { font-size: 26px; } .cs h2 { font-size: 26px; } .cs__grid { grid-template-columns: 1fr; } .cs__row { grid-template-columns: 1fr; gap: 4px; } }
+  .about-row { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 24px 0; border-top: 1px solid var(--border); align-items: start; }
+  .about-row:first-child { border-top: none; padding-top: 0; }
+  .about-label { font-size: 14px; font-weight: 500; color: var(--muted); }
+  .about-text { font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text-2); margin: 0; }
+  .about-list { display: flex; flex-direction: column; gap: 10px; }
+  .about-list > div { display: flex; align-items: baseline; gap: 12px; }
+  .about-list > div > span:first-child { color: var(--muted); }
+  .cs .about-lead { font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--text); margin: 0 0 32px; }
+  .cs__cover { position: relative; margin-top: -24px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 32px; background: var(--placeholder); }
+  .cs__cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cs__fig { display: flex; justify-content: center; margin-top: -40px; }
+  @media (max-width: 720px) { .about-row { grid-template-columns: 1fr; gap: 10px; } .cs { padding: 72px 20px 80px; } .cs h1 { font-size: 26px; } .cs h2 { font-size: 26px; } .cs__grid { grid-template-columns: 1fr; } .cs__row { grid-template-columns: 1fr; gap: 4px; } }
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -194,8 +205,33 @@ for (const l of ['ru', 'en']) {
     : { h: 'Results', g: 'Outcome', p: ['Three of four solutions were clear without rework; the fourth (the resume banner) needs rework. A prototype check with three respondents, not metrics of a real product.'], results: check.results });
 }
 
+const ABOUT = {
+  ru: {
+    h: 'О проекте', g: 'Обзор',
+    lead: 'Редизайн главного экрана вакансий мобильного приложения платформы объявлений: как сделать, чтобы экран быстрее приводил к полезному действию и давал причину вернуться.',
+    labels: ['Моя роль', 'Проблемы', 'Цели продукта', 'Что я сделал', 'Результаты'],
+    role: 'Личный проект. Исследование, дизайн, прототип: сам выделил сегменты, провёл интервью, сформулировал гипотезы, собрал прототипы и проверил их на пользователях.',
+    problems: ['Экран выглядит одинаково для новичка и для того, кто ищет работу месяцами.', 'Отклики, «Создать резюме» и личный кабинет теряются в одной строке мелким текстом.', 'История поиска спрятана: чтобы увидеть прошлый запрос, нужно пролистать половину страницы.', 'О новом с прошлого визита ничего не видно, причины вернуться нет.'],
+    goals: ['Быстрее приводить пользователя к полезному действию.', 'Дать причину возвращаться, чтобы вырос MAU экрана.'],
+    actions: ['Выделил четыре сегмента по опыту поиска и типу потребности.', 'Провёл три интервью и посмотрел главные экраны hh.ru, SuperJob и Rabota.ru.', 'Сформулировал три гипотезы и собрал прототипы.', 'Проверил прототип на трёх респондентах.'],
+    results: ['Три решения из четырёх понятны без доработок, плашка резюме требует доработки.', 'Это проверка прототипа на трёх респондентах, не метрики реального продукта.'],
+  },
+  en: {
+    h: 'About the project', g: 'Overview',
+    lead: 'A redesign of the jobs home screen in a classifieds platform’s mobile app: how to make the screen lead to a useful action faster and give people a reason to come back.',
+    labels: ['My role', 'Problems', 'Product goals', 'What I did', 'Results'],
+    role: 'Personal project. Research, design, prototype: I defined the segments, ran the interviews, formulated the hypotheses, built the prototypes and checked them with users.',
+    problems: ['The screen looks the same for a newcomer and for someone searching for months.', 'Applications, “Create resume” and the personal account get lost in one line of small text.', 'Search history is hidden: to see the previous query you have to scroll half a page.', 'Nothing shows what is new since the last visit, so there is no reason to come back.'],
+    goals: ['Lead the user to a useful action faster.', 'Give a reason to come back, so the screen’s MAU grows.'],
+    actions: ['Defined four segments by search experience and type of need.', 'Ran three interviews and looked at the home screens of hh.ru, SuperJob and Rabota.ru.', 'Formulated three hypotheses and built prototypes.', 'Checked the prototype with three respondents.'],
+    results: ['Three of four solutions were clear without rework; the resume banner needs rework.', 'This is a prototype check with three respondents, not metrics of a real product.'],
+  },
+};
+
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const lang = getLang() === 'en' ? 'en' : 'ru';
+const FIGMA = 'https://www.figma.com/design/Qe35B2U7Rc3qYIEQT4pJ0o/%D0%92%D0%B0%D0%BD%D0%B0%D0%BA%D0%BE%D0%B2-%D0%A1.-%7C-%D0%90%D0%B2%D0%B8%D1%82%D0%BE-%D0%B1%D1%83%D1%82%D0%BA%D0%B5%D0%BC%D0%BF-%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D0%BE%D0%B5-%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5?node-id=0-1&t=q7w1fHVnXdq6ia6w-1';
+const L = lang === 'en' ? { figma: 'Open file in Figma' } : { figma: 'Открыть файл в Figma' };
 const d = D[lang];
 document.title = d.title + ' — ' + (lang === 'en' ? 'Sergei Vanakov' : 'Сергей Ванаков');
 document.documentElement.lang = lang;
@@ -210,12 +246,28 @@ const secHtml = (s, i) => `
     ${s.note ? `<p class="cs__note" style="margin-top:20px">${esc(s.note)}</p>` : ''}
   </section>`;
 
+const about = ABOUT[lang];
+const list = (arr) => `<div class="about-list">${arr.map((x) => `<div><span>•</span><span class="about-text">${esc(x)}</span></div>`).join('')}</div>`;
+const aboutHtml = `
+  <section id="sec-about">
+    <h2>${esc(about.h)}</h2>
+    <p class="about-lead">${esc(about.lead)}</p>
+    <div>
+      <div class="about-row"><span class="about-label">${esc(about.labels[0])}</span><span class="about-text">${esc(about.role)}</span></div>
+      <div class="about-row"><span class="about-label">${esc(about.labels[1])}</span>${list(about.problems)}</div>
+      <div class="about-row"><span class="about-label">${esc(about.labels[2])}</span>${list(about.goals)}</div>
+      <div class="about-row"><span class="about-label">${esc(about.labels[3])}</span>${list(about.actions)}</div>
+      <div class="about-row"><span class="about-label">${esc(about.labels[4])}</span>${list(about.results)}</div>
+    </div>
+  </section>`;
+
 document.getElementById('cs').innerHTML = `
   <header>
     <h1>${esc(d.title)}</h1>
-    <p class="cs__sub">${esc(d.sub)}</p>
-    <ul class="cs__meta">${d.tags.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>
   </header>
+  <div class="cs__cover"><img src="./uploads/jobs-cover.webp" alt="${esc(d.title)}"></div>
+  <div class="cs__fig"><a class="btn btn--cv" href="${FIGMA}" target="_blank" rel="noopener"><span>${esc(L.figma)}</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8.5 7H17v8.5"/></svg></a></div>
+  ${aboutHtml}
   ${d.sections.map((s, i) => secHtml(s, i)).join('')}`;
 </script>
 <script type="module" src="./site.js"></script>
