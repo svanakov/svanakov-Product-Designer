@@ -14,6 +14,7 @@ export const dict = {
     'assistant.title': 'ИИ-ассистент',
     'nav.close': 'Закрыть',
     'nav.theme': 'Сменить тему',
+    'nav.menu': 'Меню',
     'nav.main': 'Основная навигация',
 
     'hero.thesis': 'Продуктовый дизайнер.\nПроектирую понятные интерфейсы и довожу идеи от исследования до выпуска в продукт.',
@@ -86,6 +87,7 @@ export const dict = {
     'assistant.title': 'AI assistant',
     'nav.close': 'Close',
     'nav.theme': 'Toggle theme',
+    'nav.menu': 'Menu',
     'nav.main': 'Main navigation',
 
     'hero.thesis': 'Product designer.\nI design clear interfaces and take ideas from research to a shipped product.',

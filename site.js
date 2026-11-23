@@ -53,8 +53,8 @@ export function setTodo(el, text) {
 }
 
 const THEME_ICON = '<svg class="ti-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="ti-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
-const themeBtn = () => `<button type="button" class="theme-toggle" data-theme-toggle data-i18n-aria="nav.theme" data-i18n-title="nav.theme">${THEME_ICON}</button>`;
-const langBtns = () => '<div class="lang"><button type="button" data-lang="ru">RU</button><span aria-hidden="true">/</span><button type="button" data-lang="en">EN</button></div>';
+export const themeBtn = () => `<button type="button" class="theme-toggle" data-theme-toggle data-i18n-aria="nav.theme" data-i18n-title="nav.theme">${THEME_ICON}</button>`;
+export const langBtns = () => '<div class="lang"><button type="button" data-lang="ru">RU</button><span aria-hidden="true">/</span><button type="button" data-lang="en">EN</button></div>';
 // Плавающая панель в углу: переключатель темы и языка. Шапки нет.
 // На страницах кейсов добавляется маленькая стрелка назад (иначе с кейса некуда вернуться, пока нет нового шаблона).
 const backIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';

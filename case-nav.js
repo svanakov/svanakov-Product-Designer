@@ -72,12 +72,15 @@ export function mountCaseNav({ homeHref, homeLabel, lang }) {
     nav.innerHTML = `<div class="cn-rail" aria-hidden="true" style="gap:${gap}px">${rail()}</div><nav class="cn-panel">${panel()}</nav>`;
   };
   const setActive = (i) => { if (i === active) return; active = i; render(); };
+  // Телефон: в бургере только тема, язык и контакты (навигация по разделам там не нужна)
+  const pushMobile = () => import('./mobile-menu.js').then((m) => m.setMobileMenu({ links: [], homeLink: true, compact: true, cv: null, contacts: true, getActive: () => -1 }));
   const sync = () => {
     const found = read(), s = found.map((x) => x.kind + '|' + x.label).join('~');
     if (s === sig) return;
     sig = s; rows = found; active = -1;
     nav.hidden = rows.filter((r) => r.kind === 's').length < 3;
     if (!nav.hidden) update();
+    pushMobile();
   };
   const update = () => {
     let idx = 0;
@@ -96,6 +99,13 @@ export function mountCaseNav({ homeHref, homeLabel, lang }) {
   let tick = 0;
   window.addEventListener('scroll', () => { if (!tick) tick = requestAnimationFrame(() => { tick = 0; update(); }); }, { passive: true });
   window.addEventListener('resize', update);
+  // Телефон: нижняя панель не мешает чтению: прячется, пока листаешь вниз, и возвращается при прокрутке вверх
+  let lastY = scrollY;
+  window.addEventListener('scroll', () => {
+    if (innerWidth > 720) { bar.classList.remove('is-hidden'); return; }
+    const y = scrollY;
+    if (Math.abs(y - lastY) > 8) { bar.classList.toggle('is-hidden', y > lastY && y > 120); lastY = y; }
+  }, { passive: true });
   // страницу кейса рисует рантайм и может перерисовать: следим за разметкой и пересобираем линейку, если разделы изменились
   let t = 0;
   new MutationObserver(() => { clearTimeout(t); t = setTimeout(sync, 150); }).observe(document.body, { childList: true, subtree: true });
