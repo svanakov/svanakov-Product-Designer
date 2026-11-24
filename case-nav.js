@@ -24,6 +24,11 @@ export function mountCaseNav({ homeHref, homeLabel, lang }) {
   // ---- нижняя панель ----
   const list = cases.filter((c) => !c.soon && c.href);
   const cur = list.findIndex((c) => location.pathname.endsWith(c.href.replace('./', '/')));
+  // у страниц без собственного <title> (rytmo, campus, dispatch) заголовок вкладки: «Кейс · Имя»
+  if (cur >= 0 && (!document.querySelector('title') || document.documentElement.dataset.autoTitle)) {
+    document.documentElement.dataset.autoTitle = '1';
+    document.title = `${title(list[cur])} · ${lang === 'en' ? 'Sergei Vanakov' : 'Сергей Ванаков'}`;
+  }
   const prev = cur > 0 ? list[cur - 1] : null; // на первом кейсе стрелки «назад» нет, на последнем нет «вперёд»
   const next = cur >= 0 && cur < list.length - 1 ? list[cur + 1] : null;
   const arrow = (c, cls, icon, label) => c

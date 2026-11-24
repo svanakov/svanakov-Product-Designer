@@ -6,7 +6,11 @@
 <link rel="stylesheet" href="./theme.css">
 <script src="./theme.js"></script>
 <link rel="stylesheet" href="./site.css">
-<title>Редизайн главного экрана вакансий — Сергей Ванаков</title>
+<title>Редизайн главного экрана вакансий · Сергей Ванаков</title>
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <style>
   .cs { max-width: 800px; margin: 0 auto; padding: 96px 32px 120px; display: flex; flex-direction: column; gap: 72px; }
   .cs h1, .cs h2, .cs h3 { color: var(--text); }
@@ -233,7 +237,7 @@ const lang = getLang() === 'en' ? 'en' : 'ru';
 const FIGMA = 'https://www.figma.com/design/Qe35B2U7Rc3qYIEQT4pJ0o/%D0%92%D0%B0%D0%BD%D0%B0%D0%BA%D0%BE%D0%B2-%D0%A1.-%7C-%D0%90%D0%B2%D0%B8%D1%82%D0%BE-%D0%B1%D1%83%D1%82%D0%BA%D0%B5%D0%BC%D0%BF-%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2%D0%BE%D0%B5-%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5?node-id=0-1&t=q7w1fHVnXdq6ia6w-1';
 const L = lang === 'en' ? { figma: 'Open file in Figma' } : { figma: 'Открыть файл в Figma' };
 const d = D[lang];
-document.title = d.title + ' — ' + (lang === 'en' ? 'Sergei Vanakov' : 'Сергей Ванаков');
+document.title = d.title + ' · ' + (lang === 'en' ? 'Sergei Vanakov' : 'Сергей Ванаков');
 document.documentElement.lang = lang;
 
 const secHtml = (s, i) => `

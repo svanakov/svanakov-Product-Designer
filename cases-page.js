@@ -32,7 +32,7 @@ function render() {
   renderCases(lang);
   // Телефон: в бургере только тема, язык и контакты
   setMobileMenu({ links: [], homeLink: true, compact: true, cv: null, contacts: true, getActive: () => -1 });
-  document.title = t('cases.title', lang) + ' — ' + t('site.name', lang);
+  document.title = t('cases.title', lang) + ' · ' + t('site.name', lang);
   equalize(); stack();
 }
 
