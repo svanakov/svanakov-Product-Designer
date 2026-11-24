@@ -437,10 +437,10 @@ body[data-page="home"] { padding-bottom: 88px; }
 .hero [data-hero="2"] { animation-delay: .15s; }
 
 /* ---------- Ассистент: сцена на «небе», стеклянная карточка, живой шар ---------- */
-.ai { position: relative; isolation: isolate; border-radius: 32px; overflow: hidden; padding: 14px; margin-bottom: 56px; background: linear-gradient(180deg, var(--sky-1) -30%, var(--sky-2) 50%, var(--sky-3) 100%); box-shadow: 0 24px 60px var(--shadow); }
+.ai { --r: 32px; --p: 8px; --g: 8px; position: relative; isolation: isolate; border-radius: var(--r); overflow: hidden; padding: var(--p); margin-bottom: 56px; background: linear-gradient(180deg, var(--sky-1) -30%, var(--sky-2) 50%, var(--sky-3) 100%); box-shadow: 0 24px 60px var(--shadow); }
 .ai__sky { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
 .ai__card { background: color-mix(in oklch, var(--surface) 74%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.3); backdrop-filter: blur(20px) saturate(1.3);
-  border: 1px solid color-mix(in oklch, var(--border) 60%, transparent); border-radius: 32px; overflow: hidden; }
+  border: 1px solid color-mix(in oklch, var(--border) 60%, transparent); border-radius: calc(var(--r) - var(--p)); overflow: hidden; }
 .ai__head { display: flex; align-items: center; gap: 16px; padding: 20px 22px 16px; }
 .ai__titles { flex: 1; min-width: 0; }
 .ai__titles h3 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
@@ -457,7 +457,7 @@ body[data-page="home"] { padding-bottom: 88px; }
 .ai__case { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding: 10px 14px 10px 10px; border-radius: 16px; background: var(--bg); border: 1px solid var(--border); text-decoration: none; color: inherit; max-width: 420px;
   transition: border-color .4s ease, transform .6s cubic-bezier(.22, 1, .36, 1), box-shadow .6s cubic-bezier(.22, 1, .36, 1); }
 .ai__case:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 24px var(--shadow); }
-.ai__case img { width: 64px; height: 44px; object-fit: cover; border-radius: 10px; flex: none; }
+.ai__case img { width: 64px; height: 44px; object-fit: cover; border-radius: 6px; flex: none; }
 .ai__case--tg { padding-left: 16px; }
 .ai__case-t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .ai__case-t b { font-size: 16px; font-weight: 600; }
@@ -474,12 +474,12 @@ body[data-page="home"] { padding-bottom: 88px; }
 .ai__chip--dice svg { transition: transform .7s cubic-bezier(.22, 1, .36, 1); }
 .ai__chip--dice:hover svg { transform: rotate(180deg); }
 
-.ai__form { display: flex; gap: 10px; padding: 0 14px 14px; }
+.ai__form { display: flex; gap: var(--g); padding: 0 var(--g) var(--g); --ri: calc(var(--r) - var(--p) - var(--g) - 1px); }
 .ai__field { position: relative; flex: 1; min-width: 0; display: flex; }
-.ai__input { flex: 1; min-width: 0; padding: 14px 130px 14px 20px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font: inherit; font-size: 16px; transition: box-shadow .4s ease, border-color .4s ease; }
+.ai__input { flex: 1; min-width: 0; padding: 14px 130px 14px 20px; border-radius: var(--ri); border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font: inherit; font-size: 16px; transition: box-shadow .4s ease, border-color .4s ease; }
 .ai__input::placeholder { color: var(--faint); }
 .ai__input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 22%, transparent); }
-.ai__send { flex: none; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--inverse-bg); color: var(--inverse-text); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .4s ease; }
+.ai__send { flex: none; width: 52px; height: 52px; border-radius: var(--ri); border: 0; background: var(--inverse-bg); color: var(--inverse-text); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .4s ease; }
 .ai__send:hover:not([disabled]) { transform: scale(1.08); }
 .ai__send[disabled] { opacity: .4; cursor: default; }
 .ai__stop { width: 14px; height: 14px; border-radius: 3px; background: currentColor; }
@@ -492,7 +492,7 @@ body[data-page="home"] { padding-bottom: 88px; }
   .ai__caret { animation: blink 1s steps(2) infinite; }
 }
 @keyframes blink { 50% { opacity: 0; } }
-@media (max-width: 720px) { .ai { border-radius: 24px; padding: 8px; } .ai__head { padding: 16px; } .ai__log { padding-left: 16px; padding-right: 16px; } .ai__chips, .ai__foot { padding-left: 16px; padding-right: 16px; } .ai__form { padding: 0 8px 12px; } }
+@media (max-width: 720px) { .ai { --r: 28px; } .ai__head { padding: 16px; } .ai__log { padding-left: 16px; padding-right: 16px; } .ai__chips, .ai__foot { padding-left: 16px; padding-right: 16px; }  }
 
 /* ---------- Пиксельный питомец-облачко ---------- */
 .pet { position: fixed; right: 24px; bottom: 24px; z-index: 25; width: 100px; }
@@ -584,7 +584,7 @@ body[data-page="home"] { padding-bottom: 88px; }
 
 
 /* Плашка «Осталось N» в поле ввода: жирнее, с подсказкой при наведении */
-.ai__count { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); padding: 5px 12px; border-radius: 999px; background: var(--hover-bg); color: var(--text-2); font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; cursor: help; transition: background .5s ease, color .5s ease; }
+.ai__count { position: absolute; right: 7px; top: 50%; transform: translateY(-50%); display: inline-flex; align-items: center; height: 36px; box-sizing: border-box; padding: 0 12px; border-radius: max(6px, calc(var(--ri) - 7px)); background: var(--hover-bg); color: var(--text-2); font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; cursor: help; transition: background .5s ease, color .5s ease; }
 .ai__count::after { content: attr(data-tip); position: absolute; right: 0; bottom: calc(100% + 10px); width: max-content; max-width: 240px; padding: 8px 12px; border-radius: 10px; background: var(--inverse-bg); color: var(--inverse-text); font-size: 14px; font-weight: 500; line-height: 1.35; white-space: normal; text-align: left; opacity: 0; transform: translateY(4px); pointer-events: none; transition: opacity .3s ease, transform .4s cubic-bezier(.22, 1, .36, 1); }
 .ai__count:hover::after, .ai__count:focus-visible::after { opacity: 1; transform: none; }
 
